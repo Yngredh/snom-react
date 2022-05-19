@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Styled = styled.div`
-    background-color: #2A3855;
+    background-color: ${props => props.theme.pallete.blue.main};
     padding: 20px;
     width: 6.2%;
     height: 100%;

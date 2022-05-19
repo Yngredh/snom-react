@@ -9,9 +9,9 @@ export const Title = Styled.title`
     justify-content: center;
 
     font-size: 14px;
-    font-weight: 400;
+    font-weight: ${props => props.theme.typography.mainTitleWeight};
     font-style: normal;
-    font-family: Roboto;
+    font-family: ${props => props.theme.typography.fontFamily};
     text-align: center;
     color: white;
 `;

@@ -1,0 +1,53 @@
+
+
+const theme = {
+    pallete: {
+        blue: {
+            main: "#2A3855",
+            second: "#7194E0",
+            cloud: "#9FBAF3",
+            background: "#DBE5FB",
+        },
+        yellow: {
+            main: "#FFC700",
+            light: "rgba(255, 199, 0, 0.6)", 
+        },
+        assistant: {
+            darkGray: "#686868",
+            alertButton: "#C82C2C",
+            black: "#000000",
+            white: "#FFFFFF"
+        },
+        status: {
+            borderGreen: "#00983D",
+            fillGreen: "#8FDBAD",
+            borderRed: "#D63131",
+            fillRed: "#EF9D9D"
+        }
+    },
+    typography: {
+        fontFamily: "Roboto",
+
+        mainTitleSize: "",
+        mainTitleWeight: "400",
+    
+        secondaryTitleSize: "",
+        secondaryTitleWeight: "500",
+
+        standardTitleSize: "",
+        standardTextSize: "",
+        standardWeight: "300",
+
+        buttonTextSize: "",
+        buttonTextWeight: "500"
+    },
+    shape: {
+        borderSize: "2px",
+        borderRadius: "10px",
+        boxShadow: "0px 3px 4px rgba(0, 0, 0, 0.3)",
+        
+    },
+
+}
+
+export default theme;
