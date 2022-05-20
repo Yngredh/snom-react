@@ -1,4 +1,4 @@
-const theme = {
+export const theme = {
     pallete: {
         blue: {
             main: "#2A3855",
@@ -12,6 +12,7 @@ const theme = {
         },
         assistant: {
             darkGray: "#686868",
+            lightGray: "#AEACAC",
             alertButton: "#C82C2C",
             black: "#000000",
             white: "#FFFFFF"
@@ -32,11 +33,11 @@ const theme = {
         mainTitleSize: "14px",
         mainTitleWeight: "400",
     
-        secondaryTitleSize: "",
+        secondaryTitleSize: "25px",
         secondaryTitleWeight: "500",
 
         standardTitleSize: "",
-        standardTextSize: "",
+        standardTextSize: "20px",
         standardWeight: "300",
 
         buttonTextSize: "",
@@ -50,5 +51,3 @@ const theme = {
     },
 
 }
-
-export default theme;
