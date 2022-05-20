@@ -40,8 +40,8 @@ export const theme = {
         standardTextSize: "20px",
         standardWeight: "300",
 
-        buttonTextSize: "",
-        buttonTextWeight: "500"
+        buttonTextSize: "20px",
+        buttonTextWeight: "400"
     },
     shape: {
         borderSize: "2px",
