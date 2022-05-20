@@ -4,11 +4,12 @@ type Props = {
     title: string;
     icon: string;
 }
+
 const MenuItem = ({title, icon}: Props) => {
     return(    
         <Container>
-            <Icon src={icon}></Icon>
-            <Title>{title}</Title>
+            <Icon className="icon-menu" src={icon}></Icon>
+            <Title className="title-menu">{title}</Title>
         </Container>
     );
 }
