@@ -9,7 +9,7 @@ interface IProps {
 export const List = (props : IProps) => {
 
     return(
-        <Container>
+        <Container className="custom-scroll">
             {props.users.map((item, key) => {
                 return( <ListItem user={item} /> )
             })}

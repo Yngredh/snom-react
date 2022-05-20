@@ -6,8 +6,8 @@ interface Props {
 }
 
 export const Line = styled.hr <Props>`
-    width: ${props => props.width};
-    color: ${props => props.color};
     height: 0px;
-    border: 1px solid #000000;
+    border: 1px solid;
+    width: ${props => props.width};
+    border-color: ${props => props.color};
 `;

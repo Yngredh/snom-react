@@ -12,6 +12,7 @@ export const theme = {
         },
         assistant: {
             darkGray: "#686868",
+            lightGray: "#AEACAC",
             alertButton: "#C82C2C",
             black: "#000000",
             white: "#FFFFFF"

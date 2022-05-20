@@ -19,7 +19,8 @@ export const Icon = styled.img`
 export const Container = styled.div`
     display: flex;
     height: 80px;
-    margin-bottom: 8%;
+    cursor: pointer;
+    margin-bottom: 4%;
 `
 export const BlockContainer = styled.div`
     margin-left: 8px;
