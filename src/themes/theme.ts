@@ -1,5 +1,3 @@
-
-
 const theme = {
     pallete: {
         blue: {
@@ -28,7 +26,10 @@ const theme = {
     typography: {
         fontFamily: "Roboto",
 
-        mainTitleSize: "",
+        pagetitleWeight:"600",
+        pageTitleSize: "48px",
+
+        mainTitleSize: "14px",
         mainTitleWeight: "400",
     
         secondaryTitleSize: "",
