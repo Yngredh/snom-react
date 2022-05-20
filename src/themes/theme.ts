@@ -36,7 +36,7 @@ export const theme = {
         secondaryTitleSize: "25px",
         secondaryTitleWeight: "500",
 
-        standardTitleSize: "",
+        standardTitleSize: "16px",
         standardTextSize: "20px",
         standardWeight: "300",
 

@@ -10,7 +10,7 @@ export const UserMock : User = {
     level: 0,
     isUserActive: false,
     experience: 0,
-    icon: "",
+    icon: "/img/profile/teste.jpg",
     permission: {
         id : 0,
         description: ""

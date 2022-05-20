@@ -14,7 +14,7 @@ export const ListItem = (props : IProps) => {
     <>
         <div style={{marginBottom : "6%"}}>
             <Styled.Container>
-                <Styled.Icon src="/img/profile/teste.jpg" />
+                <Styled.Icon src={props.user.icon} />
                 <Styled.BlockContainer>
                     <Styled.Name>{props.user.name}</Styled.Name>
                     <Styled.Email>{props.user.email}</Styled.Email>
