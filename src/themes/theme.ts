@@ -36,12 +36,12 @@ export const theme = {
         secondaryTitleSize: "25px",
         secondaryTitleWeight: "500",
 
-        standardTitleSize: "",
+        standardTitleSize: "16px",
         standardTextSize: "20px",
         standardWeight: "300",
 
-        buttonTextSize: "",
-        buttonTextWeight: "500"
+        buttonTextSize: "20px",
+        buttonTextWeight: "400"
     },
     shape: {
         borderSize: "2px",
