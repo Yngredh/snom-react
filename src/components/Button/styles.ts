@@ -4,12 +4,14 @@ interface IButtonProps {
     color: string
     hoverColor: string
     fontHoverColor: string
+    width: string
 }
 
 export const ContainerButton = styled.div<IButtonProps>`
     cursor: pointer;
 
     height: fit-content;
+    width: ${props => props.width};
     margin: 5%;
     padding: 15px 20px;
     
