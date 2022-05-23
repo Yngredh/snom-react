@@ -3,8 +3,8 @@ import { theme } from "../../themes/theme"
 import { ContainerButton } from "./styles"
 
 export enum EButton {
-    'MainButton',
-    'AlertButton'
+    MainButton,
+    AlertButton
 }
 
 interface IProps {
@@ -18,17 +18,30 @@ export const Button = (props: IProps) => {
     const [hoverColor, setHoverColor] = useState('');
     const [fontHoverColor, setFontHoverColor] = useState('');
 
+    const applyStyles = (newColor: string, 
+                        newHoverColer: string, 
+                        newFontHoverColor: string) => 
+    {
+        setColor(newColor);
+        setHoverColor(newHoverColer);
+        setFontHoverColor(newFontHoverColor);
+    }
+
     useEffect(()=>{
         if(props.type === 0){
-            setColor(theme.pallete.blue.main)
-            setHoverColor(theme.pallete.blue.second)
-            setFontHoverColor(theme.pallete.assistant.white)
+            applyStyles(
+                theme.pallete.blue.main,
+                theme.pallete.blue.second,
+                theme.pallete.assistant.white
+            );
         }
 
         if(props.type === 1){
-            setColor(theme.pallete.assistant.alertButton)   
-            setHoverColor(theme.pallete.status.fillRed)
-            setFontHoverColor(theme.pallete.assistant.black)
+            applyStyles(
+                theme.pallete.assistant.alertButton,
+                theme.pallete.status.fillRed,
+                theme.pallete.assistant.black
+            );
         }
     }, [props.type])
 

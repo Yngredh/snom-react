@@ -10,7 +10,7 @@ export const TextInput = styled.input`
     background: none;
     width: 100%;
     
-    font-size: ${props => props.theme.typography.standardTitleSize};
+    font-size: ${props => props.theme.typography.auxiliarText.size};
     font-family: ${props => props.theme.typography.fontFamily};
 
     &:focus {

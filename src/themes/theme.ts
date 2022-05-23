@@ -27,21 +27,40 @@ export const theme = {
     typography: {
         fontFamily: "Roboto",
 
-        pagetitleWeight:"600",
-        pageTitleSize: "48px",
+        pageTitle: {
+            size: "60px",
+            weight:"400",
+            color: "686868"
+        },
 
-        mainTitleSize: "14px",
-        mainTitleWeight: "400",
-    
-        secondaryTitleSize: "25px",
-        secondaryTitleWeight: "500",
+        mainTitle: {
+            size: "32px",
+            weight:"600",
+            color: "#2A3855"
+        },
 
-        standardTitleSize: "16px",
-        standardTextSize: "20px",
-        standardWeight: "300",
+        auxiliarTitle: {
+            size: "24px",
+            weight:"400",
+            color: "#2A3855"
+        },
+        buttonTitle: {
+            size: "20px",
+            weight: "500",
+            color: "#FFFFFF"
+        },
 
-        buttonTextSize: "20px",
-        buttonTextWeight: "400"
+        text: {
+            size: "20px",
+            weight:"300",
+            color: "686868"
+        },
+
+        auxiliarText: {
+            size: "16px",
+            weight: "300",
+            color: "#686868"
+        }
     },
     shape: {
         borderSize: "2px",

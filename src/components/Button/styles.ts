@@ -18,10 +18,10 @@ export const ContainerButton = styled.div<IButtonProps>`
     border-radius: ${props => props.theme.shape.borderRadius};
     border-color: ${props => props.color};
 
-    color: ${props => props.theme.pallete.assistant.white};
+    color: ${props => props.theme.typography.buttonTitle.color};
     font-family: ${props => props.theme.typography.fontFamily};
-    font-size: ${props => props.theme.typography.buttonTextSize};
-    font-weight: ${props => props.theme.typography.buttonTextWeight};
+    font-size: ${props => props.theme.typography.buttonTitle.size};
+    font-weight: ${props => props.theme.typography.buttonTitle.weight};
     text-align: center;
 
     &:hover {
