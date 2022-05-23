@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const Name = styled.p`
-    font-weight: ${props => props.theme.typography.mainTitleWeight};
-    font-size: ${props => props.theme.typography.secondaryTitleSize};
+    font-weight: ${props => props.theme.typography.auxiliarTitle.weight};
+    font-size: ${props => props.theme.typography.auxiliarTitle.size};
     font-family: ${props => props.theme.typography.fontFamily};
 `
 export const Email = styled.p`
-    font-weight: ${props => props.theme.typography.standardWeight};
-    font-size: ${props => props.theme.typography.standardTextSize};
+    font-weight: ${props => props.theme.typography.text.weight};
+    font-size: ${props => props.theme.typography.text.size};
 `
 
 export const Icon = styled.img`

@@ -4,7 +4,7 @@ export const Title = Styled.title`
     display: flex;
     justify-content: center;
 
-    font-weight: ${props => props.theme.typography.mainTitleWeight};
+    font-weight: ${props => props.theme.typography.auxiliarTitle.weight};
     font-style: normal;
     font-family: ${props => props.theme.typography.fontFamily};
     text-align: center;
