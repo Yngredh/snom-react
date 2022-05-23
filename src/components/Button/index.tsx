@@ -7,13 +7,15 @@ export enum EButton {
     AlertButton
 }
 
-interface IProps {
-    text: string
+interface IButtonProps {
     type: EButton
+    width?: string
+    children?: any
+    style?: React.CSSProperties 
     onClick?: () => void
 }
 
-export const Button = (props: IProps) => {
+export const Button = (props: IButtonProps) => {
     const [color, setColor] = useState('');
     const [hoverColor, setHoverColor] = useState('');
     const [fontHoverColor, setFontHoverColor] = useState('');
@@ -47,13 +49,17 @@ export const Button = (props: IProps) => {
 
     return(
         <>
-            <ContainerButton 
+            <ContainerButton
+                style={props.style} 
                 color={color} 
                 hoverColor={hoverColor} 
                 fontHoverColor={fontHoverColor} 
                 onClick={props.onClick}
+                width= {
+                    props.width ? props.width : 'auto'
+                }
             >
-                {props.text}
+                {props.children}
             </ContainerButton>
         </>
     )

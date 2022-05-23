@@ -1,4 +1,6 @@
-import { Container, IconInput, TextInput } from "./styles"
+import { theme } from "../../themes/theme"
+import { Card } from "../Card"
+import { IconInput, TextInput } from "./styles"
 
 interface IInputProps {
     icon?: string,
@@ -11,7 +13,17 @@ interface IInputProps {
 export const Input = (props : IInputProps) => {
     
     return (
-        <Container width={props.width}>
+        <Card 
+            width={props.width}
+            height="40px"
+            borderColor={theme.pallete.assistant.darkGray}
+            borderWidth={theme.shape.borderSize}
+            style={{
+                display: 'flex', 
+                padding: '5px',
+                alignItems: 'center'
+            }}
+        >
             {props.icon ? (
                 <IconInput src={props.icon} />
             ): <></>}
@@ -20,6 +32,6 @@ export const Input = (props : IInputProps) => {
                 placeholder={props.hint}
                 type={ props.isPassword ? 'password' : 'text'}
             />
-        </Container>
+        </Card>
     )
 }
