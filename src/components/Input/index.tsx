@@ -7,6 +7,7 @@ interface IInputProps {
     hint: string,
     isPassword: boolean,
     width: string,
+    style?: React.CSSProperties
     onChange: (e: HTMLInputElement) => void
 }
 
@@ -19,6 +20,7 @@ export const Input = (props : IInputProps) => {
             borderColor={theme.pallete.assistant.darkGray}
             borderWidth={theme.shape.borderSize}
             style={{
+                ...props.style,
                 display: 'flex', 
                 padding: '5px',
                 alignItems: 'center'

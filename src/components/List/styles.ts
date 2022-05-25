@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    height: 80%;
-    width: 24%;
+    height: 90%;
+    width: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    margin-top: 5%;
-    margin-left: 5%;
     padding: 1%;
 
     ::-webkit-scrollbar{
