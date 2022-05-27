@@ -5,6 +5,7 @@ import { Container } from "./styles";
 
 interface IProps {
     users : User[],
+    setUserSelected: (user: User) => void,
     style?: React.CSSProperties
 }
 
@@ -13,6 +14,7 @@ export const List = (props : IProps) => {
 
     const selectedItemFunc = (itemId : number) => {
         setSelectedItem(itemId);
+        props.setUserSelected(props.users[itemId]);
     }
     
     return(
