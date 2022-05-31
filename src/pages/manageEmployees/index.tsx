@@ -33,7 +33,7 @@ export const ManageEmployees = () => {
         }
 
         populateUsers();
-    });
+    }, []);
 
     return(
         <MainContainer>

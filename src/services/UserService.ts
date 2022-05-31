@@ -3,10 +3,13 @@ import { User } from "../interfaces/User";
 
 export abstract class UserService {
 
-    private static DefaultUrl = "https://snom-back-staging.herokuapp.com/api";
-
     public static async getAllUsers() : Promise<User[]> {
-        const response = await fetch(`${this.DefaultUrl}/user`);
+        const response = await fetch(`https://${process.env.REACT_APP_API_URL}/user`, {
+            headers : { 
+                'Content-Type': 'application/json',
+            }
+        });
+        console.log(response);
         return await response.json() as User[];
     }
 }
