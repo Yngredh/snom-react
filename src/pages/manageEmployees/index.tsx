@@ -1,4 +1,3 @@
-import { ListedUsers } from '../../mock/UserMock';
 import { TitleContainer, 
           MainContainer, 
           ContentContainer, 
@@ -14,17 +13,28 @@ import { Input } from '../../components/Input';
 import { UserProfileView } from './components/UserProfileView';
 import { UserEditCard } from './components/UserEditCard';
 import { User } from '../../interfaces/User';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { UserService } from '../../services/UserService';
 
 export const ManageEmployees = () => {
-
-    const usersMock = ListedUsers;
+    const [userList, setUserList] = useState<User[]>([]);
     const [selectedUser, setSelectedUser ] = useState<User>();
 
+    const updateUser = () => console.log('uhu')
     const handleSelectUser = (user: User) => {
         setSelectedUser(user);
     }
  
+    useEffect(() => {
+        const populateUsers = async () => {
+            const users = await UserService.getAllUsers()
+
+            setUserList(users);
+        }
+
+        populateUsers();
+    });
+
     return(
         <MainContainer>
             <TitleContainer>
@@ -45,13 +55,13 @@ export const ManageEmployees = () => {
                         isPassword={false} 
                         onChange={(e) => console.log(e.value)}
                         />
-                    <List setUserSelected={handleSelectUser} style={{marginTop: '3%', height: '85%'}} users={usersMock} />
+                    <List setUserSelected={handleSelectUser} style={{marginTop: '3%', height: '85%'}} users={userList} />
                 </ListContainer>
                 {selectedUser ? (
                     <UserDetailContainer>
                         <UserProfileView user={selectedUser} height='30%' width='94%' onDelete={() => console.log('inhai')} />
                         <DivLine size='94%' color={theme.pallete.assistant.black}/>
-                        <UserEditCard />
+                        <UserEditCard onFinish={updateUser}/>
                     </UserDetailContainer>
                 ) : (<></>)}
             </ContentContainer>
