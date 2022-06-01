@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { User } from "../../interfaces/User"
 import { theme } from "../../themes/theme"
 import { DivLine } from "../DivLine"
-import { Typograph, ETypograghType } from "../Typograph"
+import { Typograph, ETypographType } from "../Typograph"
 import * as Styled from "./styles"
 
 const selectedStyle = {
@@ -38,8 +38,8 @@ export const ListItem = (props : IListItemProps) => {
             <Styled.Container backgroundColor={styleSelection.backgroundColor} onClick={handleClick}>
                 <Styled.Icon src={props.user.icon} />
                 <Styled.BlockContainer>
-                    <Typograph style={{color: styleSelection.textColor}} type={ETypograghType.AuxiliarTitle}>{props.user.name}</Typograph>
-                    <Typograph style={{color: styleSelection.textColor}} type={ETypograghType.Text}>{props.user.email}</Typograph>
+                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.AuxiliarTitle}>{props.user.name}</Typograph>
+                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.Text}>{props.user.email}</Typograph>
                 </Styled.BlockContainer>
             </Styled.Container> 
             <DivLine size={"100%"} color={theme.pallete.assistant.lightGray}/>

@@ -3,7 +3,7 @@ import { Button, EButton } from "../../../../components/Button";
 import { Card } from "../../../../components/Card";
 import { DivLine } from "../../../../components/DivLine";
 import { Input } from "../../../../components/Input";
-import { ETypograghType, Typograph } from "../../../../components/Typograph";
+import { ETypographType, Typograph } from "../../../../components/Typograph";
 import { defaultPermission } from "../../../../interfaces/Permission";
 import { theme } from "../../../../themes/theme";
 import { DisplayFlex, FormContainer, InputFieldContainer } from "./styles";
@@ -121,7 +121,7 @@ export const UserEditCard = (props: IEditUserProps) => {
         borderColor={theme.pallete.blue.second}
         borderWidth="5px"
       >
-        <Typograph style={{ marginTop: "3%" }} type={ETypograghType.MainTitle}>
+        <Typograph style={{ marginTop: "3%" }} type={ETypographType.MainTitle}>
           EDITAR USUÁRIO
         </Typograph>
         <DivLine size="100%" color={theme.pallete.assistant.black} />
@@ -129,7 +129,7 @@ export const UserEditCard = (props: IEditUserProps) => {
           <InputFieldContainer>
             <Typograph
               style={{ marginTop: "3%" }}
-              type={ETypograghType.AuxiliarTitle}
+              type={ETypographType.AuxiliarTitle}
             >
               INFORMAÇÕES DO USUÁRIO
             </Typograph>
@@ -183,14 +183,14 @@ export const UserEditCard = (props: IEditUserProps) => {
               onChange={(e) => handleConfirmPasswordInput(e.value)}
             />
             {showError.email || showError.password || showError.confirmPassword ? (
-            <Typograph type={ETypograghType.AuxiliarText} style= {{ color: theme.pallete.status.borderRed}}>
+            <Typograph type={ETypographType.AuxiliarText} style= {{ color: theme.pallete.status.borderRed}}>
               Por favor, preencha o formulário corretamente!
             </Typograph>): <></>}
           </InputFieldContainer>
           <InputFieldContainer>
             <Typograph
               style={{ marginTop: "3%", marginBottom: "5%" }}
-              type={ETypograghType.AuxiliarTitle}
+              type={ETypographType.AuxiliarTitle}
             >
               PERMISSÕES
             </Typograph>
@@ -200,13 +200,13 @@ export const UserEditCard = (props: IEditUserProps) => {
                 onClick={(e) => handleSelect(e.currentTarget.name)} 
                 type="radio"
                 name="total" />
-              <Typograph type={ETypograghType.AuxiliarTitle}>
+              <Typograph type={ETypographType.AuxiliarTitle}>
                 Gerenciamento total de treinamentos
               </Typograph>
             </DisplayFlex>
             <Typograph
               style={{ marginLeft: "7%", marginTop: "1%", marginBottom: "2%" }}
-              type={ETypograghType.AuxiliarText}
+              type={ETypographType.AuxiliarText}
             >
               Permissão de criação e edição de todos os treinamentos ativos.
             </Typograph>
@@ -216,13 +216,13 @@ export const UserEditCard = (props: IEditUserProps) => {
                 onClick={(e) => handleSelect(e.currentTarget.name)} 
                 type="radio"
                 name="partial"  />
-              <Typograph type={ETypograghType.AuxiliarTitle}>
+              <Typograph type={ETypographType.AuxiliarTitle}>
                 Gerenciamento parcial de treinamentos
               </Typograph>
             </DisplayFlex>
             <Typograph
               style={{ marginLeft: "7%", marginTop: "1%" }}
-              type={ETypograghType.AuxiliarText}
+              type={ETypographType.AuxiliarText}
             >
               Permissão de criação e edição dos treinamentos que o usuário
               criar.

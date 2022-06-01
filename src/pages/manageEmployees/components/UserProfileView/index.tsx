@@ -1,5 +1,5 @@
 import { Button, EButton } from "../../../../components/Button";
-import { ETypograghType, Typograph } from "../../../../components/Typograph";
+import { ETypographType, Typograph } from "../../../../components/Typograph";
 import { UserIcon } from "../../../../components/UserIcon";
 import { User } from "../../../../interfaces/User";
 import { ProfileContainer, UserDataCotainer } from "./styles";
@@ -19,10 +19,10 @@ export const UserProfileView = (props : IUserProfileProps) => {
         <UserIcon userImg={props.user.icon} />
         <UserDataCotainer>
           <div>
-            <Typograph type={ETypograghType.MainTitle}>
+            <Typograph type={ETypographType.MainTitle}>
                 {props.user.name}
             </Typograph>
-            <Typograph type={ETypograghType.Text}>
+            <Typograph type={ETypographType.Text}>
                 {props.user.email}
             </Typograph>
           </div>

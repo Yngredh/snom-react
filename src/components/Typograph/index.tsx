@@ -3,7 +3,7 @@ import { theme } from "../../themes/theme";
 import { Paragraph } from "./styles"
 
 
-export enum ETypograghType {
+export enum ETypographType {
     PageTitle = 0,
     MainTitle = 1,
     AuxiliarTitle= 2,
@@ -19,7 +19,7 @@ interface ITextValues {
 }
 
 interface ITypographProps {
-    type: ETypograghType,
+    type: ETypographType,
     children: any,
     style?: React.CSSProperties
 }
@@ -37,12 +37,12 @@ export const Typograph = (props : ITypographProps) => {
 
 
     useEffect(() =>{
-        if(props.type === ETypograghType.PageTitle) changeTextValues(theme.typography.pageTitle);
-        if(props.type === ETypograghType.MainTitle) changeTextValues(theme.typography.mainTitle);
-        if(props.type === ETypograghType.AuxiliarTitle) changeTextValues(theme.typography.auxiliarTitle);
-        if(props.type === ETypograghType.ButtonTitle) changeTextValues(theme.typography.buttonTitle);
-        if(props.type === ETypograghType.Text) changeTextValues(theme.typography.text);
-        if(props.type === ETypograghType.AuxiliarText) changeTextValues(theme.typography.auxiliarText);
+        if(props.type === ETypographType.PageTitle) changeTextValues(theme.typography.pageTitle);
+        if(props.type === ETypographType.MainTitle) changeTextValues(theme.typography.mainTitle);
+        if(props.type === ETypographType.AuxiliarTitle) changeTextValues(theme.typography.auxiliarTitle);
+        if(props.type === ETypographType.ButtonTitle) changeTextValues(theme.typography.buttonTitle);
+        if(props.type === ETypographType.Text) changeTextValues(theme.typography.text);
+        if(props.type === ETypographType.AuxiliarText) changeTextValues(theme.typography.auxiliarText);
     } , [props.type]);
 
     return(
