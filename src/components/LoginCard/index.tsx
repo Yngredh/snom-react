@@ -4,21 +4,95 @@ import { Card } from "../Card";
 import { Input } from "../Input";
 import { Button, EButton } from "../Button";
 import { ETypographType, Typograph } from "../Typograph";
+import { User } from "../../interfaces/User";
+import { useState } from "react";
 
 interface ILoginCardProps {
   open: boolean,
+  onFinishCreate: (newUser: Partial<User>) => void,
   onClose: () => void
 }
 
 export const LoginCard = (props: ILoginCardProps) => {
 
-  const onChangeEmail = () => {
-    console.log("implement onChangeEmail here!");
+  const [showError, setShowError] = useState({
+    name: false,
+    email : false,
+    password: false,
+  });
+  const [createForm, setEditForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const handleCreateUser = () => {
+    if(createForm.email !== '' && createForm.password !== '' && createForm.name !== ''){
+      const user :Partial<User> = {
+        email : createForm.email,
+        password : createForm.password,
+        name: createForm.name
+      };
+
+      props.onFinishCreate(user);
+    }
+  }
+
+  const handleNameInput = (name :string) => {
+    if(name !== ''){
+      setEditForm({
+        ...createForm,
+        name: name,
+      });
+      setShowError({
+        ...showError,
+        name: false
+      });
+    }else{
+      setShowError({
+        ...showError,
+        name: true
+      });
+    }
   };
 
-  const onChangePassword = () => {
-    console.log("implement onChangePassword here!");
+  const handleEmailInput = (email: string) => {
+    if(email.includes('@')){
+      setEditForm({
+        ...createForm,
+        email: email,
+      });
+
+      setShowError({
+        ...showError,
+        email: false
+      });
+    }else{
+      setShowError({
+        ...showError,
+        email: true
+      });
+    }
   };
+
+  const handlePasswordInput = (password: string) => {
+    if(password.length >= 8){
+      setEditForm({
+        ...createForm,
+        password: password,
+      });
+      setShowError({
+        ...showError,
+        password: false
+      });
+    }else{
+      setShowError({
+        ...showError,
+        password: true
+      });
+    }
+  };
+
 
   return (
     <>
@@ -65,27 +139,35 @@ export const LoginCard = (props: ILoginCardProps) => {
             </TextAuxiliar>
 
             <Input
-              style={{marginBottom: '1%'}}
+              style={{marginBottom: '3%'}}
+              hint="Nome"
+              isPassword={false}
+              width="80%"
+              onChange={e => handleNameInput(e.value)}
+            ></Input>
+            <Input
+            style={{marginBottom: '3%'}}
               hint="Email"
               isPassword={false}
               width="80%"
-              onChange={onChangeEmail}
+              onChange={e => handleEmailInput(e.value)}
             ></Input>
             <Input
+              style={{marginBottom: '3%'}}
               hint="Senha"
               isPassword={true}
               width="80%"
-              onChange={onChangePassword}
+              onChange={e => handlePasswordInput(e.value)}
             ></Input>
-            <Input
-              hint="Confirmar senha"
-              isPassword={true}
-              width="80%"
-              onChange={onChangePassword}
-            ></Input>
+            
+            {showError.email || showError.password || showError.name ? (
+            <Typograph type={ETypographType.AuxiliarText} style= {{ color: theme.pallete.status.borderRed}}>
+              Por favor, preencha o formulário corretamente!
+            </Typograph>): <></>}
 
             <Button
-              style={{ marginTop: "7.5%" }}
+              style={{ marginTop: "6%" }}
+              onClick={handleCreateUser}
               width="50%"
               type={EButton.MainButton}
             >

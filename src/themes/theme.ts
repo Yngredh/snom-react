@@ -28,30 +28,30 @@ export const theme = {
         fontFamily: "Roboto",
 
         pageTitle: {
-            size: "60px",
+            size: "48px",
             weight:"400",
             color: "686868"
         },
 
         mainTitle: {
-            size: "32px",
+            size: "28px",
             weight:"600",
             color: "#2A3855"
         },
 
         auxiliarTitle: {
-            size: "24px",
+            size: "22px",
             weight:"400",
             color: "#2A3855"
         },
         buttonTitle: {
-            size: "20px",
+            size: "18px",
             weight: "500",
             color: "#FFFFFF"
         },
 
         text: {
-            size: "20px",
+            size: "18px",
             weight:"300",
             color: "686868"
         },

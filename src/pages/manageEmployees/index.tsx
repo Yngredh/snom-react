@@ -23,7 +23,24 @@ export const ManageEmployees = () => {
     const [selectedUser, setSelectedUser ] = useState<User>();
     const [showCreateUser, setShowCreateUser] = useState(false);
 
-    const updateUser = () => console.log('uhu')
+    const handleDeleteUserClick = async (userId : number) => {
+        const response = await UserService.deleteUser(userId);
+
+        if(response === 200){
+            setSelectedUser(undefined);
+            await getUsers();
+        }
+    }
+
+    const handleUpdateUserClick = async (newUserData : Partial<User>) => {
+        const response = await UserService.editUser(newUserData);
+
+        if(response === 200){
+            setSelectedUser(undefined);
+            await getUsers();
+        }
+    }
+
     const handleSelectUser = (user: User) => {
         setSelectedUser(user);
     }
@@ -31,20 +48,29 @@ export const ManageEmployees = () => {
     const handleCreteUserButtonClick = () => {
         setShowCreateUser(!showCreateUser);
     }
+    
+    const getUsers = async () => {
+        const users = await UserService.getAllUsers();
+
+        setUserList(users);
+    }
+
+    const createUser = async (newUser : Partial<User>) => {
+        const response = await UserService.createUser(newUser);
+
+        if(response === 200) {
+            setShowCreateUser(false);
+            await getUsers();
+        }
+    }
 
     useEffect(() => {
-        const getUsers = async () => {
-            const users = await UserService.getAllUsers();
-
-            setUserList(users);
-        }
-
         getUsers();
     }, []);
 
     return(
         <>
-            <LoginCard open={showCreateUser} onClose={handleCreteUserButtonClick} />
+            <LoginCard open={showCreateUser} onFinishCreate={createUser} onClose={handleCreteUserButtonClick} />
             <MainContainer>
                 <TitleContainer>
                         <Typograph type={ETypographType.PageTitle}>
@@ -68,9 +94,9 @@ export const ManageEmployees = () => {
                     </ListContainer>
                     {selectedUser ? (
                         <UserDetailContainer>
-                            <UserProfileView user={selectedUser} height='30%' width='94%' onDelete={() => console.log('inhai')} />
+                            <UserProfileView user={selectedUser} height='30%' width='94%' onDelete={handleDeleteUserClick} />
                             <DivLine size='94%' color={theme.pallete.assistant.black}/>
-                            <UserEditCard onFinish={updateUser}/>
+                            <UserEditCard user={selectedUser} onFinish={handleUpdateUserClick}/>
                         </UserDetailContainer>
                     ) : 
                     (<IconContainer>

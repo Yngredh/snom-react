@@ -9,7 +9,7 @@ interface IUserProfileProps {
     width: string
     user: User
     style? : React.CSSProperties
-    onDelete : () => void
+    onDelete : (userId: number) => void
 }
 
 export const UserProfileView = (props : IUserProfileProps) => {
@@ -22,16 +22,16 @@ export const UserProfileView = (props : IUserProfileProps) => {
             <Typograph type={ETypographType.MainTitle}>
                 {props.user.name}
             </Typograph>
-            <Typograph type={ETypographType.Text}>
+            <Typograph style={{marginLeft: '2%'}} type={ETypographType.Text}>
                 {props.user.email}
             </Typograph>
           </div>
 
           <Button
-            onClick={props.onDelete} 
+            onClick={() => props.onDelete(props.user.id)} 
             style={{ marginTop: "8%" }} 
             type={EButton.AlertButton} 
-            width='60%'>
+            width='80%'>
             APAGAR USUÁRIO
           </Button>
         </UserDataCotainer>

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, EButton } from "../../../../components/Button";
 import { Card } from "../../../../components/Card";
 import { DivLine } from "../../../../components/DivLine";
 import { Input } from "../../../../components/Input";
 import { ETypographType, Typograph } from "../../../../components/Typograph";
 import { defaultPermission } from "../../../../interfaces/Permission";
+import { User } from "../../../../interfaces/User";
 import { theme } from "../../../../themes/theme";
 import { DisplayFlex, FormContainer, InputFieldContainer } from "./styles";
 
@@ -15,7 +16,8 @@ interface IEditForm {
   selectedPermission: number,
 }
 interface IEditUserProps {
-  onFinish : () => void
+  user: User,
+  onFinish : (newUserData : Partial<User>) => void
 }
 
 export const UserEditCard = (props: IEditUserProps) => {
@@ -31,6 +33,21 @@ export const UserEditCard = (props: IEditUserProps) => {
     selectedPermission: defaultPermission[2].id
   });
 
+  const handleSaveEditClick = () => {
+    if(showError.email || showError.password || showError.confirmPassword) {}
+    else{
+      const newDataUser: Partial<User> = {
+        id: props.user.id,
+        permission: props.user.permission,
+      }
+
+      if(editForm.newEmail !== '') newDataUser.email = editForm.newEmail;
+      if(editForm.newPassword !== '') newDataUser.password = editForm.newPassword;
+      newDataUser.permission!!.id = editForm.selectedPermission;
+
+      props.onFinish(newDataUser);
+    }
+  }
   const handleSelect = (selectedOption: string) => {
     var newValue = 0;
     if(selectedOption === 'partial') {
@@ -52,7 +69,6 @@ export const UserEditCard = (props: IEditUserProps) => {
       });
     }
   };
-
   const handleEmaiInput = (email: string) => {
     if(email.includes('@')){
       setEditForm({
@@ -106,6 +122,15 @@ export const UserEditCard = (props: IEditUserProps) => {
     }
   }
 
+  useEffect(() => {
+    setEditForm({
+      newEmail: '',
+      newPassword: '',
+      confirmPassword: '',
+      selectedPermission: props.user.permission.id
+    })
+  },[props.user])
+
   return (
     <>
       <Card
@@ -117,7 +142,7 @@ export const UserEditCard = (props: IEditUserProps) => {
           paddingRight: "5%",
         }}
         width="94%"
-        height="50%"
+        height="fit-content"
         borderColor={theme.pallete.blue.second}
         borderWidth="5px"
       >
@@ -230,8 +255,8 @@ export const UserEditCard = (props: IEditUserProps) => {
           </InputFieldContainer>
         </FormContainer>
         <Button
-          style={{ alignSelf: "flex-end" }}
-          width="28%"
+          style={{ alignSelf: "flex-end", marginTop: '3%', marginBottom: '3%' }}
+          onClick={handleSaveEditClick}
           type={EButton.MainButton}
         >
           SALVAR ALTERAÇÕES

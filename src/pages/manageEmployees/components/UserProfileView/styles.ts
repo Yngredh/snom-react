@@ -11,5 +11,6 @@ export const UserDataCotainer = styled.div`
     box-sizing: border-box;
     padding-left: 2%;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
 `

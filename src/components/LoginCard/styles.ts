@@ -15,7 +15,7 @@ export const PopUpDiv = styled.div`
 export const TitleAuxiliar = styled.div`
     width: 80%;
     margin-top: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 4%;
     display: flex;
     justify-content: space-between;
 `;

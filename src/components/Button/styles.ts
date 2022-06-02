@@ -12,7 +12,7 @@ export const ContainerButton = styled.div<IButtonProps>`
 
     height: fit-content;
     width: ${props => props.width};
-    padding: 15px 20px;
+    padding: 10px 15px;
     
     background: ${props => props.color};
     border: 2px solid; 
