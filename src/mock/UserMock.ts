@@ -1,8 +1,8 @@
 import { User } from "../interfaces/User";
 
-export const UserMock : User = {
+export const UserMockTypeOne : User = {
     id: 2,
-    name: "Adalberto Teshima",
+    name: "Davi Gonçalves",
     type: "",
     email: "davihgs20@gmail.com",
     password: "",
@@ -17,4 +17,21 @@ export const UserMock : User = {
     }
 }
 
-export const ListedUsers = [UserMock, UserMock, UserMock, UserMock, UserMock, UserMock, UserMock, UserMock, UserMock, UserMock]
+export const UserMockTypeTwo : User = {
+    id: 2,
+    name: "Yngredh Costa da Cruz",
+    type: "",
+    email: "yngredh.cruz@gmail.com",
+    password: "",
+    nickname: "",
+    level: 0,
+    isUserActive: false,
+    experience: 0,
+    icon: "https://github.com/Yngredh.png",
+    permission: {
+        id : 0,
+        description: ""
+    }
+}
+
+export const ListedUsers = [UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo];

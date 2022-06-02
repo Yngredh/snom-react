@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Styled = styled.div`
     background-color: ${props => props.theme.pallete.blue.main};
     padding: 20px;
-    width: 6.2%;
+    width: 7%;
     height: 100%;
 
     display: flex ;
@@ -14,4 +14,5 @@ export const Styled = styled.div`
 export const Container = styled.div`
     display: flex ;
     flex-direction: column;
+    align-items: center;
 `

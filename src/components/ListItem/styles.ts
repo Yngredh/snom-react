@@ -1,29 +1,27 @@
 import styled from 'styled-components';
 
-export const Name = styled.p`
-    font-weight: ${props => props.theme.typography.auxiliarTitle.weight};
-    font-size: ${props => props.theme.typography.auxiliarTitle.size};
-    font-family: ${props => props.theme.typography.fontFamily};
-`
-export const Email = styled.p`
-    font-weight: ${props => props.theme.typography.text.weight};
-    font-size: ${props => props.theme.typography.text.size};
-`
+interface IContainerProps{
+    backgroundColor: string
+}
 
 export const Icon = styled.img`
     border-radius: 5px;
     object-fit: cover;
-    width: 110px;
-    height: 100%;
+    width: 85px;
+    height: 85px;
 `
-export const Container = styled.div`
+export const Container = styled.div<IContainerProps>`
     display: flex;
-    height: 80px;
+    align-items: center;
+    height: 100px;
+    padding: 2%;
+
     cursor: pointer;
-    margin-bottom: 4%;
+    background-color: ${props => props.backgroundColor};
+    border-radius: ${props => props.theme.shape.borderRadius};
 `
 export const BlockContainer = styled.div`
-    margin-left: 8px;
+    margin-left: 4%;
     display: flex;
     flex-direction: column;
 `

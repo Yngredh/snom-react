@@ -11,7 +11,6 @@ interface IContainerProps {
 export const Container = styled.div<IContainerProps>`
     width: ${props => props.width};
     height: ${props => props.height};
-    margin: 2%;
 
     border-width: ${props => props.borderWidth};
     border-style: solid;

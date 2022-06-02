@@ -1,23 +1,45 @@
+import { useEffect, useState } from "react"
 import { User } from "../../interfaces/User"
 import { theme } from "../../themes/theme"
 import { DivLine } from "../DivLine"
+import { Typograph, ETypographType } from "../Typograph"
 import * as Styled from "./styles"
 
-interface IProps {
-    user : User
+const selectedStyle = {
+    textColor: theme.pallete.assistant.white,
+    backgroundColor: theme.pallete.blue.cloud
 }
 
+const notSelectedStyle = {
+    textColor: theme.pallete.assistant.black,
+    backgroundColor: 'unset'
+}
 
-export const ListItem = (props : IProps) => {
+interface IListItemProps {
+    user : User,
+    id: number,
+    selected: boolean,
+    onSelect: (itemId: number) => void
+}
+
+export const ListItem = (props : IListItemProps) => {
+    const [styleSelection, setStyleSelection] = useState(notSelectedStyle);
+
+    const handleClick = () => { props.onSelect(props.id); }
+
+    useEffect(() => {
+        if(props.selected) setStyleSelection(selectedStyle);
+        else setStyleSelection(notSelectedStyle);
+    }, [props])
 
     return(
     <>
-        <div style={{marginBottom : "6%"}}>
-            <Styled.Container>
+        <div>
+            <Styled.Container backgroundColor={styleSelection.backgroundColor} onClick={handleClick}>
                 <Styled.Icon src={props.user.icon} />
                 <Styled.BlockContainer>
-                    <Styled.Name>{props.user.name}</Styled.Name>
-                    <Styled.Email>{props.user.email}</Styled.Email>
+                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.AuxiliarTitle}>{props.user.name}</Typograph>
+                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.Text}>{props.user.email}</Typograph>
                 </Styled.BlockContainer>
             </Styled.Container> 
             <DivLine size={"100%"} color={theme.pallete.assistant.lightGray}/>

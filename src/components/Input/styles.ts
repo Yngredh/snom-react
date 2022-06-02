@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const TextInput = styled.input`
+    margin: 0;
     box-shadow: none;
     border: none;
     background: none;
