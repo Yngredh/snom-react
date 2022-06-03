@@ -21,6 +21,7 @@ import { LoginCard } from '../../components/LoginCard';
 export const ManageEmployees = () => {
     const [userList, setUserList] = useState<User[]>([]);
     const [selectedUser, setSelectedUser ] = useState<User>();
+    const [search, setSearch] = useState('');
     const [showCreateUser, setShowCreateUser] = useState(false);
 
     const handleDeleteUserClick = async (userId : number) => {
@@ -48,7 +49,11 @@ export const ManageEmployees = () => {
     const handleCreteUserButtonClick = () => {
         setShowCreateUser(!showCreateUser);
     }
-    
+
+    const handleSearchInputChange = (searchValue: string) => {
+        setSearch(searchValue);
+    } 
+
     const getUsers = async () => {
         const users = await UserService.getAllUsers();
 
@@ -88,9 +93,9 @@ export const ManageEmployees = () => {
                             hint='search' 
                             width='100%' 
                             isPassword={false} 
-                            onChange={(e) => console.log(e.value)}
+                            onChange={(e) => handleSearchInputChange(e.value)}
                             />
-                        <List setUserSelected={handleSelectUser} style={{marginTop: '3%', height: '85%'}} users={userList} />
+                        <List setUserSelected={handleSelectUser} filterValue={search} style={{marginTop: '3%', height: '85%'}} users={userList} />
                     </ListContainer>
                     {selectedUser ? (
                         <UserDetailContainer>
