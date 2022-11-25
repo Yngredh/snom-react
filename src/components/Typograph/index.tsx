@@ -5,11 +5,15 @@ import { Paragraph } from "./styles"
 
 export enum ETypographType {
     PageTitle = 0,
-    MainTitle = 1,
-    AuxiliarTitle= 2,
-    ButtonTitle = 3,
-    Text = 4,
-    AuxiliarText = 5
+    AuxiliarTitle = 1,
+    ButtonTitle = 2,
+    VioletText = 3,
+    ConstrastVioletText = 4,
+    LightVioletText = 5,
+    LightText = 6,
+    MediumText = 7,
+    MenuText = 8,
+    AuxiliarText = 9
 }
 
 interface ITextValues {
@@ -38,10 +42,14 @@ export const Typograph = (props : ITypographProps) => {
 
     useEffect(() =>{
         if(props.type === ETypographType.PageTitle) changeTextValues(theme.typography.pageTitle);
-        if(props.type === ETypographType.MainTitle) changeTextValues(theme.typography.mainTitle);
         if(props.type === ETypographType.AuxiliarTitle) changeTextValues(theme.typography.auxiliarTitle);
         if(props.type === ETypographType.ButtonTitle) changeTextValues(theme.typography.buttonTitle);
-        if(props.type === ETypographType.Text) changeTextValues(theme.typography.text);
+        if(props.type === ETypographType.VioletText) changeTextValues(theme.typography.violetText);
+        if(props.type === ETypographType.ConstrastVioletText) changeTextValues(theme.typography.contrastVioletText);
+        if(props.type === ETypographType.LightVioletText) changeTextValues(theme.typography.lightVioletText);
+        if(props.type === ETypographType.LightText) changeTextValues(theme.typography.lightText);
+        if(props.type === ETypographType.MediumText) changeTextValues(theme.typography.mediumText);
+        if(props.type === ETypographType.MenuText) changeTextValues(theme.typography.menuText);
         if(props.type === ETypographType.AuxiliarText) changeTextValues(theme.typography.auxiliarText);
     } , [props.type]);
 

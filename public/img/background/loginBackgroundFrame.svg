@@ -1,0 +1,17 @@
+<svg width="1400" height="1000" viewBox="0 0 1400 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1856_51520)">
+<rect x="227.577" y="712.535" width="135.041" height="135.041" rx="30" transform="rotate(19.725 227.577 712.535)" fill="#5ED1BC"/>
+<rect x="253.411" y="709.591" width="120.041" height="120.041" rx="22.5" transform="rotate(19.725 253.411 709.591)" fill="#DBE5FB" stroke="#512DED" stroke-width="15"/>
+<rect x="974.02" y="257.148" width="135.041" height="135.041" rx="30" transform="rotate(-134.407 974.02 257.148)" fill="#9AE8DA"/>
+<rect x="949.49" y="248.525" width="120.041" height="120.041" rx="22.5" transform="rotate(-134.407 949.49 248.525)" fill="#5ED1BC" stroke="#2D2A54" stroke-width="15"/>
+<rect x="1046.18" y="750.872" width="241" height="241" rx="22.5" transform="rotate(23.5538 1046.18 750.872)" stroke="#5ED1BC" stroke-width="15"/>
+<rect x="1196.18" y="718.872" width="241" height="241" rx="22.5" transform="rotate(23.5538 1196.18 718.872)" stroke="#512DED" stroke-width="15"/>
+<path d="M0 461.383L461.383 -2.49515e-05" stroke="#512DED" stroke-width="15" stroke-linecap="square"/>
+<path d="M0.383301 514.5L514.383 0.500015" stroke="#5ED1BC" stroke-width="15" stroke-linecap="square"/>
+</g>
+<defs>
+<clipPath id="clip0_1856_51520">
+<rect width="1400" height="1000" fill="white"/>
+</clipPath>
+</defs>
+</svg>

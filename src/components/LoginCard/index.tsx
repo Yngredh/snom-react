@@ -8,7 +8,6 @@ import { User } from "../../interfaces/User";
 import { useState } from "react";
 
 interface ILoginCardProps {
-  open: boolean,
   onFinishCreate: (newUser: Partial<User>) => void,
   onClose: () => void
 }
@@ -96,8 +95,6 @@ export const LoginCard = (props: ILoginCardProps) => {
 
   return (
     <>
-      {props.open && (
-        <PopUpDiv>
           <Card
             style={{
               display: "flex",
@@ -107,53 +104,36 @@ export const LoginCard = (props: ILoginCardProps) => {
             }}
             width="480px"
             height="500px"
-            borderColor={theme.pallete.blue.main}
+            borderColor={theme.pallete.blueViolet.dark}
             borderWidth="3px"
             backgroundColor="linear-gradient(180deg, #DBE5FB 0%, #9FBAF3 100%)"
           >
-            <img
-              style={{
-                alignSelf: "flex-end",
-                cursor: 'pointer',
-              }}
-              width="30px"
-              height="30px"
-              onClick={e => props.onClose()}
-              src="img/icons/fechar.svg"
-              alt="Fechar pop-up"
-            />
             <TitleAuxiliar>
               <Typograph
-                style={{ textAlign: "start" }}
-                type={ETypographType.MainTitle}
+                style={{ textAlign: "start" , marginTop: "5%"}}
+                type={ETypographType.ConstrastVioletText}
               >
-                CRIAR USUÁRIO
+                ENTRAR
               </Typograph>
             </TitleAuxiliar>
 
             <TextAuxiliar>
-              <Typograph type={ETypographType.AuxiliarText}>
-                Lembre-se que essa senha será temporária, o usuário poderá
-                alterá-la mais tarde.
+              <Typograph 
+                style={{ textAlign: "start", marginTop: "5%"}}
+                type={ETypographType.AuxiliarText}>
+                Faça seu login e bora treinar!
               </Typograph>
             </TextAuxiliar>
 
             <Input
-              style={{marginBottom: '3%'}}
-              hint="Nome"
-              isPassword={false}
-              width="80%"
-              onChange={e => handleNameInput(e.value)}
-            ></Input>
-            <Input
-            style={{marginBottom: '3%'}}
+            style={{marginBottom: '8%'}}
               hint="Email"
               isPassword={false}
               width="80%"
               onChange={e => handleEmailInput(e.value)}
             ></Input>
             <Input
-              style={{marginBottom: '3%'}}
+              style={{marginBottom: '5%'}}
               hint="Senha"
               isPassword={true}
               width="80%"
@@ -171,11 +151,9 @@ export const LoginCard = (props: ILoginCardProps) => {
               width="50%"
               type={EButton.MainButton}
             >
-              CRIAR USUÁRIO
+              ENTRAR
             </Button>
           </Card>
-        </PopUpDiv>
-      )}
     </>
   );
 };

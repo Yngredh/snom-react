@@ -1,19 +1,22 @@
 export const theme = {
     pallete: {
-        blue: {
-            main: "#2A3855",
-            second: "#7194E0",
-            cloud: "#9FBAF3",
-            background: "#DBE5FB",
+        midnightBlue: {
+            dark: "#181833",
+            light: "#7194E0",
         },
-        yellow: {
-            main: "#FFC700",
-            light: "rgba(255, 199, 0, 0.6)", 
+        blueViolet: {
+            dark: "#512DED",
+            light: "#8A9AE9", 
+        },
+        cyanGreen: {
+            dark: "#5ED1BC",
+            light: "#9AE8DA", 
         },
         assistant: {
             darkGray: "#686868",
-            lightGray: "#AEACAC",
-            alertButton: "#C82C2C",
+            blueIce: "#DBE5FB",
+            darkRed: "#EF3B3B",
+            lightRed: "#F17676",
             black: "#000000",
             white: "#FFFFFF"
         },
@@ -30,38 +33,65 @@ export const theme = {
         pageTitle: {
             size: "48px",
             weight:"400",
-            color: "686868"
-        },
-
-        mainTitle: {
-            size: "28px",
-            weight:"600",
-            color: "#2A3855"
+            color: "#000000"
         },
 
         auxiliarTitle: {
-            size: "22px",
+            size: "28px",
             weight:"400",
-            color: "#2A3855"
-        },
-        buttonTitle: {
-            size: "18px",
-            weight: "500",
-            color: "#FFFFFF"
-        },
-
-        text: {
-            size: "18px",
-            weight:"300",
-            color: "686868"
+            color: "#000000"
         },
 
         auxiliarText: {
             size: "16px",
-            weight: "300",
+            weight:"300",
             color: "#686868"
-        }
+        },
+
+        mediumText: {
+            size: "15px",
+            weight:"400",
+            color: "#FFFFFF"
+        },
+
+        menuText: {
+            size: "20px",
+            weight:"400",
+            color: "#2A3855"
+        },
+
+        lightText: {
+            size: "20px",
+            weight: "300",
+            color: "#512DED"
+        },
+
+        contrastVioletText: {
+            size: "32px",
+            weight:"700",
+            color: "#512DED"
+        },
+
+        violetText: {
+            size: "40px",
+            weight:"400",
+            color: "#512DED"
+        },
+
+        lightVioletText: {
+            size: "24px",
+            weight:"300",
+            color: "#512DED"
+        },
+
+        buttonTitle: {
+            size: "14px",
+            weight:"500",
+            color: "#512DED"
+        },
+
     },
+
     shape: {
         borderSize: "2px",
         borderRadius: "10px",
