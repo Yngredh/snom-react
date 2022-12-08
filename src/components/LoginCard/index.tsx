@@ -130,6 +130,7 @@ export const LoginCard = (props: ILoginCardProps) => {
               hint="Email"
               isPassword={false}
               width="80%"
+              borderColor={theme.pallete.blueViolet.dark}
               onChange={e => handleEmailInput(e.value)}
             ></Input>
             <Input
@@ -137,6 +138,7 @@ export const LoginCard = (props: ILoginCardProps) => {
               hint="Senha"
               isPassword={true}
               width="80%"
+              borderColor={theme.pallete.blueViolet.dark}
               onChange={e => handlePasswordInput(e.value)}
             ></Input>
             

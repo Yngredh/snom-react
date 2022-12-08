@@ -4,13 +4,15 @@ import { Menu } from './components/Menu/index';
 import { theme } from './themes/theme';
 import './index.css';
 import { Login } from './pages/login';
+import { TrainingPanel } from './pages/Training Panel';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className='app'>
-        {/* <Menu></Menu> */}
-        <Login/>
+        <Menu></Menu>
+        {/* <Login/> */}
+        <TrainingPanel></TrainingPanel>
       </div>
     </ThemeProvider>
   );
