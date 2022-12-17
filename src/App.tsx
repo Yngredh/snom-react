@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './themes/theme';
 import './index.css';
 import { Login } from './pages/login';
+import { TrainingPanel } from './pages/Training Panel';
 import { IUserContext } from './interfaces/IUserContext';
 
 function App() {
