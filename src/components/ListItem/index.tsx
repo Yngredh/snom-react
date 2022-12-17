@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { User } from "../../interfaces/User"
+import { IUser } from "../../interfaces/IUser"
 import { theme } from "../../themes/theme"
 import { DivLine } from "../DivLine"
 import { Typograph, ETypographType } from "../Typograph"
@@ -7,7 +7,7 @@ import * as Styled from "./styles"
 
 const selectedStyle = {
     textColor: theme.pallete.assistant.white,
-    backgroundColor: theme.pallete.blue.cloud
+    backgroundColor: theme.pallete.blueViolet.dark,
 }
 
 const notSelectedStyle = {
@@ -16,7 +16,7 @@ const notSelectedStyle = {
 }
 
 interface IListItemProps {
-    user : User,
+    user : IUser,
     id: number,
     selected: boolean,
     onSelect: (itemId: number) => void
@@ -39,10 +39,10 @@ export const ListItem = (props : IListItemProps) => {
                 <Styled.Icon src={props.user.icon} />
                 <Styled.BlockContainer>
                     <Typograph style={{color: styleSelection.textColor}} type={ETypographType.AuxiliarTitle}>{props.user.name}</Typograph>
-                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.Text}>{props.user.email}</Typograph>
+                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.ConstrastVioletText}>{props.user.email}</Typograph>
                 </Styled.BlockContainer>
             </Styled.Container> 
-            <DivLine size={"100%"} color={theme.pallete.assistant.lightGray}/>
+            <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}/>
         </div>
 
     </>

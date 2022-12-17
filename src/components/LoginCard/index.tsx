@@ -1,65 +1,32 @@
-import { TitleAuxiliar, TextAuxiliar, PopUpDiv } from "./styles";
+import { TitleAuxiliar, TextAuxiliar } from "./styles";
 import { theme } from "../../themes/theme";
 import { Card } from "../Card";
 import { Input } from "../Input";
 import { Button, EButton } from "../Button";
 import { ETypographType, Typograph } from "../Typograph";
-import { User } from "../../interfaces/User";
+import { IUser } from "../../interfaces/IUser";
 import { useState } from "react";
 
 interface ILoginCardProps {
-  open: boolean,
-  onFinishCreate: (newUser: Partial<User>) => void,
-  onClose: () => void
+  authenticateUser: (loginUser: Partial<IUser>) => void
 }
 
 export const LoginCard = (props: ILoginCardProps) => {
 
   const [showError, setShowError] = useState({
-    name: false,
     email : false,
     password: false,
   });
-  const [createForm, setEditForm] = useState({
-    name: '',
+  const [loginForm, setEditForm] = useState({
     email: '',
     password: '',
   });
 
-  const handleCreateUser = () => {
-    if(createForm.email !== '' && createForm.password !== '' && createForm.name !== ''){
-      const user :Partial<User> = {
-        email : createForm.email,
-        password : createForm.password,
-        name: createForm.name
-      };
-
-      props.onFinishCreate(user);
-    }
-  }
-
-  const handleNameInput = (name :string) => {
-    if(name !== ''){
-      setEditForm({
-        ...createForm,
-        name: name,
-      });
-      setShowError({
-        ...showError,
-        name: false
-      });
-    }else{
-      setShowError({
-        ...showError,
-        name: true
-      });
-    }
-  };
 
   const handleEmailInput = (email: string) => {
     if(email.includes('@')){
       setEditForm({
-        ...createForm,
+        ...loginForm,
         email: email,
       });
 
@@ -78,7 +45,7 @@ export const LoginCard = (props: ILoginCardProps) => {
   const handlePasswordInput = (password: string) => {
     if(password.length >= 8){
       setEditForm({
-        ...createForm,
+        ...loginForm,
         password: password,
       });
       setShowError({
@@ -93,11 +60,14 @@ export const LoginCard = (props: ILoginCardProps) => {
     }
   };
 
+  const handleAuthenticateUser = async () => {
+    if(showError.email || showError.password) return;
+
+    props.authenticateUser({ email: loginForm.email, password: loginForm.password});
+  }
 
   return (
     <>
-      {props.open && (
-        <PopUpDiv>
           <Card
             style={{
               display: "flex",
@@ -107,75 +77,56 @@ export const LoginCard = (props: ILoginCardProps) => {
             }}
             width="480px"
             height="500px"
-            borderColor={theme.pallete.blue.main}
+            borderColor={theme.pallete.blueViolet.dark}
             borderWidth="3px"
             backgroundColor="linear-gradient(180deg, #DBE5FB 0%, #9FBAF3 100%)"
           >
-            <img
-              style={{
-                alignSelf: "flex-end",
-                cursor: 'pointer',
-              }}
-              width="30px"
-              height="30px"
-              onClick={e => props.onClose()}
-              src="img/icons/fechar.svg"
-              alt="Fechar pop-up"
-            />
             <TitleAuxiliar>
               <Typograph
-                style={{ textAlign: "start" }}
-                type={ETypographType.MainTitle}
+                style={{ textAlign: "start" , marginTop: "5%"}}
+                type={ETypographType.ConstrastVioletText}
               >
-                CRIAR USUÁRIO
+                ENTRAR
               </Typograph>
             </TitleAuxiliar>
 
             <TextAuxiliar>
-              <Typograph type={ETypographType.AuxiliarText}>
-                Lembre-se que essa senha será temporária, o usuário poderá
-                alterá-la mais tarde.
+              <Typograph 
+                style={{ textAlign: "start", marginTop: "5%"}}
+                type={ETypographType.AuxiliarText}>
+                Faça seu login e bora treinar!
               </Typograph>
             </TextAuxiliar>
 
             <Input
-              style={{marginBottom: '3%'}}
-              hint="Nome"
-              isPassword={false}
-              width="80%"
-              onChange={e => handleNameInput(e.value)}
-            ></Input>
-            <Input
-            style={{marginBottom: '3%'}}
+            style={{marginBottom: '8%'}}
               hint="Email"
               isPassword={false}
               width="80%"
               onChange={e => handleEmailInput(e.value)}
             ></Input>
             <Input
-              style={{marginBottom: '3%'}}
+              style={{marginBottom: '5%'}}
               hint="Senha"
               isPassword={true}
               width="80%"
               onChange={e => handlePasswordInput(e.value)}
             ></Input>
             
-            {showError.email || showError.password || showError.name ? (
+            {showError.email || showError.password ? (
             <Typograph type={ETypographType.AuxiliarText} style= {{ color: theme.pallete.status.borderRed}}>
-              Por favor, preencha o formulário corretamente!
+              Por favor, preencha suas informações corretamente!
             </Typograph>): <></>}
 
             <Button
               style={{ marginTop: "6%" }}
-              onClick={handleCreateUser}
+              onClick={handleAuthenticateUser}
               width="50%"
               type={EButton.MainButton}
             >
-              CRIAR USUÁRIO
+              ENTRAR
             </Button>
           </Card>
-        </PopUpDiv>
-      )}
     </>
   );
 };

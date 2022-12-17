@@ -13,6 +13,6 @@ export const Icon = styled.img`
     height: 100%;
     object-fit: cover;
     border: 5px solid;
-    border-color: ${props => props.theme.pallete.yellow.main};
+    border-color: ${props => props.theme.pallete.blueViolet.dark};
     border-radius: ${props => props.theme.shape.borderRadius};
 `

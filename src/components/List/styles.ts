@@ -11,15 +11,15 @@ export const Container = styled.div`
        width : 8px;
     }
     ::-webkit-scrollbar-track{
-        box-shadow: inset 0 0 5px ${props => props.theme.pallete.assistant.darkGray}; 
+        box-shadow: inset 0 0 5px ${props => props.theme.pallete.blueViolet.dark}; 
         border-radius: 10px;
     }
 
     ::-webkit-scrollbar-thumb{
-        background: ${props => props.theme.pallete.assistant.black};
+        background: ${props => props.theme.pallete.blueViolet.dark};
         border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb:hover{
-        background: ${props => props.theme.pallete.blue.cloud};
+        background: ${props => props.theme.pallete.blueViolet.dark};
     }
 `

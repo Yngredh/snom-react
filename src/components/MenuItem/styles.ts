@@ -30,7 +30,7 @@ export const Container = Styled.div`
     
     ${Title}: hover {
         cursor: pointer;
-        color: ${props => props.theme.pallete.blue.background};
+        color: ${props => props.theme.pallete.blueViolet.dark};
 
         &: hover ~${Icon}{
             cursor: pointer;
@@ -44,7 +44,7 @@ export const Container = Styled.div`
         
         &: hover ~${Title}{
             cursor: pointer;
-            color: ${props => props.theme.pallete.blue.background};
+            color: ${props => props.theme.pallete.blueViolet.dark};
         }   
     }
 

@@ -17,7 +17,7 @@ export const Input = (props : IInputProps) => {
         <Card 
             width={props.width}
             height="40px"
-            borderColor={theme.pallete.assistant.darkGray}
+            borderColor={theme.pallete.blueViolet.dark}
             borderWidth={theme.shape.borderSize}
             style={{
                 ...props.style,
