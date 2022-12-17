@@ -39,8 +39,8 @@ export const TrainingPanel = () => {
                             borderColor={theme.pallete.assistant.black}
                             onChange={e => setValueField(valueField)}/>
                     </InputContainer>
-                <TrainingGridView></TrainingGridView>
                 </TopSideContainer>
+                <TrainingGridView></TrainingGridView>
             </BackgroundContainer>
         </>
     )

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const BackgroundContainer = styled.div`
     width: 100%;
     margin: 0%;
+    padding-left: 2%;
 `
 
 export const TopSideContainer = styled.div`   
@@ -10,8 +11,7 @@ export const TopSideContainer = styled.div`
     flex-direction: column;
     justify-self: center;
 
-    margin: 3%;
-    margin-left: 2%;
+    margin-top: 3%;
     margin-right: 4%;
 `
 

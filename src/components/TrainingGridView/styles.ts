@@ -4,11 +4,15 @@ export const GridContainer = styled.div`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: auto;
-    margin-top: 2%;
-    width: 100%;
+    
+    width: 97%;
+    height: 55%;
+    box-sizing: border-box;
 
-    overflow: auto;
+    margin-top: 2%;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
 `
 
 export const TrainingDiv = styled.div`
