@@ -1,64 +1,32 @@
-import { TitleAuxiliar, TextAuxiliar, PopUpDiv } from "./styles";
+import { TitleAuxiliar, TextAuxiliar } from "./styles";
 import { theme } from "../../themes/theme";
 import { Card } from "../Card";
 import { Input } from "../Input";
 import { Button, EButton } from "../Button";
 import { ETypographType, Typograph } from "../Typograph";
-import { User } from "../../interfaces/User";
+import { IUser } from "../../interfaces/IUser";
 import { useState } from "react";
 
 interface ILoginCardProps {
-  onFinishCreate: (newUser: Partial<User>) => void,
-  onClose: () => void
+  authenticateUser: (loginUser: Partial<IUser>) => void
 }
 
 export const LoginCard = (props: ILoginCardProps) => {
 
   const [showError, setShowError] = useState({
-    name: false,
     email : false,
     password: false,
   });
-  const [createForm, setEditForm] = useState({
-    name: '',
+  const [loginForm, setEditForm] = useState({
     email: '',
     password: '',
   });
 
-  const handleCreateUser = () => {
-    if(createForm.email !== '' && createForm.password !== '' && createForm.name !== ''){
-      const user :Partial<User> = {
-        email : createForm.email,
-        password : createForm.password,
-        name: createForm.name
-      };
-
-      props.onFinishCreate(user);
-    }
-  }
-
-  const handleNameInput = (name :string) => {
-    if(name !== ''){
-      setEditForm({
-        ...createForm,
-        name: name,
-      });
-      setShowError({
-        ...showError,
-        name: false
-      });
-    }else{
-      setShowError({
-        ...showError,
-        name: true
-      });
-    }
-  };
 
   const handleEmailInput = (email: string) => {
     if(email.includes('@')){
       setEditForm({
-        ...createForm,
+        ...loginForm,
         email: email,
       });
 
@@ -77,7 +45,7 @@ export const LoginCard = (props: ILoginCardProps) => {
   const handlePasswordInput = (password: string) => {
     if(password.length >= 8){
       setEditForm({
-        ...createForm,
+        ...loginForm,
         password: password,
       });
       setShowError({
@@ -92,6 +60,11 @@ export const LoginCard = (props: ILoginCardProps) => {
     }
   };
 
+  const handleAuthenticateUser = async () => {
+    if(showError.email || showError.password) return;
+
+    props.authenticateUser({ email: loginForm.email, password: loginForm.password});
+  }
 
   return (
     <>
@@ -142,14 +115,14 @@ export const LoginCard = (props: ILoginCardProps) => {
               onChange={e => handlePasswordInput(e.value)}
             ></Input>
             
-            {showError.email || showError.password || showError.name ? (
+            {showError.email || showError.password ? (
             <Typograph type={ETypographType.AuxiliarText} style= {{ color: theme.pallete.status.borderRed}}>
-              Por favor, preencha o formulário corretamente!
+              Por favor, preencha suas informações corretamente!
             </Typograph>): <></>}
 
             <Button
               style={{ marginTop: "6%" }}
-              onClick={handleCreateUser}
+              onClick={handleAuthenticateUser}
               width="50%"
               type={EButton.MainButton}
             >

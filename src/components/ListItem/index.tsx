@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { User } from "../../interfaces/User"
+import { IUser } from "../../interfaces/IUser"
 import { theme } from "../../themes/theme"
 import { DivLine } from "../DivLine"
 import { Typograph, ETypographType } from "../Typograph"
@@ -16,7 +16,7 @@ const notSelectedStyle = {
 }
 
 interface IListItemProps {
-    user : User,
+    user : IUser,
     id: number,
     selected: boolean,
     onSelect: (itemId: number) => void
