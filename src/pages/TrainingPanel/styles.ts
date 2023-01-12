@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const BackgroundContainer = styled.div`
     width: 100%;
     margin: 0%;
-    padding-left: 2%;
 `
 
 export const TopSideContainer = styled.div`   
