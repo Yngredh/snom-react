@@ -6,6 +6,7 @@ import { ETypographType, Typograph } from '../../components/Typograph';
 import { TrainingGridView } from '../../components/TrainingGridView';
 import { DivLine } from '../../components/DivLine';
 import { Input } from '../../components/Input';
+import { Background, EBackground } from '../../components/Background';
 
 export const TrainingPanel = () => {
 
@@ -13,8 +14,7 @@ export const TrainingPanel = () => {
 
     return(
         <>
-            <BackgroundContainer style={{backgroundImage: 'url("img/background/simpleBackgroundFrame.svg")'
-            , backgroundSize: 'cover'}}>
+            <Background type={EBackground.SimpleBackgroundFrame}>
                 <TopSideContainer>
                     <Typograph
                         style={{marginLeft: '4%'}}
@@ -41,7 +41,7 @@ export const TrainingPanel = () => {
                     </InputContainer>
                 </TopSideContainer>
                 <TrainingGridView></TrainingGridView>
-            </BackgroundContainer>
+            </Background>
         </>
     )
 }

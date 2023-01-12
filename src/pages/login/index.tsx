@@ -6,6 +6,8 @@ import { LoginCard } from '../../components/LoginCard';
 import { UserService } from '../../services/UserService';
 import { IUser } from '../../interfaces/IUser';
 
+import { Background, EBackground } from '../../components/Background';
+
 interface ILoginProps {
     onSucessufullyLogin: (token: string) => void
     onFailureLogin: () => void
@@ -26,9 +28,12 @@ export const Login = (props: ILoginProps) => {
 
     return(
         <div style={{display: 'flex', width: '100vw', height: '100vh', justifyContent: 'right'}}>
-            <LoginContainer style={{backgroundImage: 'url("img/background/loginBackgroundFrame.svg")'
-            , backgroundSize: 'cover'}}>
-                <LoginCard authenticateUser={getUserToken} />
+            <LoginContainer>
+                <Background 
+                    type={EBackground.LoginBackgroundFrame}
+                    style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <LoginCard authenticateUser={getUserToken} />
+                </Background>
             </LoginContainer>
             <SideContainer>
                 <Presentation>
