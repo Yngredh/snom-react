@@ -9,8 +9,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className='app'>
-        {/* <Menu></Menu> */}
-        <Login/>
+        <Menu permissao={true}></Menu> 
+        {/*<Login/>*/}
       </div>
     </ThemeProvider>
   );

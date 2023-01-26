@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Styled = styled.div`
-    background-color: ${props => props.theme.pallete.blueViolet.dark};
+    background-color: ${props => props.theme.pallete.midnightBlue.dark};
     padding: 20px;
-    width: 7%;
+    width: 6.5%;
     height: 100%;
 
     display: flex ;
