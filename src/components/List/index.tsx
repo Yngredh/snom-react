@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { User } from "../../interfaces/User"
+import { IUser } from "../../interfaces/IUser"
 import { ListItem } from "../ListItem";
 import { Container } from "./styles";
 
 interface IProps {
-    users : User[],
+    users : IUser[],
     filterValue: string,
-    setUserSelected: (user: User) => void,
+    setUserSelected: (user: IUser) => void,
     style?: React.CSSProperties
 }
 
 export const List = (props : IProps) => {
-    const [selectedItem, setSelectedItem] = useState<User>()
+    const [selectedItem, setSelectedItem] = useState<IUser>()
 
     const selectedItemFunc = (itemId : number) => {
         const selectedUser = props.users.find((user) => user.id === itemId)

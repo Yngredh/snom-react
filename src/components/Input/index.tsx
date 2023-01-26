@@ -7,7 +7,8 @@ interface IInputProps {
     hint: string,
     isPassword: boolean,
     width: string,
-    style?: React.CSSProperties
+    style?: React.CSSProperties,
+    borderColor: string 
     onChange: (e: HTMLInputElement) => void
 }
 
@@ -17,7 +18,7 @@ export const Input = (props : IInputProps) => {
         <Card 
             width={props.width}
             height="40px"
-            borderColor={theme.pallete.blueViolet.dark}
+            borderColor={props.borderColor}
             borderWidth={theme.shape.borderSize}
             style={{
                 ...props.style,
