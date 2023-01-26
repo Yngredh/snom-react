@@ -30,21 +30,21 @@ export const Container = Styled.div`
     
     ${Title}: hover {
         cursor: pointer;
-        color: ${props => props.theme.pallete.blueViolet.dark};
+        color: ${props => props.theme.pallete.blueViolet.light};
 
         &: hover ~${Icon}{
             cursor: pointer;
-            filter: invert(98%) sepia(38%) saturate(3502%) hue-rotate(178deg) brightness(105%) contrast(97%);
+            filter: invert(66%) sepia(86%) saturate(2248%) hue-rotate(198deg) brightness(99%) contrast(85%);
         }   
     }
 
     ${Icon}: hover {
         cursor: pointer;
-        filter: invert(98%) sepia(38%) saturate(3502%) hue-rotate(178deg) brightness(105%) contrast(97%);
+        filter: invert(66%) sepia(86%) saturate(2248%) hue-rotate(198deg) brightness(99%) contrast(85%);
         
         &: hover ~${Title}{
             cursor: pointer;
-            color: ${props => props.theme.pallete.blueViolet.dark};
+            color: ${props => props.theme.pallete.blueViolet.light};
         }   
     }
 

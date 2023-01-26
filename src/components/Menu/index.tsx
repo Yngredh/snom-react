@@ -1,5 +1,6 @@
 import { Styled, Container } from './styles';
 import MenuItem from '../MenuItem/';
+import { useContext } from 'react';
 
 export const Menu = () => {
     return(
@@ -9,14 +10,17 @@ export const Menu = () => {
                     title={"Início"} 
                     icon={"/img/icons/inicio.svg"}></MenuItem>
                 <MenuItem 
-                    title={"Gerenciar Colaboradores"} 
-                    icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem>
-                <MenuItem 
-                    title={"Treinamento"}
+                    title={"Treinamento"} 
                     icon={"/img/icons/treinamento.svg"}></MenuItem>
                 <MenuItem 
-                    title={"Alterar Senha"} 
-                    icon={"/img/icons/alterar_senha.svg"}></MenuItem>
+                    title={"Oficina"}
+                    icon={"/img/icons/oficina.svg"}></MenuItem>
+                <MenuItem 
+                    title={"Gerenciar Colaboradores"}
+                    icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
+                <MenuItem 
+                    title={"Configurações"} 
+                    icon={"/img/icons/configuracoes.svg"}></MenuItem>
             </Container>
                 <MenuItem 
                 title={"Ajuda"} 

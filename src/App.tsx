@@ -3,7 +3,8 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from './themes/theme';
 import './index.css';
 import { Login } from './pages/login';
-import { TrainingPanel } from './pages/Training Panel';
+import { Menu } from './components/Menu';
+import { TrainingPanel } from './pages/TrainingPanel';
 import { IUserContext } from './interfaces/IUserContext';
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={userInfo}>
         <div className='app'>
-          {/* <Menu></Menu> */}
+          <Menu></Menu>
           <Login onSucessufullyLogin={storeAccessToken} onFailureLogin={() => console.log("Falhou")}/>
         </div>
       </UserContext.Provider>
