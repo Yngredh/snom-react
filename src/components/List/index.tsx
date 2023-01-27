@@ -13,8 +13,8 @@ interface IProps {
 export const List = (props : IProps) => {
     const [selectedItem, setSelectedItem] = useState<IUser>()
 
-    const selectedItemFunc = (itemId : number) => {
-        const selectedUser = props.users.find((user) => user.id === itemId)
+    const selectedItemFunc = (itemId : string) => {
+        const selectedUser = props.users.find((user) => user.userId === itemId)
         setSelectedItem(selectedUser);
         props.setUserSelected(selectedUser!!);
     }
