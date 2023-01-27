@@ -19,13 +19,13 @@ interface IListItemProps {
     user : IUser,
     id: number,
     selected: boolean,
-    onSelect: (itemId: number) => void
+    onSelect: (itemId: string) => void
 }
 
 export const ListItem = (props : IListItemProps) => {
     const [styleSelection, setStyleSelection] = useState(notSelectedStyle);
 
-    const handleClick = () => { props.onSelect(props.user.id); }
+    const handleClick = () => { props.onSelect(props.user.userId); }
 
     useEffect(() => {
         if(props.selected) setStyleSelection(selectedStyle);
