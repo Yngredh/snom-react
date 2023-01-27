@@ -49,7 +49,7 @@ export const theme = {
         },
 
         mediumText: {
-            size: "15px",
+            size: "16px",
             weight:"400",
             color: "#FFFFFF"
         },
@@ -63,7 +63,7 @@ export const theme = {
         lightText: {
             size: "20px",
             weight: "300",
-            color: "#512DED"
+            color: "#000000"
         },
 
         contrastVioletText: {
