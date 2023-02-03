@@ -1,3 +1,6 @@
+import { IUser } from "./IUser";
+
 export interface IUserContext {
-    token: string
+    token: string,
+    user: Partial<IUser> | undefined
 }

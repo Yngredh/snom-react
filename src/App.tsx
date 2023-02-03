@@ -1,29 +1,56 @@
-import React, { useState, createContext } from 'react';
-import { ThemeProvider } from 'styled-components';
-import { theme } from './themes/theme';
 import './index.css';
-import { Login } from './pages/login';
-import { Menu } from './components/Menu';
-import { TrainingPanel } from './pages/TrainingPanel';
+import { theme } from './themes/theme';
+import { useState, createContext, useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import { IUserContext } from './interfaces/IUserContext';
+import { Router } from './Router';
+import { Login } from './pages/Login';
+import { UserService } from './services/UserService';
+import { IUser } from './interfaces/IUser';
+
+export const UserContext = createContext<IUserContext>({
+  token: '',
+  user: {}
+});
 
 function App() {
-  const [userInfo, setUserInfo] = useState<IUserContext>({
-    token: ''
-  });
-  const UserContext = createContext({});
-  const storeAccessToken = (token: string) => {
-    setUserInfo({ ...userInfo, token: token});
+  const [userToken, setUserToken] = useState<string>('');
+  const [userData, setUserData] = useState<IUser>();
+
+  const storeAccessToken = async (token: string) => {
+    setUserToken(token);
+    localStorage.setItem('authToken', token);
   }
+
+  useEffect(()=> {
+    const localToken = localStorage.getItem('authToken');
+    if(localToken && localToken !== 'undefined' && localToken !== userToken) {
+      setUserToken(localToken);
+    }
+
+    const getUserData = async () => {
+      if(userToken !== '') {
+        const user = await UserService.getUserByToken(userToken);
+        setUserData(user);
+      }
+    }
+
+    getUserData();
+  }, [userToken])
 
   return (
     <ThemeProvider theme={theme}>
-      <UserContext.Provider value={userInfo}>
-        <div className='app'>
-          <Menu></Menu>
-          <Login onSucessufullyLogin={storeAccessToken} onFailureLogin={() => console.log("Falhou")}/>
-        </div>
-      </UserContext.Provider>
+      <div className='app'>
+        <UserContext.Provider value={{ token: userToken, user: userData }}>
+            <BrowserRouter>
+              {!userToken ?
+                <Login onSucessufullyLogin={storeAccessToken} onFailureLogin={() => console.log("Falhou")}/>
+                : <Router />
+              }
+            </BrowserRouter>
+        </UserContext.Provider>
+      </div>
     </ThemeProvider>
   );
 }

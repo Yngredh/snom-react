@@ -20,7 +20,7 @@ export abstract class UserService {
         return tokenResponse.token;
     }
 
-    public static async getAllUsers() : Promise<IUser[]> {
+    public static async getAllUsers(userToken: string) : Promise<IUser[]> {
         const response = await fetch(`https://${process.env.REACT_APP_API_URL}/user`, {
             headers : { 
                 'Content-Type': 'application/json',
@@ -30,8 +30,22 @@ export abstract class UserService {
         return await response.json() as IUser[];
     }
 
-    public static async editUser(newUserData: Partial<IUser>) : Promise<number> {
-        const response = await fetch(`https://${process.env.REACT_APP_API_URL}/user`, {
+    public static async getUserByToken(userToken: string) : Promise<IUser> {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user?` + new URLSearchParams({
+            getUserByToken: 'true'
+        }), 
+        {
+            headers : { 
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            }
+        })
+        const responseList = await response.json() as IUser[];
+        return responseList[0];
+    }
+
+    public static async editUser(newUserData: Partial<IUser>, userToken: string) : Promise<number> {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user`, {
             method: 'PUT',
             headers : { 
                 'Content-Type': 'application/json',
@@ -42,8 +56,8 @@ export abstract class UserService {
         return response.status;
     }
 
-    public static async createUser(newUser: Partial<IUser>) : Promise<number> {
-        const response = await fetch(`https://${process.env.REACT_APP_API_URL}/user`, {
+    public static async createUser(newUser: Partial<IUser>, userToken: string) : Promise<number> {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user`, {
             method: 'POST',
             headers : { 
                 'Content-Type': 'application/json',
@@ -54,8 +68,8 @@ export abstract class UserService {
         return response.status;
     }
 
-    public static async deleteUser(userId: number) : Promise<number> {
-        const response = await fetch(`https://${process.env.REACT_APP_API_URL}/user`, {
+    public static async deleteUser(userId: number, userToken: string) : Promise<number> {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user`, {
             method: 'DELETE',
             headers : { 
                 'Content-Type': 'application/json',

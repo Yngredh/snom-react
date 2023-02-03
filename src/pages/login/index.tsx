@@ -5,8 +5,8 @@ import { ETypographType, Typograph } from '../../components/Typograph';
 import { LoginCard } from '../../components/LoginCard';
 import { UserService } from '../../services/UserService';
 import { IUser } from '../../interfaces/IUser';
-
 import { Background, EBackground } from '../../components/Background';
+import { useNavigate } from 'react-router-dom';
 
 interface ILoginProps {
     onSucessufullyLogin: (token: string) => void
@@ -14,16 +14,17 @@ interface ILoginProps {
 }
 
 export const Login = (props: ILoginProps) => {
+    const navigate = useNavigate();
 
     const getUserToken = async (user: Partial<IUser>) => {
         const token = await UserService.authenticate(user);
-
         if(token === "") {
             console.log("Usuário invalido")
             props.onFailureLogin();
             return;
         }
         props.onSucessufullyLogin(token);
+        navigate('/');
     }
 
     return(
