@@ -8,8 +8,8 @@ export const UserMockTypeOne : IUser = {
     nickname: "",
     icon: "/img/profile/teste.jpg",
     role: "Desenvolvedor de Software",
-    administrator: false,
-    permission: false
+    isAdministrator: false,
+    hasPermission: false
 }
 
 export const UserMockTypeTwo : IUser = {
@@ -20,8 +20,8 @@ export const UserMockTypeTwo : IUser = {
     nickname: "",
     icon: "https://github.com/Yngredh.png",
     role: "Engenheira de Software",
-    administrator: false,
-    permission: false
+    isAdministrator: false,
+    hasPermission: false
 }
 
 export const ListedUsers = [UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo];

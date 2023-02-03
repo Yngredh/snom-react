@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom"
 import { Background, EBackground } from "../../components/Background"
 import { Button } from "../../components/Button"
 import { Card } from "../../components/Card"
@@ -10,6 +11,8 @@ import { UpHeaderContainer,
             ContentContainer}  from './styles'
 
 export const TrainingProgressPanel = ( ) => {
+    let { trainingId } = useParams();
+    console.log(trainingId)
     return(
         <Background 
             style={{display: "flex", flexDirection: "column"}} 
