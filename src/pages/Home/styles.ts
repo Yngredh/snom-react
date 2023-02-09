@@ -8,9 +8,42 @@ export const FinishedTrainings = styled.div`
  
 `
 
+export const TrainingGridView = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    width: 45%;
+    height: 80%;
+
+    margin: 2%;
+    padding-top: 2%;
+`
+
 export const TrainingList = styled.div`
-    width: 50%;
-    height: 50%;
+    display: flex;
+    justify-content: center;
+    
+    width: 100%;
+    height: 40%;
+    box-sizing: border-box;
+
+    margin-top: 2%;
+
+    overflow: scroll;
+`
+
+
+export const TrainingDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    margin: 1%;
+    box-sizing: border-box;
+    width: 32%;
+    height: 80%;
+    
+    text-align: center;
 `
 
 export const ProfileContainer = styled.div`
@@ -51,14 +84,6 @@ export const DetailedInfoContainer = styled.div`
     width: 80%;
 `
 
-export const TrainingDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    margin: 1%;
-    
-    text-align: center;
-`
 export const EmblemsContainer = styled.div`
     display: flex;
     flex-direction: row;

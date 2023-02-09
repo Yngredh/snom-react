@@ -3,7 +3,6 @@ import { GridContainer, TrainingDiv } from "./styles"
 import { Card } from "../Card"
 import { Typograph, ETypographType } from "../Typograph";
 
-
 export const TrainingGridView = () => {
 
     return(
