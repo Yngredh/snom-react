@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { theme } from "../../themes/theme"
-import { ContainerButton } from "./styles"
+import { ContainerButton, IconInput } from "./styles"
 
 export enum EButton {
     MainButton,
@@ -10,6 +10,7 @@ export enum EButton {
 }
 
 interface IButtonProps {
+    icon?: string,
     type: EButton
     width?: string
     children?: any
@@ -23,6 +24,7 @@ interface EButtonProperties {
     fontColor: string
     hoverColor: string 
     fontHoverColor: string
+    borderHoverColor?: string
 }
 
 export const Button = (props: IButtonProps) => {
@@ -31,7 +33,8 @@ export const Button = (props: IButtonProps) => {
         hoverColor: '',
         fontHoverColor: '',
         borderColor: '',
-        fontColor: ''
+        fontColor: '',
+        borderHoverColor: ''
     });
 
     const applyStyles = (button: EButtonProperties) => setButtonProperties(button)
@@ -47,42 +50,47 @@ export const Button = (props: IButtonProps) => {
         if(props.type === EButton.MainButtonVariation) applyStyles({
             backgroundColor: theme.pallete.cyanGreen.light,
             fontColor: theme.pallete.blueViolet.dark,
+            borderColor: theme.pallete.cyanGreen.dark,
             hoverColor: theme.pallete.assistant.blueIce,
             fontHoverColor: theme.pallete.blueViolet.dark,
-            borderColor: theme.pallete.cyanGreen.dark
+            borderHoverColor: theme.pallete.blueViolet.dark 
         });
         if(props.type === EButton.SecondaryButton) applyStyles({
             backgroundColor: theme.pallete.assistant.blueIce,
             fontColor: theme.pallete.blueViolet.dark,
-            hoverColor: theme.pallete.cyanGreen.light,
-            fontHoverColor: theme.pallete.blueViolet.dark,
-            borderColor: theme.pallete.blueViolet.dark
+            borderColor: theme.pallete.blueViolet.dark,
+            hoverColor: theme.pallete.blueViolet.dark,
+            fontHoverColor: theme.pallete.assistant.white
         });
         if(props.type === EButton.DeleteButton) applyStyles({
             backgroundColor: theme.pallete.assistant.lightRed,
             fontColor: theme.pallete.assistant.white,
+            borderColor: theme.pallete.assistant.darkRed,
             hoverColor: theme.pallete.assistant.darkRed,
-            fontHoverColor: theme.pallete.assistant.white,
-            borderColor: theme.pallete.assistant.darkRed
+            fontHoverColor: theme.pallete.assistant.white
         });    
 
     }, [props.type])
 
+    const buttonIconStyle: React.CSSProperties = {...props.style, textAlign: "start", width: "160px", display: "flex", justifyContent: "space-between", alignItems: "center"}
+
     return(
         <>
             <ContainerButton
-                style={props.style} 
+                style={props.icon? buttonIconStyle : props.style} 
                 backgroundColor={buttonProperties.backgroundColor}
                 borderColor = {buttonProperties.borderColor}
                 fontColor = {buttonProperties.fontColor} 
                 hoverColor={buttonProperties.hoverColor} 
                 fontHoverColor={buttonProperties.fontHoverColor} 
+                borderHoverColor={buttonProperties.borderHoverColor}
                 onClick={props.onClick}
                 width= {
-                    props.width ? props.width : 'auto'
-                }
-            >
+                    props.width ? props.width : '100px'
+                }>
                 {props.children}
+
+                {props.icon ? (<IconInput src={props.icon} />): <></>}
             </ContainerButton>
         </>
     )

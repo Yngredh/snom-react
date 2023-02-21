@@ -6,15 +6,16 @@ interface IButtonProps {
     fontColor: string
     hoverColor: string
     fontHoverColor: string
+    borderHoverColor?: string
     width: string
 }
 
 export const ContainerButton = styled.div<IButtonProps>`
     cursor: pointer;
 
-    height: fit-content;
+    height: 50px;
     width: ${props => props.width};
-    padding: 10px 15px;
+    padding: 15px;
     
     background: ${props => props.backgroundColor};
     border: 2px solid;
@@ -29,6 +30,12 @@ export const ContainerButton = styled.div<IButtonProps>`
 
     &:hover {
         background: ${props => props.hoverColor};
-        color:  ${props => props.fontHoverColor}
+        color:  ${props => props.fontHoverColor};
+        border-color: ${props => props.borderHoverColor};
     }
+`
+
+export const IconInput = styled.img`
+    width: 20px;
+    height: 20px;
 `
