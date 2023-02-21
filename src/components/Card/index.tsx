@@ -8,16 +8,20 @@ interface ICardProps {
     borderWidth: string,
     backgroundColor?: string,
     style?: React.CSSProperties,
-    children: any
+    children: any,
+    hoverStyle?: React.CSSProperties,
+    onClick?: () => void
 }
 
 export const Card = (props : ICardProps) => {
 
     return(
         <Container 
+            onClick={props.onClick}
             style={props.style}
             width={props.width} 
             height={props.height}
+            hoverStyle={props.hoverStyle}
             borderColor={props.borderColor}
             borderWidth={props.borderWidth}
             backgroundColor={
