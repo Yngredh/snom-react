@@ -5,6 +5,7 @@ import { Menu } from "./components/Menu";
 import { Home } from "./pages/Home";
 import { TrainingPanel } from "./pages/TrainingPanel";
 import { TrainingProgressPanel } from "./pages/TrainingProgressPanel";
+import { TrainingManagement } from "./pages/TrainingManagement";
 
 
 export const Router = () => {
@@ -18,6 +19,7 @@ export const Router = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/training" element={<TrainingPanel />} />
                 <Route path="/training/:trainingId" element={<TrainingProgressPanel />} />
+                <Route path="/trainingManagement" element={<TrainingManagement />} />
             </Routes>
         </>
     )
