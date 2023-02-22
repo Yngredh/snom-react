@@ -6,7 +6,7 @@ interface IBackgroundContainerProps {
 }
 
 export const BackgroundContainer = styled.div<IBackgroundContainerProps>`
-    width: 100%;
+    width: 93.5%;
     height: 100%;
     margin: 0%;
     background-image: ${props => props.backgroundImage};

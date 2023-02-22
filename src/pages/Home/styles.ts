@@ -1,51 +1,5 @@
 import styled from "styled-components";
 
-export const RecentlyAccessed = styled.div`
- 
-`
-
-export const FinishedTrainings = styled.div`
- 
-`
-
-export const TrainingGridView = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-    width: 45%;
-    height: 80%;
-
-    margin: 2%;
-    padding-top: 2%;
-`
-
-export const TrainingList = styled.div`
-    display: flex;
-    justify-content: center;
-    
-    width: 100%;
-    height: 40%;
-    box-sizing: border-box;
-
-    margin-top: 2%;
-
-    overflow: scroll;
-`
-
-
-export const TrainingDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    margin: 1%;
-    box-sizing: border-box;
-    width: 32%;
-    height: 80%;
-    
-    text-align: center;
-`
-
 export const ProfileContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -102,4 +56,60 @@ export const TrainingLevelsContainer = styled.div`
     justify-content: space-between;
     
     margin: 0% 5% 0 5%;
+`
+export const TrainingGridView = styled.div`
+    width: 45%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 4%;
+`
+
+export const RecentlyAccessed = styled.div`
+    height: 42%;
+    width: 100%;
+    margin-top: 2%;
+`
+
+export const FinishedTrainings = styled.div`
+    height: 42%;
+    width: 100%;
+    margin-top: 10%
+`
+export const TrainingList = styled.div`
+    width: 100%;
+    margin-top: 2%;
+
+    display: grid;
+    grid-auto-flow: column;
+    gap: 1%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    ::-webkit-scrollbar{
+       height: 10px;
+       margin: 0;
+       padding: 0;
+    }
+    ::-webkit-scrollbar-track{
+        box-shadow: inset 0 0 4px ${props => props.theme.pallete.blueViolet.dark}; 
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+        background: ${props => props.theme.pallete.blueViolet.dark};
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background: ${props => props.theme.pallete.blueViolet.light};
+    }
+`
+export const TrainingDiv = styled.div`
+    width: 260px;
+    height: 300px;
+    display: grid;
+    gap: 0.5%;
+    justify-items: center;
+    text-align: center;
 `
