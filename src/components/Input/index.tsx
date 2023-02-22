@@ -8,11 +8,16 @@ interface IInputProps {
     isPassword: boolean,
     width: string,
     style?: React.CSSProperties,
+    inputType?: React.HTMLInputTypeAttribute,
     borderColor: string 
     onChange: (e: HTMLInputElement) => void
 }
 
 export const Input = (props : IInputProps) => {
+
+    const type = () => {
+        return props.inputType? props.inputType : 'text'
+    }
     
     return (
         <Card 
@@ -33,7 +38,7 @@ export const Input = (props : IInputProps) => {
             <TextInput 
                 onChange={(e) => props.onChange(e.target)}
                 placeholder={props.hint}
-                type={ props.isPassword ? 'password' : 'text'}
+                type={ props.isPassword ? 'password' : type() }
             />
         </Card>
     )

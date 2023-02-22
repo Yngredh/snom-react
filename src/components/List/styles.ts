@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     height: 90%;
     width: 100%;
+    margin-top: 1%;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 1%;

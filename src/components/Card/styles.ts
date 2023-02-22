@@ -5,7 +5,8 @@ interface IContainerProps {
     height: string,
     borderColor: string,
     borderWidth: string,
-    backgroundColor: string
+    backgroundColor: string,
+    hoverStyle?: React.CSSProperties
 }
 
 export const Container = styled.div<IContainerProps>`
@@ -18,4 +19,9 @@ export const Container = styled.div<IContainerProps>`
     background: ${props => props.backgroundColor};
     box-shadow: ${props => props.theme.shape};
     border-radius: ${props => props.theme.shape.borderRadius};
+
+    :hover {
+        background-color: ${props => props.hoverStyle? props.hoverStyle.backgroundColor : props.backgroundColor};
+        border-color: ${props => props.hoverStyle? props.hoverStyle.borderColor : props.borderColor};
+    }
 `

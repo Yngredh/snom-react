@@ -36,11 +36,17 @@ export const ListItem = (props : IListItemProps) => {
     <>
         <div>
             <Styled.Container backgroundColor={styleSelection.backgroundColor} onClick={handleClick}>
-                <Styled.Icon src={props.user.icon} />
-                <Styled.BlockContainer>
-                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.AuxiliarTitle}>{props.user.name}</Typograph>
-                    <Typograph style={{color: styleSelection.textColor}} type={ETypographType.ConstrastVioletText}>{props.user.email}</Typograph>
-                </Styled.BlockContainer>
+                <Styled.UserInfoContainer>
+                    <Styled.Icon src={props.user.icon} />
+                    <Styled.BlockContainer>
+                        <Typograph style={{color: styleSelection.textColor, fontWeight: "700"}} type={ETypographType.MediumText}>{props.user.name}</Typograph>
+                        <Typograph style={{color: styleSelection.textColor}} type={ETypographType.LightText}>{props.user.email}</Typograph>
+                    </Styled.BlockContainer>
+                </Styled.UserInfoContainer>
+                
+                <Styled.ActionsContainer>
+                    <Styled.DeleteIcon src={"/img/icons/deleteIcon.svg"} ></Styled.DeleteIcon>
+                </Styled.ActionsContainer>
             </Styled.Container> 
             <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}/>
         </div>

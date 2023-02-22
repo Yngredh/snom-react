@@ -14,6 +14,7 @@ export const theme = {
         },
         assistant: {
             darkGray: "#686868",
+            lightGray: "#CACACA",
             blueIce: "#DBE5FB",
             darkRed: "#EF3B3B",
             lightRed: "#F17676",
