@@ -2,164 +2,48 @@ import { theme } from "../../themes/theme";
 import { GridContainer, TrainingDiv } from "./styles"
 import { Card } from "../Card"
 import { Typograph, ETypographType } from "../Typograph";
+import { ITraining } from "../../interfaces/ITraining";
+import { useNavigate } from "react-router-dom";
 
-export const TrainingGridView = () => {
+export interface ITrainingGridViewProps {
+    trainingList: ITraining[],
+    filter: { tittle: string, status : string }
+}
+
+export const TrainingGridView = (props: ITrainingGridViewProps) => {
+    const navigate = useNavigate();
+    
+    const goToTrainingView = (training : ITraining) => {
+        navigate(`/training/${training.trainingId}`);
+    }
 
     return(
         <>
         <GridContainer>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                        <img width={"100%"} height={"100%"} src="img/trainingIcons/Figure5.svg"/>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            {/*  */}
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> Painel de Treinamento </Typograph>
-            </TrainingDiv>
-            <TrainingDiv>
-                <Card
-                    width={"300px"}
-                    height={"200px"}
-                    style={{marginBottom: '4%'}}
-                    borderColor={theme.pallete.assistant.black}
-                    borderWidth={"1px"}>
-                </Card>
-                <Typograph type={ETypographType.AuxiliarText}> SE - Plano Mínimo de Teste </Typograph>
-            </TrainingDiv>
+            {props.trainingList
+            .filter(training => training.title.includes(props.filter.tittle))
+            .filter(training => {
+                const statusId =  props.filter.status ? parseInt(props.filter.status) : undefined;
+                
+                if(statusId) return training.status.trainingStatusId === statusId;
+                return training;
+            })
+            .map((training, key) => {
+                return(
+                <>
+                    <TrainingDiv onClick={e => goToTrainingView(training)} key={`training-${key}`}>
+                        <Card
+                            width={"300px"}
+                            height={"200px"}
+                            style={{marginBottom: '4%'}}
+                            borderColor={theme.pallete.assistant.black}
+                            borderWidth={"1px"}>
+                                <img width={"100%"} height={"100%"} src={training.icon} alt=""/>
+                        </Card>
+                        <Typograph type={ETypographType.AuxiliarText}> {training.title} </Typograph>
+                    </TrainingDiv>
+                </>)
+            })}
         </GridContainer>
         </>
     )
