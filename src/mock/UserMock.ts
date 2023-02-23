@@ -9,7 +9,14 @@ export const UserMockTypeOne : IUser = {
     icon: "/img/profile/teste.jpg",
     role: "Desenvolvedor de Software",
     isAdministrator: false,
-    hasPermission: false
+    hasPermission: false,
+    finishedTrainingCount: 5,
+    emblemCount: 1,
+    levelOneEmblemCount: 0,
+    levelTwoEmblemCount: 0,
+    levelThreeEmblemCount: 1,
+    levelFourEmblemCount: 0,
+    levelFiveEmblemCount: 0
 }
 
 export const UserMockTypeTwo : IUser = {
@@ -21,7 +28,14 @@ export const UserMockTypeTwo : IUser = {
     icon: "https://github.com/Yngredh.png",
     role: "Engenheira de Software",
     isAdministrator: false,
-    hasPermission: false
+    hasPermission: false,
+    finishedTrainingCount: 10,
+    emblemCount: 4,
+    levelOneEmblemCount: 1,
+    levelTwoEmblemCount: 1,
+    levelThreeEmblemCount: 1,
+    levelFourEmblemCount: 1,
+    levelFiveEmblemCount: 0
 }
 
 export const ListedUsers = [UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo, UserMockTypeOne, UserMockTypeTwo];

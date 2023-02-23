@@ -8,4 +8,11 @@ export interface IUser {
     icon?: string
     isAdministrator: boolean
     hasPermission: boolean
+    finishedTrainingCount: number
+    emblemCount: number
+    levelOneEmblemCount: number
+    levelTwoEmblemCount: number
+    levelThreeEmblemCount: number
+    levelFourEmblemCount: number
+    levelFiveEmblemCount: number
 }
