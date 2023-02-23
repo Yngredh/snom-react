@@ -25,7 +25,6 @@ export const TrainingManagement = () => {
 
     const onTrainingNameChange = () => {}
 
-
     return(
         <Background
             style={{display:"flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}
@@ -34,9 +33,10 @@ export const TrainingManagement = () => {
             <TopSideContainer>
                 <Typograph type={ETypographType.PageTitle}>Gerenciar Treinamento</Typograph>
                 <ButtonContainer>
-                    <Button type={EButton.SecondaryButton} width={"14%"} style={{padding: "1rem 1rem"}}>SALVAR</Button>
-                    <Button type={EButton.SecondaryButton} width={"14%"} style={{padding: "1rem 1rem", marginLeft: "5%"}}>VOLTAR</Button>
-                    <Button type={EButton.MainButtonVariation} width={"20%"} style={{padding: "0.5rem 1rem", marginLeft: "5%"}}>GERENCIAR MÓDULOS</Button>
+                    <Button type={EButton.SecondaryButton}>SALVAR</Button>
+                    <Button type={EButton.SecondaryButton}>VOLTAR</Button>
+                    <Button type={EButton.MainButtonVariation}
+                            icon={"img/icons/arrowForward.svg"}>GERENCIAR MÓDULOS</Button>
                 </ButtonContainer>
             </TopSideContainer>
 
