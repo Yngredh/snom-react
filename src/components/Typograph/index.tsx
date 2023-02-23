@@ -25,6 +25,7 @@ interface ITextValues {
 interface ITypographProps {
     type: ETypographType,
     children: any,
+    id?: string,
     style?: React.CSSProperties
 }
 
@@ -55,6 +56,7 @@ export const Typograph = (props : ITypographProps) => {
 
     return(
         <Paragraph
+            id={props.id}
             color={color}
             size= {size}
             weight= {weight}

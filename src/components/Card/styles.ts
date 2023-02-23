@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Paragraph } from "../Typograph/styles";
 
 interface IContainerProps {
     width :string,
@@ -24,9 +23,9 @@ export const Container = styled.div<IContainerProps>`
     :hover {
         background-color: ${props => props.hoverStyle? props.hoverStyle.backgroundColor : props.backgroundColor};
         border-color: ${props => props.hoverStyle? props.hoverStyle.borderColor : props.borderColor};
-    }
 
-    :hover ~${Paragraph} {
-        color: #FFFFFF;
+        #module-title {
+            color: #FFFFFF;
+        }
     }
 `
