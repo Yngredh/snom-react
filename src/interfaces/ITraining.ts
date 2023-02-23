@@ -1,4 +1,5 @@
 import { IEmblem } from "./IEmblem"
+import { IModule } from "./IModule"
 
 export interface ITraining {
     trainingId: string,
@@ -10,7 +11,8 @@ export interface ITraining {
     createdDate: Date,
     lastUpdate: Date,
     status: ITrainingStatus,
-    emblem: IEmblem
+    emblem: IEmblem,
+    modules: IModule[]
 }
 
 export interface ITrainingStatus {

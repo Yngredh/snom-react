@@ -5,7 +5,7 @@ interface ICardProps {
     width: string,
     height: string,
     borderColor: string,
-    borderWidth: string,
+    borderWidth?: string,
     backgroundColor?: string,
     style?: React.CSSProperties,
     children: any,
