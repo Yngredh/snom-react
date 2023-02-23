@@ -11,7 +11,7 @@ export const GridContainer = styled.div`
 
     margin-top: 2%;
 
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 `
 

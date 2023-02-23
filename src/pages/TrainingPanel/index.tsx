@@ -1,16 +1,41 @@
-import { useState } from 'react';
-import { BackgroundContainer, TopSideContainer, InputContainer } from './styles'
+import { useContext, useEffect, useState } from 'react';
+import { TopSideContainer, InputContainer } from './styles'
 import { theme } from "../../themes/theme";
-
 import { ETypographType, Typograph } from '../../components/Typograph';
 import { TrainingGridView } from '../../components/TrainingGridView';
 import { DivLine } from '../../components/DivLine';
 import { Input } from '../../components/Input';
 import { Background, EBackground } from '../../components/Background';
+import { TrainingService } from '../../services/TrainingService';
+import { UserContext } from '../../App';
+import { ITraining, ITrainingStatus } from '../../interfaces/ITraining';
+import { Dropdown } from '../../components/Dropdown';
 
 export const TrainingPanel = () => {
+    const [userTrainingList, setUserTrainingList] = useState<ITraining[]>([])
+    const [filterParams, setFilterListParams] = useState({
+        tittle: "",
+        status: "0"
+    })
+    const userContext = useContext(UserContext);
 
-    const [valueField, setValueField] = useState(0);
+    const options: ITrainingStatus[] = [
+        {trainingStatusId: 0, description: "Sem filtro"}, 
+        {trainingStatusId: 1, description: "Disponível"}, 
+        {trainingStatusId: 2, description: "Manutenção"}, 
+        {trainingStatusId: 3, description: "Inativo"}
+    ]
+    const displayEnumOptions = (item: ITrainingStatus, index: number) => {
+        return(<> {item.description} </>)
+    }
+
+    useEffect(() => {
+        const getTrainingList = async () => {
+            const traininList = await TrainingService.getTrainingByUserToken(userContext.token);
+            setUserTrainingList(traininList);
+        }
+        getTrainingList();
+    },[userContext.token])
 
     return(
         <>
@@ -23,24 +48,24 @@ export const TrainingPanel = () => {
                     </Typograph>
                     <DivLine  size="97%" color="#000000"/>
                     <InputContainer>
-                        <Input 
-                            icon={"img/icons/filterIcon.svg"}
-                            hint={"Filtrar"}
+                        <Dropdown<ITrainingStatus> 
                             width={"300px"}
-                            isPassword={false}
-                            style={{marginRight: '2%', color: '#000'}}
                             borderColor={theme.pallete.assistant.black}
-                            onChange={e => setValueField(valueField)}/>
+                            options={options}
+                            icon={"img/icons/filterIcon.svg"}
+                            style={{marginRight: '2%', color: '#000'}}
+                            diplayData={displayEnumOptions}
+                            onChange={selectedStatus => setFilterListParams({...filterParams, status: selectedStatus})}/>
                         <Input 
                             icon={"img/icons/searchIcon.svg"}
                             hint={"Pesquisar"}
                             width={"500px"}
                             isPassword={false}
                             borderColor={theme.pallete.assistant.black}
-                            onChange={e => setValueField(valueField)}/>
+                            onChange={eventTittleChange => setFilterListParams({...filterParams, tittle: eventTittleChange.value})}/>
                     </InputContainer>
                 </TopSideContainer>
-                <TrainingGridView></TrainingGridView>
+                <TrainingGridView trainingList={userTrainingList} filter={filterParams} />
             </Background>
         </>
     )
