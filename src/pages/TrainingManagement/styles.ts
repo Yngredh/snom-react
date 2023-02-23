@@ -13,11 +13,11 @@ export const TopSideContainer = styled.div`
 export const ButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     
-    width: 40%;
-    height: 10%;
+    width: 25%;
+    height: 100%;
 `
 
 export const Form = styled.div`

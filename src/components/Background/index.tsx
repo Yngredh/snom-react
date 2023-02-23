@@ -15,9 +15,9 @@ interface IBackground {
 
 export const Background = (props : IBackground) => {
 
-    const loginBackGround = 'url("img/background/loginBackgroundFrame.svg")'
-    const mainBackground = 'url("img/background/mainBackgroundFrame.svg")'
-    const simpleBackground = 'url("img/background/simpleBackgroundFrame.svg")'
+    const loginBackGround = 'url("/img/background/loginBackgroundFrame.svg")'
+    const mainBackground = 'url("/img/background/mainBackgroundFrame.svg")'
+    const simpleBackground = 'url("/img/background/simpleBackgroundFrame.svg")'
 
     const setBackgroundType = () => {
         if(props.type === EBackground.LoginBackgroundFrame) return loginBackGround

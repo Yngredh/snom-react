@@ -28,24 +28,16 @@ export const Container = Styled.div`
     align-items: center;
 
     
-    ${Title}: hover {
-        cursor: pointer;
-        color: ${props => props.theme.pallete.blueViolet.light};
-
-        &: hover ~${Icon}{
-            cursor: pointer;
-            filter: invert(66%) sepia(86%) saturate(2248%) hue-rotate(198deg) brightness(99%) contrast(85%);
-        }   
-    }
-
-    ${Icon}: hover {
-        cursor: pointer;
-        filter: invert(66%) sepia(86%) saturate(2248%) hue-rotate(198deg) brightness(99%) contrast(85%);
-        
-        &: hover ~${Title}{
+    &:hover {
+        ${Title} {
             cursor: pointer;
             color: ${props => props.theme.pallete.blueViolet.light};
-        }   
+        }
+
+        ${Icon} {
+            cursor: pointer;
+            filter: invert(66%) sepia(86%) saturate(2248%) hue-rotate(198deg) brightness(99%) contrast(85%);
+        }
     }
 
 `;
