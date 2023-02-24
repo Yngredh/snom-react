@@ -31,7 +31,7 @@ export const Workshop = () => {
 
     useEffect(() => {
         const getTrainingList = async () => {
-            const trainingList = await TrainingService.getTrainingByUserToken(userContext.token);
+            const trainingList = await TrainingService.getTrainingByManagerUserToken(userContext.token);
             setUserTrainingList(trainingList);
         }
         getTrainingList();
