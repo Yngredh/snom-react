@@ -7,14 +7,15 @@ import { useNavigate } from "react-router-dom";
 
 export interface ITrainingGridViewProps {
     trainingList: ITraining[],
-    filter: { tittle: string, status : string }
+    filter: { tittle: string, status : string },
+    route: string
 }
 
 export const TrainingGridView = (props: ITrainingGridViewProps) => {
     const navigate = useNavigate();
     
     const goToTrainingView = (training : ITraining) => {
-        navigate(`/training/${training.trainingId}`);
+        navigate(`/${props.route}/${training.trainingId}`);
     }
 
     return(
