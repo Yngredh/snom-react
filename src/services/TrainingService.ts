@@ -17,10 +17,10 @@ export abstract class TrainingService {
         return await response.json() as ITraining[];
     }
 
-    public static async getTrainingProgressByUserToken(userToken: string, trainingId: string) : Promise<ITrainingProgress> {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/trainingprogress?` + new URLSearchParams({
-            trainingId
-        }), 
+    public static async getTrainingProgressByUserToken(userToken: string, trainingId?: string) : Promise<ITrainingProgress[]> {
+        const params = new URLSearchParams({});
+        if(trainingId) params.set("trainingId", trainingId);
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/trainingprogress?` + params, 
         {
             headers : { 
                 'Content-Type': 'application/json',
@@ -28,6 +28,6 @@ export abstract class TrainingService {
             }
         });
          
-        return await response.json() as ITrainingProgress;
+        return await response.json() as ITrainingProgress[];
     }
 }
