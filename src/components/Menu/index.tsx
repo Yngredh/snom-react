@@ -11,34 +11,30 @@ export const Menu = () => {
             <Container>
                 <StyledLink to="/">
                     <MenuItem 
-                        title={"Início"} 
-                        icon={"/img/icons/inicio.svg"}></MenuItem>
+                        title={"Início"} icon={"/img/icons/inicio.svg"}></MenuItem>
                 </StyledLink>
 
                 <StyledLink to="/training">
                     <MenuItem 
-                        title={"Treinamento"} 
-                        icon={"/img/icons/treinamento.svg"}></MenuItem>
+                        title={"Treinamento"} icon={"/img/icons/treinamento.svg"}></MenuItem>
                 </StyledLink>
 
                 {(userContext.user?.hasPermission || userContext.user?.isAdministrator) &&
-                    <MenuItem 
-                        title={"Oficina"}
-                        icon={"/img/icons/oficina.svg"}></MenuItem> 
+                    <StyledLink to="/workshop">
+                        <MenuItem 
+                            title={"Oficina"} icon={"/img/icons/oficina.svg"}></MenuItem>
+                    </StyledLink>    
                 }
 
                 {userContext.user?.isAdministrator &&
                     <MenuItem 
-                        title={"Gerenciar Colaboradores"}
-                        icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
+                        title={"Gerenciar Colaboradores"} icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
                 }
                 <MenuItem 
-                    title={"Configurações"} 
-                    icon={"/img/icons/configuracoes.svg"}></MenuItem>
+                    title={"Configurações"} icon={"/img/icons/configuracoes.svg"}></MenuItem>
             </Container>
             <MenuItem 
-                title={"Ajuda"} 
-                icon={"/img/icons/ajuda.svg"}></MenuItem>
+                title={"Ajuda"} icon={"/img/icons/ajuda.svg"}></MenuItem>
         </Styled>
     );
 }

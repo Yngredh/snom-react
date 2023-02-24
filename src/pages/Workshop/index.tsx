@@ -11,7 +11,7 @@ import { UserContext } from '../../App';
 import { ITraining, ITrainingStatus } from '../../interfaces/ITraining';
 import { Dropdown } from '../../components/Dropdown';
 
-export const TrainingPanel = () => {
+export const Workshop = () => {
     const [userTrainingList, setUserTrainingList] = useState<ITraining[]>([])
     const [filterParams, setFilterListParams] = useState({
         tittle: "",
@@ -44,7 +44,7 @@ export const TrainingPanel = () => {
                     <Typograph
                         style={{marginLeft: '4%'}}
                         type={ETypographType.PageTitle}>
-                            Painel de Treinamento
+                            Oficina de Treinamento
                     </Typograph>
                     <DivLine  size="97%" color="#000000"/>
                     <InputContainer>
@@ -65,7 +65,7 @@ export const TrainingPanel = () => {
                             onChange={eventTittleChange => setFilterListParams({...filterParams, tittle: eventTittleChange.value})}/>
                     </InputContainer>
                 </TopSideContainer>
-                <TrainingGridView trainingList={userTrainingList} filter={filterParams} route={"training"} />
+                <TrainingGridView trainingList={userTrainingList} filter={filterParams} route={"workshop"}/>
             </Background>
         </>
     )
