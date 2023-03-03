@@ -78,7 +78,7 @@ export const FinishedTrainings = styled.div`
 `
 export const TrainingList = styled.div`
     width: 100%;
-    margin-top: 2%;
+    margin-top: 4%;
 
     display: grid;
     grid-auto-flow: column;
@@ -107,7 +107,7 @@ export const TrainingList = styled.div`
 `
 export const TrainingDiv = styled.div`
     width: 260px;
-    height: 300px;
+    height: 240px;
     display: grid;
     gap: 0.5%;
     justify-items: center;

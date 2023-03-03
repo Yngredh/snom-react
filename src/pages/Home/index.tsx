@@ -1,15 +1,48 @@
-
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../App";
+import { ITrainingProgress } from "../../interfaces/ITrainingProgress";
+import { TrainingService } from "../../services/TrainingService";
 import { theme } from "../../themes/theme"
 import { Background, EBackground } from "../../components/Background"
 import { Card } from "../../components/Card"
+import { DivLine } from "../../components/DivLine"
+import { Typograph, ETypographType } from "../../components/Typograph";
 import { TrainingList, RecentlyAccessed, FinishedTrainings, 
     ProfileContainer, DetailedInfoCard, TrainingDiv, 
     DetailedInfoContainer, EmblemsContainer,
     TrainingLevelsContainer, ProfileTitles, TrainingGridView } from "./styles"
-import { Typograph, ETypographType } from "../../components/Typograph";
-import { DivLine } from "../../components/DivLine"
-
+import { useNavigate } from "react-router-dom";
+    
 export const Home = () => {
+    const [trainingProgressList, setTrainingProgressList] = useState<ITrainingProgress[]>([]);
+    const [finishedTrainingProgressList, setFinishedTrainingProgressList] = useState<ITrainingProgress[]>([]);
+    const userContext = useContext(UserContext);
+    
+    const navigate = useNavigate();
+
+    const sortClosestToFinishTraining = (firstTrainingProgress: ITrainingProgress, secondTrainingProgress: ITrainingProgress) => {
+        const distanceOfPrev = firstTrainingProgress.training.modulesCount - firstTrainingProgress.currentPosition;
+        const distanceOfNext = secondTrainingProgress.training.modulesCount - secondTrainingProgress.currentPosition;
+        if(distanceOfPrev > distanceOfNext) return 1
+        if(distanceOfPrev < distanceOfNext) return -1
+        return 0
+    }
+
+    useEffect(()=> {
+        const getTrainingFromUser = async () => {
+            const trainings = await TrainingService.getTrainingProgressByUserToken(userContext.token);
+            const finishedTrainings :ITrainingProgress[] = []; 
+            const notFinishedTrainings :ITrainingProgress[] = []; 
+            trainings.forEach(trainingProgress => {
+                if(trainingProgress.isFinished) finishedTrainings.push(trainingProgress)
+                else notFinishedTrainings.push(trainingProgress);
+            })
+            setTrainingProgressList(notFinishedTrainings);
+            setFinishedTrainingProgressList(finishedTrainings);
+        }
+
+        getTrainingFromUser();
+    },[userContext.token])
 
     return(
         <Background
@@ -28,14 +61,16 @@ export const Home = () => {
                                     borderColor={theme.pallete.blueViolet.dark}
                                     borderWidth={"1"}
                                     backgroundColor={theme.pallete.assistant.blueIce}>
-                                        <img style={{width: "100%"}} alt="Ayaya" src="/img/profile/ayaya.png"/>
+                                        <img style={{width: "100%"}} alt="Ayaya" src={userContext.user?.icon}/>
                                 </Card>
                                 <ProfileTitles>
                                     <Typograph style={{textAlign: "center"}}
-                                        type={ETypographType.VioletText}> Davi Henrique Gonçalves da Silva
+                                        type={ETypographType.VioletText}> 
+                                        {userContext.user?.name}
                                     </Typograph>
                                     <Typograph style={{textAlign: "center"}}
-                                        type={ETypographType.LightVioletText}> Analista de Desenvolvimento de Software III
+                                        type={ETypographType.LightVioletText}>
+                                            {userContext.user?.role}
                                     </Typograph>
                                 </ProfileTitles>
                                 
@@ -52,7 +87,7 @@ export const Home = () => {
                                         <DetailedInfoCard>
                                             <Typograph
                                                 style={{width: "40%", height: "12%", textAlign: "right"}}
-                                                type={ETypographType.VioletText}> 24
+                                                type={ETypographType.VioletText}> {userContext.user?.emblemCount}
                                             </Typograph>
                                             <Typograph
                                                 style={{fontSize: "16px", fontWeight:"300", color: "#512DED", 
@@ -69,7 +104,7 @@ export const Home = () => {
                                         <DetailedInfoCard>
                                             <Typograph
                                                 style={{width: "40%", height: "12%", textAlign: "right"}}
-                                                type={ETypographType.VioletText}> 7
+                                                type={ETypographType.VioletText}> {userContext.user?.finishedTrainingCount}
                                             </Typograph>
                                             <Typograph
                                                 style={{fontSize: "16px", fontWeight:"300", color: "#512DED", 
@@ -95,11 +130,16 @@ export const Home = () => {
                                         <img style={{width: "20%"}} alt="Medal Level Five" src="/img/emblems/medalLevelFive.png"/>
                                     </EmblemsContainer>
                                     <TrainingLevelsContainer>
-                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}> 7 </Typograph>
-                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}> 10 </Typograph>
-                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}> 5 </Typograph>
-                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}> 2 </Typograph>
-                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}> 0 </Typograph>
+                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}>
+                                                {userContext.user?.levelOneEmblemCount} </Typograph>
+                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}>
+                                                {userContext.user?.levelTwoEmblemCount} </Typograph>
+                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}>
+                                                {userContext.user?.levelThreeEmblemCount} </Typograph>
+                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}>
+                                                {userContext.user?.levelFourEmblemCount} </Typograph>
+                                            <Typograph style={{fontSize: "24px", width: "12%", textAlign: "center"}} type={ETypographType.VioletText}>
+                                                {userContext.user?.levelFiveEmblemCount} </Typograph>
                                     </TrainingLevelsContainer>
                                     <Typograph
                                         style={{fontSize: "16px", fontWeight:"300", color: "#512DED",
@@ -111,182 +151,56 @@ export const Home = () => {
 
                     <TrainingGridView>
                         <RecentlyAccessed>
-                            <Typograph type={ETypographType.AuxiliarTitle}> Acessados Recentemente </Typograph>
+                            <Typograph type={ETypographType.AuxiliarTitle}> Treinamentos em progresso </Typograph>
                             <TrainingList>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure5.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px', marginBottom: '1%'}}
-                                            alt="" src="img/trainingIcons/Figure2.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure1.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure5.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure2.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure5.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure2.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
+                                {trainingProgressList
+                                .sort((a,b) => sortClosestToFinishTraining(a, b))
+                                .map(trainingProgress => {
+                                    return(
+                                        <TrainingDiv>
+                                            <Card 
+                                                onClick={() => navigate(`/training/${trainingProgress.training.trainingId}`)}
+                                                style={{cursor: 'pointer'}}
+                                                width={"260px"}
+                                                height={"200px"}
+                                                borderColor={theme.pallete.blueViolet.dark}
+                                                borderWidth={"1px"}>
+                                                    <img width={"100%"} height={"100%"}
+                                                    style={{objectFit: 'cover', borderRadius: '10px'}}
+                                                    alt="" src={trainingProgress.training.icon}/>
+                                            </Card>
+                                            <Typograph type={ETypographType.AuxiliarText}> {trainingProgress.training.title}</Typograph>
+                                        </TrainingDiv>
+                                    )
+                                })}
+
+                                
                             </TrainingList>
                         </RecentlyAccessed>
 
                         <FinishedTrainings>
                             <Typograph type={ETypographType.AuxiliarTitle}> Treinamentos Finalizados </Typograph>
                             <TrainingList>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure5.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure2.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure1.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure5.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure2.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure5.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
-                                <TrainingDiv>
-                                    <Card 
-                                        width={"260px"}
-                                        height={"200px"}
-                                        borderColor={theme.pallete.blueViolet.dark}
-                                        borderWidth={"1px"}>
-                                            <img width={"100%"} height={"100%"}
-                                            style={{objectFit: 'cover', borderRadius: '10px'}}
-                                            alt="" src="img/trainingIcons/Figure2.svg"/>
-                                    </Card>
-                                    <Typograph type={ETypographType.AuxiliarText}> Treinamento Básico de Banco de Dados</Typograph>
-                                </TrainingDiv>
+                                {finishedTrainingProgressList
+                                .map(trainingProgress => {
+                                    return(
+                                        <TrainingDiv>
+                                            <Card 
+                                                onClick={() => navigate(`/training/${trainingProgress.training.trainingId}`)}
+                                                style={{cursor: 'pointer'}}
+                                                width={"260px"}
+                                                height={"200px"}
+                                                borderColor={theme.pallete.blueViolet.dark}
+                                                borderWidth={"1px"}>
+                                                    <img width={"100%"} height={"100%"}
+                                                    style={{objectFit: 'cover', borderRadius: '10px'}}
+                                                    alt="" src={trainingProgress.training.icon}/>
+                                            </Card>
+                                            <Typograph type={ETypographType.AuxiliarText}> {trainingProgress.training.title}</Typograph>
+                                        </TrainingDiv>
+                                    )
+                                })
+                                }
                             </TrainingList>
                         </FinishedTrainings>
                     </TrainingGridView>

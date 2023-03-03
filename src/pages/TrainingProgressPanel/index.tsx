@@ -29,7 +29,7 @@ export const TrainingProgressPanel = ( ) => {
         const getTrainingProgress = async () => {
             const validTrainingId = trainingId ? trainingId : '';
             const trainingProgressResponse = await TrainingService.getTrainingProgressByUserToken(userContext.token, validTrainingId);
-            setTrainingProgress(trainingProgressResponse);
+            setTrainingProgress(trainingProgressResponse[0]);
             setIsLoading(false);
         }
         getTrainingProgress();
