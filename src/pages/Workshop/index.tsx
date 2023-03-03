@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import { TopSideContainer, InputContainer } from './styles'
+import { useNavigate } from "react-router-dom";
+import { TopSideContainer, InputContainer, Header } from './styles'
 import { theme } from "../../themes/theme";
 import { ETypographType, Typograph } from '../../components/Typograph';
 import { TrainingGridView } from '../../components/TrainingGridView';
@@ -10,6 +11,7 @@ import { TrainingService } from '../../services/TrainingService';
 import { UserContext } from '../../App';
 import { ITraining, ITrainingStatus } from '../../interfaces/ITraining';
 import { Dropdown } from '../../components/Dropdown';
+import { Button, EButton} from "../../components/Button";
 
 export const Workshop = () => {
     const [userTrainingList, setUserTrainingList] = useState<ITraining[]>([])
@@ -37,16 +39,24 @@ export const Workshop = () => {
         getTrainingList();
     },[userContext.token])
 
+    const navigate = useNavigate();
+
+    const goToTrainingManagement = () => {
+        navigate(`/trainingManagement/`);
+    }
+
     return(
         <>
-            <Background type={EBackground.SimpleBackgroundFrame}>
+            <Background style={{display: "flex", flexDirection:"column", alignItems:"center"}} type={EBackground.SimpleBackgroundFrame}>
                 <TopSideContainer>
-                    <Typograph
-                        style={{marginLeft: '4%'}}
-                        type={ETypographType.PageTitle}>
-                            Oficina de Treinamento
-                    </Typograph>
-                    <DivLine  size="97%" color="#000000"/>
+                    <Header>
+                        <Typograph
+                             type={ETypographType.PageTitle}>
+                                Oficina de Treinamento</Typograph>
+                        <Button type={EButton.MainButtonVariation} onClick={goToTrainingManagement}
+                                icon={"/img/icons/arrowForward.svg"}>CRIAR TREINAMENTO</Button>
+                    </Header>
+                    <DivLine size="100%" color="#000000"/>
                     <InputContainer>
                         <Dropdown<ITrainingStatus> 
                             width={"300px"}
@@ -65,7 +75,7 @@ export const Workshop = () => {
                             onChange={eventTittleChange => setFilterListParams({...filterParams, tittle: eventTittleChange.value})}/>
                     </InputContainer>
                 </TopSideContainer>
-                <TrainingGridView trainingList={userTrainingList} filter={filterParams} route={"workshop"}/>
+                <TrainingGridView trainingList={userTrainingList} filter={filterParams} route={"trainingManagement"}/>
             </Background>
         </>
     )

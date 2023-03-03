@@ -41,10 +41,12 @@ export const TrainingManagement = () => {
     
     useEffect(() => {
         const getTrainingProgress = async () => {
-            const trainingResponse = await TrainingService.getTrainingByTrainingId(userContext.token,
+            if(trainingId) {
+               const trainingResponse = await TrainingService.getTrainingByTrainingId(userContext.token,
                 trainingId ? trainingId : "");
-            setTraining(trainingResponse[0]);
-            setNewTraining(trainingResponse[0]);
+                setTraining(trainingResponse[0]);
+                setNewTraining(trainingResponse[0]); 
+            } 
         }
         getTrainingProgress();
     }, [userContext.token, trainingId]);

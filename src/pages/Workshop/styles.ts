@@ -10,8 +10,8 @@ export const TopSideContainer = styled.div`
     flex-direction: column;
     justify-self: center;
 
-    margin-top: 3%;
-    margin-right: 4%;
+    width: 92%;
+    margin-top: 2%;
 `
 
 export const InputContainer = styled.div`
@@ -19,4 +19,10 @@ export const InputContainer = styled.div`
     justify-content: end;
     margin-right: 2%;
     margin-top: 1%;
+`
+
+export const Header = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `
