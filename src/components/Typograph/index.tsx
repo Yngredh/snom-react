@@ -26,7 +26,8 @@ interface ITypographProps {
     type: ETypographType,
     children: any,
     id?: string,
-    style?: React.CSSProperties
+    style?: React.CSSProperties,
+    onClick?: () => void
 }
 
 export const Typograph = (props : ITypographProps) => {
@@ -61,6 +62,7 @@ export const Typograph = (props : ITypographProps) => {
             size= {size}
             weight= {weight}
             style= {props.style}
+            onClick={props.onClick}
         >
             {props.children}
         </Paragraph>
