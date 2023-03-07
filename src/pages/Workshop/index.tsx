@@ -54,7 +54,7 @@ export const Workshop = () => {
                              type={ETypographType.PageTitle}>
                                 Oficina de Treinamento</Typograph>
                         <Button type={EButton.MainButtonVariation} onClick={goToTrainingManagement}
-                                icon={"/img/icons/arrowForward.svg"}>CRIAR TREINAMENTO</Button>
+                                icon={"/img/icons/addIcon.svg"}>CRIAR TREINAMENTO</Button>
                     </Header>
                     <DivLine size="100%" color="#000000"/>
                     <InputContainer>
