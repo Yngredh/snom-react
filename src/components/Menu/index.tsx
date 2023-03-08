@@ -38,12 +38,12 @@ export const Menu = () => {
                         title={"Gerenciar Colaboradores"} icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
                 }
                 <MenuItem 
-                    isActive={location.pathname === "/settings"} 
-                    title={"Configurações"} icon={"/img/icons/configuracoes.svg"}></MenuItem>
+                    isActive={location.pathname === "/changePassword"} 
+                    title={"Alterar Senha"} icon={"/img/icons/keyIcon.svg"}></MenuItem>
             </Container>
             <MenuItem 
-                isActive={location.pathname === "/help"}
-                title={"Ajuda"} icon={"/img/icons/ajuda.svg"}></MenuItem>
+                isActive={location.pathname === "/logout"}
+                title={"Sair"} icon={"/img/icons/exitIcon.svg"}></MenuItem>
         </Styled>
     );
 }

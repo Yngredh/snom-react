@@ -72,7 +72,7 @@ export const Button = (props: IButtonProps) => {
 
     }, [props.type])
 
-    const buttonIconStyle: React.CSSProperties = {...props.style, textAlign: "start", width: "160px", display: "flex", justifyContent: "space-between", alignItems: "center"}
+    const buttonIconStyle: React.CSSProperties = {...props.style, textAlign: "start", width: "160px", justifyContent: "space-between"}
 
     return(
         <>
