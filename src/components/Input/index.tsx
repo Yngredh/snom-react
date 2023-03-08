@@ -9,7 +9,8 @@ interface IInputProps {
     width: string,
     style?: React.CSSProperties,
     inputType?: React.HTMLInputTypeAttribute,
-    borderColor: string 
+    borderColor: string,
+    defaultValue?: string,
     onChange: (e: HTMLInputElement) => void
 }
 
@@ -36,6 +37,7 @@ export const Input = (props : IInputProps) => {
                 <IconInput src={props.icon} />
             ): <></>}
             <TextInput 
+                value={props.defaultValue}
                 onChange={(e) => props.onChange(e.target)}
                 placeholder={props.hint}
                 type={ props.isPassword ? 'password' : type() }

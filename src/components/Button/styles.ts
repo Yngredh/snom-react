@@ -13,9 +13,13 @@ interface IButtonProps {
 export const ContainerButton = styled.div<IButtonProps>`
     cursor: pointer;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     height: 50px;
     width: ${props => props.width};
-    padding: 15px;
+    padding: 10px;
     
     background: ${props => props.backgroundColor};
     border: 2px solid;

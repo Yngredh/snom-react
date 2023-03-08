@@ -21,8 +21,8 @@ export const Router = () => {
                 <Route path="/training" element={<TrainingPanel />} />
                 <Route path="/workshop" element={<Workshop />} />
                 <Route path="/training/:trainingId" element={<TrainingProgressPanel />} />
-                <Route path="/workshop/:trainingId" element={<TrainingManagement />} />
                 <Route path="/trainingManagement" element={<TrainingManagement />} />
+                <Route path="/trainingManagement/:trainingId" element={<TrainingManagement />} />
             </Routes>
         </>
     )

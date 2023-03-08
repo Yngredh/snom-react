@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom"
+import { UserContext } from "../../App";
+import { TrainingService } from "../../services/TrainingService";
+import { ITraining } from "../../interfaces/ITraining";
 import { theme } from "../../themes/theme"
 import { Background, EBackground } from "../../components/Background"
 import { Typograph, ETypographType } from "../../components/Typograph";
@@ -14,16 +18,38 @@ import { ListedUsers } from "../../mock/UserMock";
 
 export const TrainingManagement = () => {
 
+    const userContext = useContext(UserContext);
+    const { trainingId } = useParams();
+
     const [selectedListName, setSelectedListName] = useState("Aprendizes");
+    const [selectedList, setSelectedList] = useState();
+    const [training, setTraining] = useState<ITraining>();
+    const [newTraining, setNewTraining] = useState<ITraining>();
+
     const defineBackgroundColor = (listName : string) => selectedListName === listName ? 
         "rgba(138, 154, 233, 0.7)" : theme.pallete.assistant.blueIce
 
     const defineBorderBottom = (listName : string) => selectedListName === listName ? 
         "none" : "3px solid " + theme.pallete.blueViolet.dark;
 
-    const [selectedList, setSelectedList] = useState();
+    const handleEditTraining = (value: string, field: string) => {
+        if(field === "title") setNewTraining({...newTraining!!, title: value})
+        else setNewTraining({...newTraining!!, description: value});
+    }
 
-    const onTrainingNameChange = () => {}
+
+    
+    useEffect(() => {
+        const getTrainingProgress = async () => {
+            if(trainingId) {
+               const trainingResponse = await TrainingService.getTrainingByTrainingId(userContext.token,
+                trainingId ? trainingId : "");
+                setTraining(trainingResponse[0]);
+                setNewTraining(trainingResponse[0]); 
+            } 
+        }
+        getTrainingProgress();
+    }, [userContext.token, trainingId]);
 
     return(
         <Background
@@ -36,7 +62,7 @@ export const TrainingManagement = () => {
                     <Button type={EButton.SecondaryButton}>SALVAR</Button>
                     <Button type={EButton.SecondaryButton}>VOLTAR</Button>
                     <Button type={EButton.MainButtonVariation}
-                            icon={"img/icons/arrowForward.svg"}>GERENCIAR MÓDULOS</Button>
+                            icon={"/img/icons/arrowForward.svg"}>GERENCIAR MÓDULOS</Button>
                 </ButtonContainer>
             </TopSideContainer>
 
@@ -54,34 +80,36 @@ export const TrainingManagement = () => {
 
                         <Typograph style={{color:"#000000", marginTop: "5%"}}
                             type={ETypographType.MediumText}>Título do Treinamento</Typograph>
-                        <Input
-                            style={{marginBottom: '8%'}} hint=""
+                        <Input 
+                            style={{marginBottom: '8%'}} hint={"Digite um título para o treinamento"}
                                 isPassword={false} width="80%"
                                 borderColor={theme.pallete.blueViolet.dark}
-                                onChange={e => onTrainingNameChange()}/>
+                                onChange={e => handleEditTraining(e.value, "title")}
+                                defaultValue={newTraining?.title? newTraining.title : ""}/>
 
                         <Typograph style={{color:"#000000"}} type={ETypographType.MediumText}>Descrição</Typograph>
                         <Input
                             style={{marginBottom: '8%', height: "20%"}}
-                            hint="Escreva uma breve descrição sobre o conteúdo desse treinamento"
+                            hint={"Escreva uma breve descrição sobre o conteúdo desse treinamento"}
                             isPassword={false} width="100%"
                             borderColor={theme.pallete.blueViolet.dark}
-                            onChange={e => onTrainingNameChange()}/>
+                            onChange={e => handleEditTraining(e.value, "description")} 
+                            defaultValue={newTraining?.description? newTraining.description : ""}/>
                             
                         <Typograph style={{color:"#000000"}} type={ETypographType.MediumText}>Status do Treinamento</Typograph>
                         <SelectInput>
-                            <option value="2">Disponível</option>
-                            <option value="1">Manutenção</option>
-                            <option value="3">Inativo</option>
+                            <option selected={newTraining?.status.trainingStatusId === 1} value="1">Disponível</option>
+                            <option selected={newTraining?.status.trainingStatusId === 2} value="2">Manutenção</option>
+                            <option selected={newTraining?.status.trainingStatusId === 3} value="3">Inativo</option>
                         </SelectInput>
 
                         <Typograph style={{color:"#000000"}} type={ETypographType.MediumText}>Nível do treinamento</Typograph>
                         <SelectInput>
-                            <option value="1">Nível 1</option>
-                            <option value="2">Nível 2</option>
-                            <option value="3">Nível 3</option>
-                            <option value="4">Nível 4</option>
-                            <option value="5">Nível 5</option>
+                            <option selected={newTraining?.level === 1} value="1">Nível 1</option>
+                            <option selected={newTraining?.level === 2} value="2">Nível 2</option>
+                            <option selected={newTraining?.level === 3} value="3">Nível 3</option>
+                            <option selected={newTraining?.level === 4} value="4">Nível 4</option>
+                            <option selected={newTraining?.level === 5} value="5">Nível 5</option>
                         </SelectInput>
                     </Form>
                 </Card>
