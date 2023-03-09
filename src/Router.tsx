@@ -7,6 +7,7 @@ import { TrainingPanel } from "./pages/TrainingPanel";
 import { Workshop } from "./pages/Workshop";
 import { TrainingProgressPanel } from "./pages/TrainingProgressPanel";
 import { TrainingManagement } from "./pages/TrainingManagement";
+import { ManageUsers } from "./pages/ManageUsers";
 
 
 export const Router = () => {
@@ -18,9 +19,10 @@ export const Router = () => {
             <Menu />
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/manageusers" element={<ManageUsers />}/>
                 <Route path="/training" element={<TrainingPanel />} />
-                <Route path="/workshop" element={<Workshop />} />
                 <Route path="/training/:trainingId" element={<TrainingProgressPanel />} />
+                <Route path="/workshop" element={<Workshop />} />
                 <Route path="/trainingManagement" element={<TrainingManagement />} />
                 <Route path="/trainingManagement/:trainingId" element={<TrainingManagement />} />
             </Routes>
