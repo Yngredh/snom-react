@@ -16,7 +16,7 @@ export const HeaderContainer = styled.div`
     width: 100%;
     height: 8%;
     display: grid;
-    grid-template-columns: 15% 35% 30% 10% 10%;
+    grid-template-columns: 10% 30% 25% 20% 7.5% 7.5%;
     box-shadow: 0px 3px 4px rgba(138, 154, 233, 0.7);
 `
 

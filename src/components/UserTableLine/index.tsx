@@ -3,7 +3,7 @@ import { IUser } from "../../interfaces/IUser"
 import { theme } from "../../themes/theme"
 import { Input } from "../Input"
 import { ETypographType, Typograph } from "../Typograph"
-import { ActionContainer, EmailContainer, IconContainer, LineContainer, NameContainer, PermissionContainer, Icon, Checkbox } from "./styes"
+import { ActionContainer, EmailContainer, IconContainer, LineContainer, NameContainer, PermissionContainer, Icon, Checkbox, RoleContainer } from "./styes"
 
 interface IUserTableLineProps{
     user: Partial<IUser>,
@@ -16,17 +16,34 @@ interface IUserTableLineProps{
 export const UserTableLine = (props: IUserTableLineProps) => {
     const [enableEditUser, setEnableEditUser] = useState(false);
     const [editedUser, setEditedUser] = useState<Partial<IUser>>(props.user);
-    const [createUserValidation, setCreateUserValidation] = useState({
-        emailIsValid: !!editedUser.name,
-        nameIsValid: !!editedUser.email
+    const [inputBorder, setInputBorder] = useState({
+        emailBorder: theme.pallete.blueViolet.dark,
+        nameBorder: theme.pallete.blueViolet.dark,
+        roleBorder: theme.pallete.blueViolet.dark
+    });
+    const [inputValidation, setInputValidation] = useState({
+        emailIsValid: !!editedUser.email,
+        nameIsValid: !!editedUser.name,
+        roleIsValid: !!editedUser.role,
     })
 
     const handleDoneClick = () => {
-        const isInputValid = createUserValidation.emailIsValid && createUserValidation.nameIsValid;
+        const isInputValid = inputValidation.emailIsValid && 
+        inputValidation.nameIsValid && inputValidation.roleIsValid;
 
+        setInputBorder({
+            emailBorder: inputValidation.emailIsValid ? theme.pallete.blueViolet.dark : theme.pallete.assistant.darkRed,
+            nameBorder: inputValidation.nameIsValid ? theme.pallete.blueViolet.dark : theme.pallete.assistant.darkRed,
+            roleBorder: inputValidation.roleIsValid ? theme.pallete.blueViolet.dark : theme.pallete.assistant.darkRed,
+        });
+        
         if(isInputValid) {
             if(props.isNewUser) props.onCreateUser(editedUser);
-            else props.onEditUser(editedUser);
+            else if(props.user.name !== editedUser.name ||
+                    props.user.email !== editedUser.email ||
+                    props.user.email !== editedUser.role || 
+                    props.user.hasPermission !== editedUser.hasPermission)
+                        props.onEditUser(editedUser);
             setEnableEditUser(false);
         }
     }
@@ -34,13 +51,18 @@ export const UserTableLine = (props: IUserTableLineProps) => {
     const handleRemoveClick = () => props.onRemoveUser(editedUser)
 
     const onChangeNameInput = (element: HTMLInputElement) => {
-        setCreateUserValidation({ ...createUserValidation ,nameIsValid: !!editedUser.name});
+        setInputValidation({ ...inputValidation, nameIsValid: !!element.value});
         setEditedUser({...editedUser, name: element.value})
     }
 
     const onChangeEmailInput = (element: HTMLInputElement) => {
-        setCreateUserValidation({ ...createUserValidation ,emailIsValid: !!editedUser.email});
-        setEditedUser({...editedUser, email: element.value})
+        setInputValidation({ ...inputValidation, emailIsValid: !!element.value});
+        setEditedUser({...editedUser, email: element.value});
+    }
+    
+    const onChangeRoleInput = (element: HTMLInputElement) => {
+        setInputValidation({ ...inputValidation, roleIsValid: !!element.value});
+        setEditedUser({...editedUser, role: element.value});
     }
 
     useEffect(()=> {
@@ -72,7 +94,7 @@ export const UserTableLine = (props: IUserTableLineProps) => {
                             defaultValue={editedUser.name}
                             isPassword={false} 
                             width={"80%"} 
-                            borderColor={theme.pallete.blueViolet.dark} 
+                            borderColor={inputBorder.nameBorder} 
                             onChange={onChangeNameInput} />
                     }
                 </NameContainer>
@@ -89,15 +111,32 @@ export const UserTableLine = (props: IUserTableLineProps) => {
                             defaultValue={editedUser.email} 
                             isPassword={false} 
                             width={"80%"} 
-                            borderColor={theme.pallete.blueViolet.dark} 
+                            borderColor={inputBorder.emailBorder} 
                             onChange={onChangeEmailInput} />
                     }
                 </EmailContainer>
+                <RoleContainer>
+                    {!enableEditUser ? 
+                        <Typograph
+                            onClick={()=> setEnableEditUser(true)} 
+                            type={ETypographType.LightText}>
+                            {editedUser.role}
+                        </Typograph>
+                        :
+                        <Input 
+                            hint="Digite o cargo do usuário"
+                            defaultValue={editedUser.role} 
+                            isPassword={false} 
+                            width={"80%"} 
+                            borderColor={inputBorder.roleBorder} 
+                            onChange={onChangeRoleInput} />
+                    }
+                </RoleContainer>
                 <PermissionContainer>
                     <Checkbox
                         onChange={e=> {
+                            setEnableEditUser(true);
                             setEditedUser({...editedUser, hasPermission: e.target.checked});
-                            props.onEditUser(editedUser);
                         }} 
                         checked={editedUser.hasPermission} type={"checkbox"} />
                 </PermissionContainer>

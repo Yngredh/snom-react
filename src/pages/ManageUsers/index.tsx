@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { UserContext } from "../../App"
 import { Background, EBackground } from "../../components/Background"
 import { Button, EButton } from "../../components/Button"
 import { DivLine } from "../../components/DivLine"
@@ -6,7 +7,8 @@ import { Input } from "../../components/Input"
 import { ETypographType, Typograph } from "../../components/Typograph"
 import { UserTable } from "../../components/UserTable"
 import { IUser } from "../../interfaces/IUser"
-import { ListedUsers } from "../../mock/UserMock"
+import { UserService } from "../../services/UserService"
+import { profileIconList } from "../../themes/profileIconList"
 import { theme } from "../../themes/theme"
 import { ButtonsContainer, TopButtonAndTitleContainer, TopContainer } from "./styles"
 
@@ -15,7 +17,8 @@ enum EOperation {
     Creating = 1,
     Create = 2,
     Update = 3,
-    Delete = 4
+    Delete = 4,
+    DeleteBeforeCreate = 5
 }
 
 interface IUserOperations {
@@ -24,26 +27,17 @@ interface IUserOperations {
 }
 
 export const ManageUsers = () => {
-    const mockUserList = ListedUsers.map(user => {
-        const newIUserOperation: IUserOperations = {
-            user: user,
-            operation: 0
-        }
-        return newIUserOperation;
-    })
+    const userContext = useContext(UserContext);
+
     const [searchedValue, setSearchedValue] = useState('');
     const [scrollToLast, setScrollToLast] = useState(false);
-    const [userOperationList, setUserOperationList] = useState<IUserOperations[]>(mockUserList);
-
-    const isUserOnCreatingOperation = (user: Partial<IUser>) => {
-        const userOperation = userOperationList.filter(listedUserOperation => listedUserOperation.user.userId === user.userId)[0];
-        return userOperation.operation === EOperation.Creating;
-    } 
+    const [userOperationList, setUserOperationList] = useState<IUserOperations[]>([]);
 
     const handleCreatingOperation = () => {
+        const randomFile = profileIconList[Math.floor(Math.random() * profileIconList.length)]
         const newUser: Partial<IUser>  = {
             userId: `TEMPORARY-ID-${userOperationList.length}`,
-            icon: "/img/profile/level1.svg",
+            icon: `/img/profile/${randomFile}`,
             hasPermission: false
         };
         setUserOperationList([...userOperationList, {
@@ -85,22 +79,46 @@ export const ManageUsers = () => {
 
     const handleDeleteOperation = (user: Partial<IUser>) => {
         const deleteUser = userOperationList.filter(listedUserOperation => listedUserOperation.user.userId === user.userId)[0];
-
-        if(deleteUser.operation === EOperation.Create) {
-            setUserOperationList(userOperationList.filter(listesdUserOperation => listesdUserOperation.user.userId !== user.userId));
-        }else{
-            setUserOperationList(
+        setUserOperationList(
                 userOperationList.map(listedUserOperation => {
                     if(listedUserOperation.user.userId === user.userId) {
                         return {
                             user,
-                            operation: EOperation.Delete
+                            operation: deleteUser.operation === EOperation.Create ? EOperation.DeleteBeforeCreate : EOperation.Delete
                         } as IUserOperations
                     } 
                     return listedUserOperation;
                 })
-            );
-        }
+        );
+        
+    }
+
+    const isUserOnCreatingOperation = (user: Partial<IUser>) => {
+        const userOperation = userOperationList.filter(listedUserOperation => listedUserOperation.user.userId === user.userId)[0];
+        return userOperation.operation === EOperation.Creating;
+    }
+    
+    const handleSaveClick = async () => {
+        const listToCreate: Partial<IUser>[] = [];
+        const listToEdit: Partial<IUser>[] = [];
+        const listToDelete: string[] = [];
+
+        const newUserOperationList = userOperationList
+            .filter(listedUserOperation => listedUserOperation.operation !== EOperation.DeleteBeforeCreate)
+            .map(listedUserOperation => {
+                if(listedUserOperation.operation === EOperation.Create) listToCreate.push(listedUserOperation.user);
+                if(listedUserOperation.operation === EOperation.Update) listToEdit.push(listedUserOperation.user);
+                if(listedUserOperation.operation === EOperation.Delete 
+                    && listedUserOperation.user.userId) listToDelete.push(listedUserOperation.user.userId);
+                
+                return { ...listedUserOperation, operation: EOperation.None};
+            });
+        
+        if(!!listToCreate.length) await UserService.createUser(listToCreate, userContext.token);
+        if(!!listToCreate.length) await UserService.editUser(listToEdit, userContext.token);
+        if(!!listToCreate.length) await UserService.deleteUser(listToDelete, userContext.token);
+
+        setUserOperationList(newUserOperationList);
     }
 
     useEffect(()=>{
@@ -108,8 +126,21 @@ export const ManageUsers = () => {
     },[scrollToLast])
     
     useEffect(()=>{
-        console.log(userOperationList);
-    }, [userOperationList])
+        const getUsers = async () => {
+            const userList = await UserService.getAllUsers(userContext.token);
+            setUserOperationList(
+                userList.map(user => {
+                    const newIUserOperation: IUserOperations = {
+                        user: user,
+                        operation: EOperation.None
+                    }
+                    return newIUserOperation;
+                })
+            );
+        };
+
+        getUsers();
+    },[userContext.token])
 
     return(
         <Background
@@ -128,7 +159,7 @@ export const ManageUsers = () => {
                             icon={"/img/icons/addIcon.svg"}>
                                 ADICIONAR USUÁRIO
                         </Button>
-                        <Button type={EButton.SecondaryButton} >
+                        <Button onClick={handleSaveClick} type={EButton.SecondaryButton} >
                             SALVAR
                         </Button>
                     </ButtonsContainer>
@@ -151,7 +182,8 @@ export const ManageUsers = () => {
                 isUserOnCreatingOperation={isUserOnCreatingOperation}
                 removerUser={handleDeleteOperation}
                 userList={userOperationList
-                    .filter(listedUserOperation => listedUserOperation.operation !== EOperation.Delete)
+                    .filter(listedUserOperation => listedUserOperation.operation !== EOperation.Delete 
+                        && listedUserOperation.operation !== EOperation.DeleteBeforeCreate)
                     .map(listedUserOperation => listedUserOperation.user)}
                  />
         </Background>

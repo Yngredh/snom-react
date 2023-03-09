@@ -4,7 +4,7 @@ export const LineContainer = styled.div`
     width: 100%;
     height: 12%;
     display: grid;
-    grid-template-columns: 15% 35% 30% 10% 10%;
+    grid-template-columns: 10% 30% 25% 20% 7.5% 7.5%;
     box-shadow: 0px 2px 2px rgba(138, 154, 233, 0.3);
 `
 
@@ -23,6 +23,12 @@ export const NameContainer = styled.div`
     align-items: center;
 `
 export const EmailContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+`
+export const RoleContainer = styled.div`
     width: 100%;
     height: 100%;
     display: flex;

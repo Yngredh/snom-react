@@ -41,6 +41,11 @@ export const UserTable = (props: IUserTableProps) => {
                     E-mail
                 </Typograph>
             </HeaderCell>
+            <HeaderCell>
+                <Typograph type={ETypographType.MenuText}>
+                    Cargo
+                </Typograph>
+            </HeaderCell>
             <HeaderCell style={{justifyContent: 'center'}}>
                 <Typograph type={ETypographType.MenuText}>
                     Permissão
