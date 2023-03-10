@@ -14,22 +14,28 @@ import { Form, CardContainer, SelectInput,
         PartitionContainer, UsersManagerContainer } from "./styles"
 import { Button, EButton} from "../../components/Button";
 import { List } from "../../components/List";
-import { ListedUsers } from "../../mock/UserMock";
+import { EOperation, IUserOperations } from "../../interfaces/IUserOperations";
+
+enum EExhibitionLists {
+    Aprendizes = 0,
+    Coordenadores = 1
+}
 
 export const TrainingManagement = () => {
 
     const userContext = useContext(UserContext);
     const { trainingId } = useParams();
 
-    const [selectedListName, setSelectedListName] = useState("Aprendizes");
-    const [selectedList, setSelectedList] = useState();
+    const [selectedListName, setSelectedListName] = useState<EExhibitionLists>(0);
+    const [apprenticeList, setApprenticeList] = useState<IUserOperations[]>([]);
+    const [managerList, setManagerList] = useState<IUserOperations[]>([]);
     const [training, setTraining] = useState<ITraining>();
     const [newTraining, setNewTraining] = useState<ITraining>();
 
-    const defineBackgroundColor = (listName : string) => selectedListName === listName ? 
+    const defineBackgroundColor = (listName : EExhibitionLists) => selectedListName === listName ? 
         "rgba(138, 154, 233, 0.7)" : theme.pallete.assistant.blueIce
 
-    const defineBorderBottom = (listName : string) => selectedListName === listName ? 
+    const defineBorderBottom = (listName : EExhibitionLists) => selectedListName === listName ? 
         "none" : "3px solid " + theme.pallete.blueViolet.dark;
 
     const handleEditTraining = (value: string, field: string) => {
@@ -37,18 +43,50 @@ export const TrainingManagement = () => {
         else setNewTraining({...newTraining!!, description: value});
     }
 
-
+    const handleEditTrainingStatus = (value: string) => {}
     
+    const handleEditTrainingLevel = (value: string) => {
+        const parsedLevel = parseInt(value);
+        setNewTraining({...newTraining!!, level: parsedLevel? parsedLevel : 1})
+    }
+
+    const handleSaveChanges = async () => {
+
+        if(newTraining){
+            if(trainingId){
+                const trainingResponse = await TrainingService.updateTraining(userContext.token, newTraining);
+            }else{
+                const trainingResponse = await TrainingService.createTraining(userContext.token, newTraining);
+            }
+        }
+
+    }
+
     useEffect(() => {
-        const getTrainingProgress = async () => {
+        const getTraining = async () => {
             if(trainingId) {
-               const trainingResponse = await TrainingService.getTrainingByTrainingId(userContext.token,
-                trainingId ? trainingId : "");
+                const trainingResponse = await TrainingService.getTrainingByTrainingId(userContext.token, trainingId);
                 setTraining(trainingResponse[0]);
-                setNewTraining(trainingResponse[0]); 
+                setNewTraining(trainingResponse[0]);
+
+                const managerUserResponse = await TrainingService.getManagerUsersByTrainingId(userContext.token, trainingId);
+                const apprenticesResponse = await TrainingService.getApprenticeUsersByTrainingId(userContext.token, trainingId);
+                
+                setApprenticeList(apprenticesResponse.map(user => {
+                    return {
+                        operation: EOperation.None,
+                        user: user
+                    }
+                }));
+                setManagerList(managerUserResponse.map(user => {
+                    return {
+                        operation: EOperation.None,
+                        user: user
+                    }
+                }));
             } 
         }
-        getTrainingProgress();
+        getTraining();
     }, [userContext.token, trainingId]);
 
     return(
@@ -59,7 +97,9 @@ export const TrainingManagement = () => {
             <TopSideContainer>
                 <Typograph type={ETypographType.PageTitle}>Gerenciar Treinamento</Typograph>
                 <ButtonContainer>
-                    <Button type={EButton.SecondaryButton}>SALVAR</Button>
+                    <Button
+                        onClick={handleSaveChanges}
+                        type={EButton.SecondaryButton}>SALVAR</Button>
                     <Button type={EButton.SecondaryButton}>VOLTAR</Button>
                     <Button type={EButton.MainButtonVariation}
                             icon={"/img/icons/arrowForward.svg"}>GERENCIAR MÓDULOS</Button>
@@ -97,14 +137,14 @@ export const TrainingManagement = () => {
                             defaultValue={newTraining?.description? newTraining.description : ""}/>
                             
                         <Typograph style={{color:"#000000"}} type={ETypographType.MediumText}>Status do Treinamento</Typograph>
-                        <SelectInput>
+                        <SelectInput onClick={element => handleEditTrainingStatus(element.currentTarget.value)}>
                             <option selected={newTraining?.status.trainingStatusId === 1} value="1">Disponível</option>
                             <option selected={newTraining?.status.trainingStatusId === 2} value="2">Manutenção</option>
                             <option selected={newTraining?.status.trainingStatusId === 3} value="3">Inativo</option>
                         </SelectInput>
 
                         <Typograph style={{color:"#000000"}} type={ETypographType.MediumText}>Nível do treinamento</Typograph>
-                        <SelectInput>
+                        <SelectInput onClick={element => handleEditTrainingLevel(element.currentTarget.value)}>
                             <option selected={newTraining?.level === 1} value="1">Nível 1</option>
                             <option selected={newTraining?.level === 2} value="2">Nível 2</option>
                             <option selected={newTraining?.level === 3} value="3">Nível 3</option>
@@ -117,27 +157,27 @@ export const TrainingManagement = () => {
                 <UsersManagerContainer>
                     <PartitionContainer>
                         <Card
-                            onClick={() => setSelectedListName("Aprendizes")}
+                            onClick={() => setSelectedListName(EExhibitionLists.Aprendizes)}
                             style={{display: "flex", justifyContent: "center", alignItems: "center", 
-                                cursor: "pointer", borderBottom: defineBorderBottom("Aprendizes"), 
+                                cursor: "pointer", borderBottom: defineBorderBottom(EExhibitionLists.Aprendizes), 
                                 borderBottomLeftRadius: "0", borderBottomRightRadius: "0", boxShadow: "none"}}
                             hoverStyle={{backgroundColor: "rgba(138, 154, 233, 0.7)"}}
                             width="50%" height="100%" 
                             borderColor={theme.pallete.blueViolet.dark}
                             borderWidth={"1"}
-                            backgroundColor={defineBackgroundColor("Aprendizes")}>
+                            backgroundColor={defineBackgroundColor(EExhibitionLists.Aprendizes)}>
                             <Typograph type={ETypographType.AuxiliarTitle}>Aprendizes</Typograph>
                         </Card>
                         <Card
-                            onClick={() => setSelectedListName("Coordenadores")}
+                            onClick={() => setSelectedListName(EExhibitionLists.Coordenadores)}
                             style={{display: "flex", justifyContent: "center", alignItems: "center", 
-                                cursor: "pointer", borderBottom: defineBorderBottom("Coordenadores"), 
+                                cursor: "pointer", borderBottom: defineBorderBottom(EExhibitionLists.Coordenadores), 
                                 borderBottomLeftRadius: "0", borderBottomRightRadius: "0", boxShadow: "none"}}
                             hoverStyle={{backgroundColor: "rgba(138, 154, 233, 0.7)"}}
                             width="50%" height="100%" 
                             borderColor={theme.pallete.blueViolet.dark}
                             borderWidth={"1"}
-                            backgroundColor={defineBackgroundColor("Coordenadores")}>
+                            backgroundColor={defineBackgroundColor(EExhibitionLists.Coordenadores)}>
                             <Typograph type={ETypographType.AuxiliarTitle}>Coordenadores</Typograph>
                         </Card>
                     </PartitionContainer>   
@@ -155,7 +195,11 @@ export const TrainingManagement = () => {
                             <option value="4">adalberto.t@gmail.com</option>
                             <option value="5">yngredhzinha@gmail.com</option>
                         </SelectInput>
-                        <List users={ListedUsers} filterValue={""} setUserSelected={(user) => console.log(user)}/>
+                        {selectedListName === EExhibitionLists.Aprendizes ? 
+                            <List users={apprenticeList.map(x=> x.user)} filterValue={""}/> :
+                            <List users={managerList.map(x => x.user)} filterValue={""} />
+                        }
+                        
                     </Card>
                 </UsersManagerContainer>
             </CardContainer>

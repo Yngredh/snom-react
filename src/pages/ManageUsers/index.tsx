@@ -7,24 +7,11 @@ import { Input } from "../../components/Input"
 import { ETypographType, Typograph } from "../../components/Typograph"
 import { UserTable } from "../../components/UserTable"
 import { IUser } from "../../interfaces/IUser"
+import { EOperation, IUserOperations } from "../../interfaces/IUserOperations"
 import { UserService } from "../../services/UserService"
 import { profileIconList } from "../../themes/profileIconList"
 import { theme } from "../../themes/theme"
 import { ButtonsContainer, TopButtonAndTitleContainer, TopContainer } from "./styles"
-
-enum EOperation {
-    None = 0,
-    Creating = 1,
-    Create = 2,
-    Update = 3,
-    Delete = 4,
-    DeleteBeforeCreate = 5
-}
-
-interface IUserOperations {
-    user: Partial<IUser>,
-    operation: EOperation
-}
 
 export const ManageUsers = () => {
     const userContext = useContext(UserContext);

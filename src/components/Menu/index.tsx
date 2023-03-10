@@ -33,9 +33,11 @@ export const Menu = () => {
                 }
 
                 {userContext.user?.isAdministrator &&
-                    <MenuItem 
-                        isActive={location.pathname === "/manage-workers"} 
-                        title={"Gerenciar Colaboradores"} icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
+                    <StyledLink to="/manageusers">
+                        <MenuItem 
+                            isActive={location.pathname === "/manageusers"} 
+                            title={"Gerenciar Colaboradores"} icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
+                    </StyledLink>   
                 }
                 <MenuItem 
                     isActive={location.pathname === "/changePassword"} 

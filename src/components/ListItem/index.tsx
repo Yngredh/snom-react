@@ -16,26 +16,17 @@ const notSelectedStyle = {
 }
 
 interface IListItemProps {
-    user : IUser,
-    id: number,
-    selected: boolean,
-    onSelect: (itemId: string) => void
+    user : Partial<IUser>,
+    id: number
 }
 
 export const ListItem = (props : IListItemProps) => {
     const [styleSelection, setStyleSelection] = useState(notSelectedStyle);
 
-    const handleClick = () => { props.onSelect(props.user.userId); }
-
-    useEffect(() => {
-        if(props.selected) setStyleSelection(selectedStyle);
-        else setStyleSelection(notSelectedStyle);
-    }, [props])
-
     return(
     <>
         <div>
-            <Styled.Container backgroundColor={styleSelection.backgroundColor} onClick={handleClick}>
+            <Styled.Container backgroundColor={styleSelection.backgroundColor}>
                 <Styled.UserInfoContainer>
                     <Styled.Icon src={props.user.icon} />
                     <Styled.BlockContainer>
