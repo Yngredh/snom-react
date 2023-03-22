@@ -7,6 +7,7 @@ import { TrainingPanel } from "./pages/TrainingPanel";
 import { Workshop } from "./pages/Workshop";
 import { TrainingProgressPanel } from "./pages/TrainingProgressPanel";
 import { TrainingManagement } from "./pages/TrainingManagement";
+import { TrainingExecution } from "./pages/TrainingExecution";
 import { ManageUsers } from "./pages/ManageUsers";
 
 
@@ -25,6 +26,7 @@ export const Router = () => {
                 <Route path="/workshop" element={<Workshop />} />
                 <Route path="/trainingManagement" element={<TrainingManagement />} />
                 <Route path="/trainingManagement/:trainingId" element={<TrainingManagement />} />
+                <Route path="/trainingExecution/:trainingId" element={<TrainingExecution />} />
             </Routes>
         </>
     )
