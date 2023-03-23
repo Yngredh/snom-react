@@ -1,12 +1,27 @@
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { TrainingProgressContext } from "../../App";
 import { Background, EBackground } from "../../components/Background";
 import { Button, EButton } from "../../components/Button";
 import { Card } from "../../components/Card";
 import { DivLine } from "../../components/DivLine";
 import { ETypographType, Typograph } from "../../components/Typograph";
+import { IModule } from "../../interfaces/IModule";
 import { theme } from "../../themes/theme"
 import * as Styled from "./styles"
 
 export const TrainingExecution = () => {
+
+    const trainingProgressContext = useContext(TrainingProgressContext);
+    const { moduleId } = useParams();
+    const [selectedModule, setSelectedModule] = useState<IModule>();
+
+    useEffect(() => {
+        trainingProgressContext.trainingProgress.training.modules.forEach(module => {
+            if(module.moduleId === moduleId) setSelectedModule(module);
+        })
+    }, [moduleId])
+    
     
     return(
         <Background
@@ -26,7 +41,8 @@ export const TrainingExecution = () => {
                     backgroundColor={theme.pallete.blueViolet.dark}>
                     <Styled.ShowModuleTitle>
                         <img style={{width: "4%"}} src="/img/icons/arrowBackward.svg"></img>
-                        <Typograph type={ETypographType.ConstrastVioletText} style={{color: "white", paddingLeft: "2%"}}>Plano Mínimo de Teste - Exercício Complementar II</Typograph>
+                        <Typograph type={ETypographType.ConstrastVioletText} 
+                            style={{color: "white", paddingLeft: "2%"}}>{selectedModule?.title}</Typograph>
                     </Styled.ShowModuleTitle>
                 </Card>
             </Card>
@@ -44,16 +60,22 @@ export const TrainingExecution = () => {
                         backgroundColor={theme.pallete.cyanGreen.dark}>
                     </Card>
                 <Styled.ModuleList>
-                    <Styled.Module>
-                        <img style={{width: "10%"}} src="/img/modules/video.svg"></img>
-                        <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>Introdução aos testes básicos de desenvolvimento</Typograph>    
-                    </Styled.Module>
-                    <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>
-                    <Styled.Module>
-                        <img style={{width: "10%"}} src="/img/modules/video.svg"></img>
-                        <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>Plano Mínimo de Teste - Exercício Complementar II</Typograph>
-                    </Styled.Module>
-                    <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>
+                    {trainingProgressContext.trainingProgress.training.modules.map((module) => {
+                        let type = "text";
+                        console.log(module.moduleType);
+                        if(module.moduleType === "video lesson") type = "video";
+                        if(module.moduleType === "text class") type = "text";
+                        if(module.moduleType === "test class") type = "test";
+                        return(
+                            <>
+                            <Styled.Module>
+                                <img style={{width: "10%"}} src={`/img/modules/${type}.svg`}></img>
+                                <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>{module.title}</Typograph>    
+                            </Styled.Module>
+                            <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>
+                            </>
+                        )
+                    })}
                 </Styled.ModuleList>
 
                 <Button style={{width:"40%", marginBottom: "3%"}} type={EButton.MainButtonVariation}>CONCLUIR MÓDULO</Button>

@@ -21,7 +21,6 @@ export const ModuleList = styled.div`
 
 export const Module = styled.div`
     display: flex;
-    justify-content: center;
     width: 100%;
     height: 7%;
     padding: 2%;

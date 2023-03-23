@@ -26,7 +26,7 @@ export const Router = () => {
                 <Route path="/workshop" element={<Workshop />} />
                 <Route path="/trainingManagement" element={<TrainingManagement />} />
                 <Route path="/trainingManagement/:trainingId" element={<TrainingManagement />} />
-                <Route path="/trainingExecution/:trainingId" element={<TrainingExecution />} />
+                <Route path="/trainingExecution/:moduleId" element={<TrainingExecution />} />
             </Routes>
         </>
     )
