@@ -85,4 +85,110 @@ export abstract class UserService {
         console.log(response);
         return response.status;
     }
+
+    public static async getNotManagersUsersByTrainingId(userToken: string, trainingId: string) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user/notmanager?` + new URLSearchParams({
+            trainingId
+        }), 
+        {
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            }
+        });
+
+        return await response.json() as IUser[];
+    }
+
+    public static async getAllUsersNotAssignedByTrainingId(userToken: string, trainingId: string) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/trainingprogress/notassigned?` + new URLSearchParams({
+            trainingId
+        }), 
+        {
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            }
+        });
+
+        return await response.json() as IUser[];
+    }
+
+    public static async addNewTrainingManager(userToken: string, trainingId: string, userId: string[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user/manager`, 
+        {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            },
+            body: JSON.stringify({
+                userId,
+                trainingId
+            })
+        });
+
+        return response.status;
+    }
+
+    public static async removeTrainingManager(userToken: string, trainingId: string, userId: string[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user/manager`, 
+        {
+            method: 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            },
+            body: JSON.stringify({
+                userId,
+                trainingId
+            })
+        });
+
+        return response.status;
+    }
+
+    public static async addNewTrainingApprentice(userToken: string, trainingId: string, userId: string[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/trainingprogress`, 
+        {
+            method: 'POST',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            },
+            body: JSON.stringify({
+                userId,
+                trainingId
+            })
+        });
+
+        return response.status;
+    }
+
+    public static async removeTrainingApprentice(userToken: string, trainingId: string, userId: string[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/trainingprogress`, 
+        {
+            method: 'DELETE',
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            },
+            body: JSON.stringify({
+                userId,
+                trainingId
+            })
+        });
+
+        return response.status;
+    }
+
+    
+
+
+
+
+
+
+
+
 }
