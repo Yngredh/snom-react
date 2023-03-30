@@ -19,6 +19,6 @@ export const Form = styled.div`
     justify-content: center;
 
     width: 90%;
-    height: 70%;
+    height: 60%;
     margin-top: 3%;
 `

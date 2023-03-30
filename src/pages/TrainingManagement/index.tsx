@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import { TrainingService } from "../../services/TrainingService";
 import { ITraining } from "../../interfaces/ITraining";
@@ -15,6 +16,7 @@ import { Form, CardContainer, SelectInput,
 import { Button, EButton} from "../../components/Button";
 import { List } from "../../components/List";
 import { EOperation, IUserOperations } from "../../interfaces/IUserOperations";
+import { Module } from "module";
 
 enum EExhibitionLists {
     Aprendizes = 0,
@@ -25,6 +27,7 @@ export const TrainingManagement = () => {
 
     const userContext = useContext(UserContext);
     const { trainingId } = useParams();
+    const navigate = useNavigate();
 
     const [selectedListName, setSelectedListName] = useState<EExhibitionLists>(0);
     const [apprenticeList, setApprenticeList] = useState<IUserOperations[]>([]);
@@ -41,6 +44,11 @@ export const TrainingManagement = () => {
     const handleEditTraining = (value: string, field: string) => {
         if(field === "title") setNewTraining({...newTraining!!, title: value})
         else setNewTraining({...newTraining!!, description: value});
+    }
+
+    const goToModuleManagement = () => {
+        if(trainingId) navigate(`/moduleManagement/`)
+        else navigate(`/moduleManagement/`)
     }
 
     const handleEditTrainingStatus = (value: string) => {}
@@ -101,7 +109,7 @@ export const TrainingManagement = () => {
                         onClick={handleSaveChanges}
                         type={EButton.SecondaryButton}>SALVAR</Button>
                     <Button type={EButton.SecondaryButton}>VOLTAR</Button>
-                    <Button type={EButton.MainButtonVariation}
+                    <Button type={EButton.MainButtonVariation} onClick={goToModuleManagement}
                             icon={"/img/icons/arrowForward.svg"}>GERENCIAR MÓDULOS</Button>
                 </ButtonContainer>
             </TopSideContainer>

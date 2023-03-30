@@ -1,17 +1,46 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
 import { Background, EBackground } from "../../components/Background";
 import { Button, EButton } from "../../components/Button";
 import { Card } from "../../components/Card";
 import { DivLine } from "../../components/DivLine";
 import { Input } from "../../components/Input";
 import { Typograph, ETypographType } from "../../components/Typograph";
+import { IUser } from "../../interfaces/IUser";
+import { UserService } from "../../services/UserService";
 import { theme } from "../../themes/theme";
 import * as Styled from './styles'
 
 export const ChangePassword = () => {
+    
+    const navigate = useNavigate();
+    const userContext = useContext(UserContext);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [passwordForm, setPasswordForm] = useState({
+        password: "",
+        newPassword: "",
+        newPasswordConfirmation: ""
+    });
 
-    const fun = () => {
+    const handleSaveNewPassword = async () => {
+        if(passwordForm.newPassword != "" && passwordForm.newPasswordConfirmation != "" && 
+            passwordForm.newPassword === passwordForm.newPasswordConfirmation){
+
+            if(passwordForm.password === userContext.user?.password) {
+                const userResponse = await UserService.editUser(
+                    [{...userContext.user!!, password: passwordForm.newPassword}], 
+                    userContext.token);
+                if(userResponse === 200){
+                    localStorage.clear();
+                    navigate(0);
+                }
+            } else {setErrorMessage("Senha atual incorreta!")}
+            
+        } else {setErrorMessage("Nova senha inválida!")}
+
     }
+    
     
     return(
         <Background
@@ -35,22 +64,34 @@ export const ChangePassword = () => {
                     <Typograph type={ETypographType.MenuText}>Digite a senha atual</Typograph>
                     <Input 
                         style={{marginBottom: '8%', marginTop: '2%'}} hint={"Senha atual"}
-                        isPassword={false} width="100%" borderColor={theme.pallete.blueViolet.dark}
-                        onChange={fun}/>
+                        isPassword={true} width="100%" borderColor={theme.pallete.blueViolet.dark}
+                        onChange={e => setPasswordForm({
+                            ...passwordForm,
+                            password: e.value
+                        })}/>
                     
                     <Typograph type={ETypographType.MenuText}>Digite a nova senha</Typograph>
                     <Input 
                         style={{marginBottom: '8%', marginTop: '2%'}} hint={"Nova senha"}
-                        isPassword={false} width="100%" borderColor={theme.pallete.blueViolet.dark}
-                        onChange={fun}/>
+                        isPassword={true} width="100%" borderColor={theme.pallete.blueViolet.dark}
+                        onChange={e => setPasswordForm({
+                            ...passwordForm,
+                            newPassword: e.value
+                        })}/>
                     
                     <Typograph type={ETypographType.MenuText}>Confirme a nova senha</Typograph>
                     <Input 
-                        style={{marginBottom: '8%', marginTop: '2%'}} hint={"Confirmar senha"}
-                        isPassword={false} width="100%" borderColor={theme.pallete.blueViolet.dark}
-                        onChange={fun}/>
+                        style={{ marginTop: '2%'}} hint={"Confirmar senha"}
+                        isPassword={true} width="100%" borderColor={theme.pallete.blueViolet.dark}
+                        onChange={e => setPasswordForm({
+                            ...passwordForm,
+                            newPasswordConfirmation: e.value
+                        })}/>
                 </Styled.Form>
-                <Button type={EButton.SecondaryButton}>SALVAR</Button>
+                <Typograph 
+                    style={{color: "#EF3B3B", marginBottom: "6%", marginTop: "4%"}}
+                    type={ETypographType.AuxiliarText}>{errorMessage}</Typograph>
+                <Button type={EButton.SecondaryButton} onClick={handleSaveNewPassword}>SALVAR</Button>
                 
             </Card>
         </Background>
