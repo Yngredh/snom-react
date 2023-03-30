@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
 export const PopUp = styled.div`
-    position: absolute;
-    margin: 0 auto;
-    top: 36%;
-    left: 41%;
 
     border-style: solid;
     border-width: 5px;
@@ -41,8 +37,13 @@ export const Body = styled.div`
 
 export const Background = styled.div`
     position: absolute;
-    width: 100%;
+    margin: 0 auto;
+    width: 93.5%;
     height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     background: rgba(0, 0, 0, 0.4);
 `
