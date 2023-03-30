@@ -39,9 +39,11 @@ export const Menu = () => {
                             title={"Gerenciar Colaboradores"} icon={"/img/icons/gerenciar_colaboradores.svg"}></MenuItem> 
                     </StyledLink>   
                 }
-                <MenuItem 
-                    isActive={location.pathname === "/changePassword"} 
-                    title={"Alterar Senha"} icon={"/img/icons/keyIcon.svg"}></MenuItem>
+                <StyledLink to="/changePassword">
+                    <MenuItem 
+                        isActive={location.pathname === "/changePassword"} 
+                        title={"Alterar Senha"} icon={"/img/icons/keyIcon.svg"}></MenuItem>
+                </StyledLink>
             </Container>
             <MenuItem 
                 isActive={location.pathname === "/logout"}

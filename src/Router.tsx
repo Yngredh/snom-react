@@ -8,6 +8,7 @@ import { Workshop } from "./pages/Workshop";
 import { TrainingProgressPanel } from "./pages/TrainingProgressPanel";
 import { TrainingManagement } from "./pages/TrainingManagement";
 import { TrainingExecution } from "./pages/TrainingExecution";
+import { ChangePassword } from "./pages/ChangePassword";
 import { ManageUsers } from "./pages/ManageUsers";
 
 
@@ -27,6 +28,7 @@ export const Router = () => {
                 <Route path="/trainingManagement" element={<TrainingManagement />} />
                 <Route path="/trainingManagement/:trainingId" element={<TrainingManagement />} />
                 <Route path="/trainingExecution/:moduleId" element={<TrainingExecution />} />
+                <Route path="/changePassword/" element={<ChangePassword />} />
             </Routes>
         </>
     )

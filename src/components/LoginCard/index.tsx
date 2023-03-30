@@ -43,7 +43,7 @@ export const LoginCard = (props: ILoginCardProps) => {
   };
 
   const handlePasswordInput = (password: string) => {
-    if(password.length >= 8){
+    if(password){
       setEditForm({
         ...loginForm,
         password: password,
