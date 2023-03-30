@@ -84,8 +84,8 @@ export abstract class TrainingService {
             },
             body : JSON.stringify(training)
         });
-
-        return await response;
+        const res = await response.json() as { trainingId: string };
+        return res.trainingId;
     }
 
     public static async getManagerUsersByTrainingId(userToken: string, trainingId: string) {
