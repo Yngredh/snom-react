@@ -17,7 +17,7 @@ export const TrainingExecution = () => {
     const [selectedModule, setSelectedModule] = useState<IModule>();
 
     useEffect(() => {
-        trainingProgressContext.trainingProgress.training.modules.forEach(module => {
+        trainingProgressContext.trainingProgress?.training?.modules.forEach(module => {
             if(module.moduleId === moduleId) setSelectedModule(module);
         })
     }, [moduleId])
@@ -60,7 +60,7 @@ export const TrainingExecution = () => {
                         backgroundColor={theme.pallete.cyanGreen.dark}>
                     </Card>
                 <Styled.ModuleList>
-                    {trainingProgressContext.trainingProgress.training.modules.map((module) => {
+                    {trainingProgressContext.trainingProgress?.training?.modules.map((module) => {
                         let type = "text";
                         console.log(module.moduleType);
                         if(module.moduleType === "test") type = "test";
