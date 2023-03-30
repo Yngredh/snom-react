@@ -33,11 +33,37 @@ export const TrainingInfo = styled.div`
 
 export const ModulesListContainer = styled.div`
     display: flex;
+    justify-content: center;
+
+    height: 92%;
+    width: 50%;
+    margin-top: 1%;
+`
+export const ScrollableListContainer = styled.div`
+    display: flex;
     flex-direction: column;
     align-items: center;
+    
+    height: 100%;
+    width: 60%;
 
-    height: 90%;
-    width: 50%;
+    overflow-y: auto;
+
+    ::-webkit-scrollbar{
+       width : 8px;
+    }
+    ::-webkit-scrollbar-track{
+        box-shadow: inset 0 0 5px ${props => props.theme.pallete.blueViolet.dark}; 
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+        background: ${props => props.theme.pallete.blueViolet.dark};
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background: ${props => props.theme.pallete.blueViolet.dark};
+    }
 `
 
 export const TrainingPreview = styled.div`

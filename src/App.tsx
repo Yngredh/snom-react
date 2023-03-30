@@ -15,49 +15,16 @@ export const UserContext = createContext<IUserContext>({
   user: {}
 });
 
-const trainingProgressDefault :ITrainingProgress = {
-  userId: '',
-  trainingId: '',
-  isFinished: false,
-  isResetNeeded: false,
-  isEmblemConquered: false,
-  currentPosition: 0,
-  firstAverage: 0,
-  finaltAverage: 0,
-  endDate: '',
-  training: {
-    trainingId: "",
-    title: "",
-    description: "",
-    level: 0,
-    icon: "",
-    modulesCount: 0,
-    createdDate: new Date(),
-    lastUpdate: new Date(),
-    status: {
-      trainingStatusId: 0,
-      description: ""
-    },
-    emblem: {
-      emblemId: "",
-      title: "",
-      icon: "",
-      level: 0
-    },
-    modules: []
-  }
-}
-
 export const TrainingProgressContext = createContext<
-  ({trainingProgress: ITrainingProgress, setTrainingProgressContext: (trainingProgress :ITrainingProgress) => void})>
-  ({trainingProgress: trainingProgressDefault, setTrainingProgressContext: (trainingProgress :ITrainingProgress) => {}});
+  ({trainingProgress: Partial<ITrainingProgress> | undefined, setTrainingProgressContext: (trainingProgress :Partial<ITrainingProgress>) => void})>
+  ({trainingProgress: {}, setTrainingProgressContext: (trainingProgress :Partial<ITrainingProgress>) => {}});
 
 function App(): JSX.Element {
   const [userToken, setUserToken] = useState<string>('');
   const [userData, setUserData] = useState<IUser>();
-  const [trainingProgressData, setTrainingProgressData] = useState<ITrainingProgress>(trainingProgressDefault);
+  const [trainingProgressData, setTrainingProgressData] = useState<Partial<ITrainingProgress>>();
 
-  const handleSetTrainingProgress = (trainingProgress :ITrainingProgress) => {
+  const handleSetTrainingProgress = (trainingProgress : Partial<ITrainingProgress>) => {
     setTrainingProgressData(trainingProgress);
   }
 
