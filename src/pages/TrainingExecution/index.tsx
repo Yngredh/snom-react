@@ -20,7 +20,7 @@ export const TrainingExecution = () => {
         trainingProgressContext.trainingProgress?.training?.modules.forEach(module => {
             if(module.moduleId === moduleId) setSelectedModule(module);
         })
-    }, [moduleId])
+    })
     
     
     return(
