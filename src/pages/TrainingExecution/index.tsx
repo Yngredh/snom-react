@@ -63,9 +63,8 @@ export const TrainingExecution = () => {
                     {trainingProgressContext.trainingProgress.training.modules.map((module) => {
                         let type = "text";
                         console.log(module.moduleType);
-                        if(module.moduleType === "video lesson") type = "video";
-                        if(module.moduleType === "text class") type = "text";
-                        if(module.moduleType === "test class") type = "test";
+                        if(module.moduleType === "test") type = "test";
+                        if(module.moduleType === "class") type = "text";
                         return(
                             <>
                             <Styled.Module>
