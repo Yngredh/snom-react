@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TrainingProgressContext } from "../../App";
 import { Background, EBackground } from "../../components/Background";
 import { Button, EButton } from "../../components/Button";
 import { Card } from "../../components/Card";
 import { DivLine } from "../../components/DivLine";
+import { EQuestionTestType, MultipleQuestionTest } from "../../components/MultipleQuestionTest";
 import { ETypographType, Typograph } from "../../components/Typograph";
 import { IModule } from "../../interfaces/IModule";
 import { theme } from "../../themes/theme"
@@ -14,6 +15,7 @@ export const TrainingExecution = () => {
 
     const trainingProgressContext = useContext(TrainingProgressContext);
     const { moduleId } = useParams();
+    const navigate = useNavigate();
     const [selectedModule, setSelectedModule] = useState<IModule>();
 
     useEffect(() => {
@@ -45,6 +47,9 @@ export const TrainingExecution = () => {
                             style={{color: "white", paddingLeft: "2%"}}>{selectedModule?.title}</Typograph>
                     </Styled.ShowModuleTitle>
                 </Card>
+                <Styled.ModuleContent>
+                    {selectedModule?.moduleType.split('|')[0] === 'TEST' ? <MultipleQuestionTest type={EQuestionTestType.TrueOrFalse} /> : <></>}
+                </Styled.ModuleContent>
             </Card>
             <Card
                 style={{display: "flex", flexDirection: "column", alignItems: "center", boxShadow:"0px"}}
@@ -58,17 +63,25 @@ export const TrainingExecution = () => {
                         borderColor={theme.pallete.cyanGreen.dark}
                         borderWidth={"0"}
                         backgroundColor={theme.pallete.cyanGreen.dark}>
+                            <Typograph style={{width: '100%',textAlign: 'center'}} type={ETypographType.ConstrastVioletText}>LISTA DE MÓDULOS</Typograph>
                     </Card>
                 <Styled.ModuleList>
                     {trainingProgressContext.trainingProgress?.training?.modules.map((module) => {
+                        let isSelected = module.moduleId === moduleId;
                         let type = "text";
-                        console.log(module.moduleType);
-                        if(module.moduleType === "test") type = "test";
-                        if(module.moduleType === "class") type = "text";
+                        if(module.moduleType === "TEST|Alternative" || "TEST|True or False") type = "test";
+                        if(module.moduleType === "CLASS|Text") type = "text";
+                        if(module.moduleType === "CLASS|Video") type = "video"
                         return(
                             <>
-                            <Styled.Module>
-                                <img style={{width: "10%"}} src={`/img/modules/${type}.svg`}></img>
+                            <Styled.Module 
+                                style={{cursor: 'pointer'}}
+                                isSelected={isSelected}
+                                onClick={() => {
+                                if(!isSelected) navigate(`/trainingExecution/${module.moduleId}`);
+                                }}
+                            >
+                                <img alt="Ícone de modulo" style={{ width: "10%"}} src={`/img/modules/${type}.svg`}></img>
                                 <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>{module.title}</Typograph>    
                             </Styled.Module>
                             <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>

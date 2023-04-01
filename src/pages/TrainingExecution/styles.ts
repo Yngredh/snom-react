@@ -20,30 +20,40 @@ export const ModuleList = styled.div`
 
     overflow-y: auto;
 
-::-webkit-scrollbar{
-   width : 8px;
-}
-::-webkit-scrollbar-track{
-    box-shadow: inset 0 0 5px ${props => props.theme.pallete.cyanGreen.dark}; 
-    border-radius: 10px;
-}
+    ::-webkit-scrollbar{
+    width : 8px;
+    }
+    ::-webkit-scrollbar-track{
+        box-shadow: inset 0 0 5px ${props => props.theme.pallete.cyanGreen.dark}; 
+        border-radius: 10px;
+    }
 
-::-webkit-scrollbar-thumb{
-    background: ${props => props.theme.pallete.cyanGreen.dark};
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover{
-    background: ${props => props.theme.pallete.cyanGreen.dark};
-}
+    ::-webkit-scrollbar-thumb{
+        background: ${props => props.theme.pallete.cyanGreen.dark};
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background: ${props => props.theme.pallete.cyanGreen.dark};
+    }
 `
 
-export const Module = styled.div`
+export const Module = styled.div<{ isSelected: boolean }>`
     display: flex;
-    width: 100%;
+    width: 98%;
     height: 7%;
     padding: 2%;
-    // Selected
-    //border-radius: ${props => props.theme.shape.borderRadius};
-    //background-color: ${props => props.theme.pallete.blueViolet.light};
 
+    // Selected
+    border-radius: ${props => props.isSelected ? props.theme.shape.borderRadius : undefined};
+    background-color: ${props => props.isSelected ? props.theme.pallete.blueViolet.light : undefined};
+
+`
+
+export const ModuleContent = styled.div`
+    width: 100%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
