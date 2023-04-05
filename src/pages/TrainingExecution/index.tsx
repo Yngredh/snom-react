@@ -10,6 +10,7 @@ import { ETypographType, Typograph } from "../../components/Typograph";
 import { IModule } from "../../interfaces/IModule";
 import { theme } from "../../themes/theme"
 import * as Styled from "./styles"
+import { VideoClass } from "../../components/VideoClass";
 
 export const TrainingExecution = () => {
 
@@ -23,7 +24,6 @@ export const TrainingExecution = () => {
             if(module.moduleId === moduleId) setSelectedModule(module);
         })
     })
-    
     
     return(
         <Background
@@ -49,6 +49,7 @@ export const TrainingExecution = () => {
                 </Card>
                 <Styled.ModuleContent>
                     {selectedModule?.moduleType.split('|')[0] === 'TEST' ? <MultipleQuestionTest type={EQuestionTestType.TrueOrFalse} /> : <></>}
+                    {selectedModule?.moduleType === "CLASS|Video" ? <VideoClass /> : <></>}
                 </Styled.ModuleContent>
             </Card>
             <Card

@@ -44,9 +44,12 @@ export const Module = styled.div<{ isSelected: boolean }>`
     padding: 2%;
 
     // Selected
+    border-style: ${props => props.isSelected ? 'solid' : undefined };
+    border-color: ${props => props.isSelected ? props.theme.pallete.blueViolet.dark : undefined};
+    border-width: ${props => props.isSelected ? props.theme.shape.borderSize : undefined};
     border-radius: ${props => props.isSelected ? props.theme.shape.borderRadius : undefined};
-    background-color: ${props => props.isSelected ? props.theme.pallete.blueViolet.light : undefined};
-
+    background-color: ${props => props.isSelected ? props.theme.pallete.cyanGreen.light : undefined};
+    
 `
 
 export const ModuleContent = styled.div`

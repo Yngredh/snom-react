@@ -15,13 +15,14 @@ export interface IMultipleQuestionTestProps {
 }
 
 export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
+    const [isOnEditPage, setIsOnEditPage] = useState(true);
     const [isOnEditMode, setIsOnEditMode] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     
     return(
         <>
             <Question>
-                <TitleContainer isSelected={isSelected} onClick={() => setIsSelected(!isSelected)}>
+                <TitleContainer isSelected={isSelected} onClick={() => { if(!isOnEditMode)  setIsSelected(!isSelected)}}>
                     {isOnEditMode && isSelected ?
                         <Input 
                             style={{marginLeft: '4%'}}
@@ -35,7 +36,10 @@ export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
                             1. O pai de Pedro têm 5 filhos: o Peter, a Patricia, a Paola e o Paulo. Qual o nome do 5º filho?
                         </Typograph>
                     }
-                    {isOnEditMode ? <img style={{marginRight: '4%'}} alt="Botão para editar" src="/img/icons/edit_pencil.svg" /> : <></>}
+                    {isOnEditPage ? <img style={{marginRight: '4%'}} 
+                        alt="Botão para editar"
+                        onClick={() => {setIsOnEditMode(!isSelected)}} 
+                         src={`/img/icons/${isOnEditMode ? "done_icon_violet.svg" : "edit_pencil.svg"}`} /> : <></>}
                 </TitleContainer>
                 <DropDownContainer isSelected={isSelected}>
                     <OptionContainer>
@@ -58,6 +62,7 @@ export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
                     </OptionContainer>
                 </DropDownContainer>
             </Question>
+            
         </>
     )
 }
