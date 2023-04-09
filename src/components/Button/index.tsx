@@ -6,7 +6,8 @@ export enum EButton {
     MainButton,
     MainButtonVariation,
     SecondaryButton,
-    DeleteButton
+    DeleteButton,
+    Disable
 }
 
 interface IButtonProps {
@@ -68,7 +69,14 @@ export const Button = (props: IButtonProps) => {
             borderColor: theme.pallete.assistant.darkRed,
             hoverColor: theme.pallete.assistant.darkRed,
             fontHoverColor: theme.pallete.assistant.white
-        });    
+        });
+        if(props.type === EButton.Disable) applyStyles({
+            backgroundColor: theme.pallete.assistant.lightGray,
+            fontColor: theme.pallete.assistant.black,
+            borderColor: theme.pallete.assistant.darkGray,
+            hoverColor: theme.pallete.assistant.lightGray,
+            fontHoverColor: theme.pallete.assistant.black
+        }); 
 
     }, [props.type])
 

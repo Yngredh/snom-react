@@ -27,22 +27,28 @@ enum EExhibitionLists {
 }
 
 export const TrainingManagement = () => {
+
     const navigate = useNavigate();
     const userContext = useContext(UserContext);
     const { trainingId } = useParams();
-
+    const [disableButton, setDisableButton] = useState<Boolean>(false);
     const [newTraining, setNewTraining] = useState<ITraining>();
-
     const [selectedUser, setSelectedUser] = useState<string>("");
-
     const [selectedListName, setSelectedListName] = useState<EExhibitionLists>(0);
     const [apprenticeList, setApprenticeList] = useState<IUserOperations[]>([]);
     const [managerList, setManagerList] = useState<IUserOperations[]>([]);
     const [notApprenticeList, setNotApprenticeList] = useState<IUserOperations[]>([]);
     const [notManagerList, setNotManagerList] = useState<IUserOperations[]>([]);
-
     const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
     const [hasDeleteUserOperation, setHasDeleteUserOperation] = useState(false);
+
+    const goToModuleManagement = () => {
+        if(trainingId) navigate(`/moduleManagement/${trainingId}`);  
+    }
+
+    const goToWorkshop = () => {
+        navigate(`/workshop`);
+    }
 
     const defineBackgroundColor = (listName : EExhibitionLists) => selectedListName === listName ? 
         "rgba(138, 154, 233, 0.7)" : theme.pallete.assistant.blueIce
@@ -169,7 +175,7 @@ export const TrainingManagement = () => {
                 populateUserOperationState(apprenticesResponse, setApprenticeList);
                 populateUserOperationState(notApprenticesResponse, setNotApprenticeList);
                 populateUserOperationState(notManagerUserResponse, setNotManagerList);
-            } 
+            } else {setDisableButton(true)}
         }
         getTraining();
     }, [userContext.token, trainingId]);
@@ -190,9 +196,10 @@ export const TrainingManagement = () => {
                     <Button
                         onClick={() => setShowConfirmPopUp(true)}
                         type={EButton.SecondaryButton}>SALVAR</Button>
-                    <Button type={EButton.SecondaryButton}>VOLTAR</Button>
-                    <Button type={EButton.MainButtonVariation}
-                            icon={"/img/icons/arrowForward.svg"}>GERENCIAR MÓDULOS</Button>
+                    <Button type={EButton.SecondaryButton} onClick={goToWorkshop}>VOLTAR</Button>
+                    <Button type={disableButton?EButton.Disable:EButton.MainButtonVariation}
+                            icon={"/img/icons/arrowForward.svg"}
+                            onClick={goToModuleManagement}>GERENCIAR MÓDULOS</Button>
                 </ButtonContainer>
             </TopSideContainer>
 
