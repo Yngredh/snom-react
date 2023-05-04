@@ -11,7 +11,7 @@ import { theme } from "../../themes/theme"
 import { UpHeaderContainer, TrainingInfo, 
          ModulesListContainer, TrainingPreview, 
          ContentContainer, UpsideContainer,
-         BottomSideContainer, TrainingProfileGrid}  from './styles'
+         BottomSideContainer, TrainingProfileGrid, ScrollableListContainer}  from './styles'
 
 export const TrainingProgressPanel = ( ) => {
 
@@ -53,19 +53,21 @@ export const TrainingProgressPanel = ( ) => {
 
             <ContentContainer>
                 <ModulesListContainer>
-                    {!isLoading && trainingProgress?.training?.modules?.map((module) => {
-                        let isEnabled = module.position <= trainingProgress.currentPosition;
-                        return(
-                        <Card 
-                            onClick={() => navigate(`/trainingExecution/${module.moduleId}`)}
-                            style={{marginTop: "2%", display: "flex", alignItems: "center", 
-                            justifyContent: "space-evenly", cursor: isEnabled ? "pointer" : undefined}}
-                            width="50%" height="15%" hoverStyle={{backgroundColor: theme.pallete.blueViolet.dark, borderColor: theme.pallete.blueViolet.dark}}
-                            borderColor={theme.pallete.blueViolet.dark} borderWidth={theme.shape.borderSize}
-                            backgroundColor={theme.pallete.assistant.blueIce}>
-                                <Typograph style={{width: "70%"}} type={ETypographType.LightText} id={"module-title"}>{module.title}</Typograph>
-                        </Card>)
-                    })}
+                    <ScrollableListContainer>
+                        {!isLoading && trainingProgress?.training?.modules?.map((module, index) => {
+                            let isEnabled = module.position <= trainingProgress.currentPosition;
+                            return(
+                            <Card 
+                                onClick={() => navigate(`/trainingExecution/${module.moduleId}`)}
+                                style={{marginTop: `${index === 0 ? '0px' : '2%'}`, display: "flex", alignItems: "center", 
+                                justifyContent: "space-evenly", cursor: isEnabled ? "pointer" : undefined, minHeight: '70px'}}
+                                width="90%" height="70px" hoverStyle={{backgroundColor: theme.pallete.blueViolet.dark, borderColor: theme.pallete.blueViolet.dark}}
+                                borderColor={theme.pallete.blueViolet.dark} borderWidth={theme.shape.borderSize}
+                                backgroundColor={theme.pallete.assistant.blueIce}>
+                                    <Typograph style={{width: "80%"}} type={ETypographType.LightText} id={"module-title"}>{module.title}</Typograph>
+                            </Card>)
+                        })}
+                    </ScrollableListContainer>
                 </ModulesListContainer>
 
                 <TrainingPreview> 

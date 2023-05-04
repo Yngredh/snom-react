@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "./App";
 import { Menu } from "./components/Menu";
 import { Home } from "./pages/Home";
@@ -15,13 +15,19 @@ import { ManageUsers } from "./pages/ManageUsers";
 
 export const Router = () => {
     const userContext = useContext(UserContext);
+    const location = useLocation();
     const navigate = useNavigate();
+
+    const handleAdministratorAcces = () => {
+        if(userContext.user?.isAdministrator && location.pathname === '/') navigate('/training');
+        return (<Home />)
+    }
 
     return(
         <>
             <Menu />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={handleAdministratorAcces()} />
                 <Route path="/manageusers" element={<ManageUsers />}/>
                 <Route path="/training" element={<TrainingPanel />} />
                 <Route path="/training/:trainingId" element={<TrainingProgressPanel />} />

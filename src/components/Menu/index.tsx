@@ -2,27 +2,42 @@ import { Styled, Container, StyledLink } from './styles';
 import MenuItem from '../MenuItem/';
 import { useContext } from 'react';
 import { UserContext } from '../../App';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Menu = () => {
     const userContext = useContext(UserContext);
     const location = useLocation();
-    
+    const navigate = useNavigate();
+
+    const handleLogout = () : void => {
+        localStorage.removeItem('authToken');
+        navigate(0);
+    };
 
     return(
         <Styled>
             <Container>
-                <StyledLink to="/">
-                    <MenuItem
-                        isActive={location.pathname === "/"} 
-                        title={"Início"} icon={"/img/icons/inicio.svg"}></MenuItem>
-                </StyledLink>
+                <img  
+                    height={'80px'}
+                    width={'90px'}
+                    style={{marginBottom: '1.5rem'}}
+                    src={"/img/logotypes/menuLogotype.svg"} alt=''/>
+                
+                {!userContext.user?.isAdministrator &&
+                    <StyledLink to="/">
+                        <MenuItem
+                            isActive={location.pathname === "/"} 
+                            title={"Início"} icon={"/img/icons/inicio.svg"}></MenuItem>
+                    </StyledLink>
+                }
 
-                <StyledLink to="/training">
+                {!userContext.user?.isAdministrator && 
+                    <StyledLink to="/training">
                     <MenuItem 
                         isActive={location.pathname.includes("/training")} 
                         title={"Treinamento"} icon={"/img/icons/treinamento.svg"}></MenuItem>
-                </StyledLink>
+                    </StyledLink>
+                }
 
                 {(userContext.user?.hasPermission || userContext.user?.isAdministrator) &&
                     <StyledLink to="/workshop">
@@ -46,7 +61,8 @@ export const Menu = () => {
                 </StyledLink>
             </Container>
             <MenuItem 
-                isActive={location.pathname === "/logout"}
+                isActive={false}
+                onClick={handleLogout}
                 title={"Sair"} icon={"/img/icons/exitIcon.svg"}></MenuItem>
         </Styled>
     );
