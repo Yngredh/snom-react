@@ -16,6 +16,8 @@ import { Input } from "../../components/Input";
 import { IModuleOperations, EOperation } from "../../interfaces/IModuleOperations";
 import { IModuleTest } from "../../interfaces/IModuleTest";
 import { IModuleClass } from "../../interfaces/IModuleClass";
+import { ModuleService } from "../../services/ModuleService";
+import { BundleEdtior } from "../../components/BundleEditor";
 
 export const ModuleManagement = () => {
     
@@ -36,7 +38,17 @@ export const ModuleManagement = () => {
         navigate(`/workshop`);
     }
 
-    const alterTitle = () => {
+    const alterTitle = (e: HTMLInputElement) => { 
+        
+        const newModuleList = moduleList.map(module => {
+            if(module.module.module?.moduleId === selectedModule?.module?.moduleId) {
+                module.module.module!!.title = e.value;
+                setSelectedModule(module.module);
+            }
+            return module;
+        })
+
+        setModuleList(newModuleList);
     }
 
     const handleModuleType = () => {
@@ -47,8 +59,47 @@ export const ModuleManagement = () => {
     }
 
     const handleSaveChanges = async () => {
-        
+
+        const classModulesToCreate: Partial<IModuleClass>[] = [];
+        const classModulesToUpdate: Partial<IModuleClass>[] = [];
+        const classModulesToDelete: Partial<{moduleId: string, moduleType: string}>[] = [];
+        const testModulesToCreate: Partial<IModuleTest>[] = [];
+        const testModulesToUpdate: Partial<IModuleTest>[] = [];
+        const testModulesToDelete: Partial<{moduleId: string, moduleType: string}>[] = [];
+ 
+        moduleList.forEach((moduleOperation) => {
+
+            if (moduleOperation.module.module?.moduleType.includes("CLASS")){
+                if (moduleOperation.operation === EOperation.Create) 
+                        classModulesToCreate.push(moduleOperation.module as IModuleClass)
+                if (moduleOperation.operation === EOperation.Update) 
+                        classModulesToUpdate.push(moduleOperation.module as IModuleClass)
+                if (moduleOperation.operation === EOperation.Delete) 
+                        classModulesToDelete.push({
+                            moduleId: moduleOperation.module.module?.moduleId, 
+                            moduleType: moduleOperation.module.module?.moduleType})
+            } else {
+                if (moduleOperation.operation === EOperation.Create) 
+                        testModulesToCreate.push(moduleOperation.module as IModuleTest)
+                if (moduleOperation.operation === EOperation.Update) 
+                        testModulesToUpdate.push(moduleOperation.module as IModuleTest)
+                if (moduleOperation.operation === EOperation.Delete) 
+                        testModulesToDelete.push({
+                            moduleId: moduleOperation.module.module?.moduleId, 
+                            moduleType: moduleOperation.module.module?.moduleType})
+            }
+        })
+
+        await ModuleService.createClassModule(userContext.token, classModulesToCreate);
+        await ModuleService.updateClassModule(userContext.token, classModulesToUpdate);
+        await ModuleService.deleteClassModule(userContext.token, classModulesToDelete);
+
+        await ModuleService.createTestModule(userContext.token, testModulesToCreate);
+        await ModuleService.updateClassModule(userContext.token, testModulesToUpdate);
+        await ModuleService.deleteTestModule(userContext.token, testModulesToDelete);
+
     }
+ 
 
     const handleAddModule = (moduleType : String) => {
 
@@ -113,6 +164,13 @@ export const ModuleManagement = () => {
             })
             setSelectedModule(newModule)
         }
+    }
+
+    const handleDeleteModule = () => {
+        // Mudar o módulo selecionado
+        // Adicionar o módulo excluído na lista de moduleOperation com DELETE
+
+
     }
 
     const generateModuleList = (module : IModule[]) => {
@@ -192,10 +250,16 @@ export const ModuleManagement = () => {
                                 <Input hint="Título do Módulo" isPassword={false} defaultValue={selectedModule?.module?.title} 
                                         onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
                             </Styled.ModuleTitle>
-                            <Button type={EButton.DeleteButton}>EXCLUIR</Button>
+                            <Button type={EButton.DeleteButton} onClick={() => handleDeleteModule}>EXCLUIR</Button>
                         </Styled.TopSideContainer>
                         <DivLine size={"90%"} color={theme.pallete.blueViolet.dark}></DivLine>
+
+                    {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEdtior/>}
+                    {selectedModule?.module?.moduleType === "CLASS|Video" && <BundleEdtior/>}
+                    
+
                 </Card>
+
 
                 <Card
                     style={{display: "flex", flexDirection: "column", alignItems: "center", boxShadow:"0px"}}
