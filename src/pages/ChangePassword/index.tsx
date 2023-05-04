@@ -24,7 +24,7 @@ export const ChangePassword = () => {
     });
 
     const handleSaveNewPassword = async () => {
-        if(passwordForm.newPassword != "" && passwordForm.newPasswordConfirmation != "" && 
+        if(passwordForm.newPassword !== "" && passwordForm.newPasswordConfirmation !== "" && 
             passwordForm.newPassword === passwordForm.newPasswordConfirmation){
 
             if(passwordForm.password === userContext.user?.password) {

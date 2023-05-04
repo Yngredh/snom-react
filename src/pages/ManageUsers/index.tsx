@@ -12,9 +12,11 @@ import { UserService } from "../../services/UserService"
 import { profileIconList } from "../../themes/profileIconList"
 import { theme } from "../../themes/theme"
 import { ButtonsContainer, TopButtonAndTitleContainer, TopContainer } from "./styles"
+import { useNavigate } from "react-router-dom"
 
 export const ManageUsers = () => {
     const userContext = useContext(UserContext);
+    const navigate = useNavigate();
 
     const [searchedValue, setSearchedValue] = useState('');
     const [scrollToLast, setScrollToLast] = useState(false);
@@ -102,10 +104,10 @@ export const ManageUsers = () => {
             });
         
         if(!!listToCreate.length) await UserService.createUser(listToCreate, userContext.token);
-        if(!!listToCreate.length) await UserService.editUser(listToEdit, userContext.token);
-        if(!!listToCreate.length) await UserService.deleteUser(listToDelete, userContext.token);
+        if(!!listToEdit.length) await UserService.editUser(listToEdit, userContext.token);
+        if(!!listToDelete.length) await UserService.deleteUser(listToDelete, userContext.token);
 
-        setUserOperationList(newUserOperationList);
+        navigate(0);
     }
 
     useEffect(()=>{
