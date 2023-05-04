@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TrainingProgressContext } from "../../App";
 import { Background, EBackground } from "../../components/Background";
 import { Button, EButton } from "../../components/Button";
@@ -14,6 +14,7 @@ export const TrainingExecution = () => {
 
     const trainingProgressContext = useContext(TrainingProgressContext);
     const { moduleId } = useParams();
+    const navigate = useNavigate();
     const [selectedModule, setSelectedModule] = useState<IModule>();
 
     useEffect(() => {
