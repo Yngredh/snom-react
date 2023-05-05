@@ -17,7 +17,8 @@ import { IModuleOperations, EOperation } from "../../interfaces/IModuleOperation
 import { IModuleTest } from "../../interfaces/IModuleTest";
 import { IModuleClass } from "../../interfaces/IModuleClass";
 import { ModuleService } from "../../services/ModuleService";
-import { BundleEdtior } from "../../components/BundleEditor";
+import { BundleEditor } from "../../components/BundleEditor";
+import { MultipleQuestionTest } from "../../components/MultipleQuestionTest";
 
 export const ModuleManagement = () => {
     
@@ -169,7 +170,7 @@ export const ModuleManagement = () => {
     const handleDeleteModule = () => {
         // Mudar o módulo selecionado
         // Adicionar o módulo excluído na lista de moduleOperation com DELETE
-
+        // :c
 
     }
 
@@ -254,12 +255,22 @@ export const ModuleManagement = () => {
                         </Styled.TopSideContainer>
                         <DivLine size={"90%"} color={theme.pallete.blueViolet.dark}></DivLine>
 
-                    {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEdtior/>}
-                    {selectedModule?.module?.moduleType === "CLASS|Video" && <BundleEdtior/>}
-                    
+                    {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEditor/>}
+                    {selectedModule?.module?.moduleType === "CLASS|Video" && 
+                        <>
+                            <Typograph style={{fontSize: "20px", textAlign: "center"}} type={ETypographType.ButtonTitle}>Link do Vídeo</Typograph>
+                            <Input hint="Insira a url do vídeo" isPassword={false} defaultValue={selectedModule?.module?.title} 
+                                onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
+                        </>}
+
+                    {selectedModule?.module?.moduleType === "TEST|True or False" &&
+                        <MultipleQuestionTest type={1}></MultipleQuestionTest> 
+                    }
+                    {selectedModule?.module?.moduleType === "TEST|Alternative" &&
+                        <MultipleQuestionTest type={2}></MultipleQuestionTest>
+                    }
 
                 </Card>
-
 
                 <Card
                     style={{display: "flex", flexDirection: "column", alignItems: "center", boxShadow:"0px"}}
