@@ -171,7 +171,6 @@ export const ModuleManagement = () => {
         // Mudar o módulo selecionado
         // Adicionar o módulo excluído na lista de moduleOperation com DELETE
         // :c
-
     }
 
     const generateModuleList = (module : IModule[]) => {
@@ -254,21 +253,20 @@ export const ModuleManagement = () => {
                             <Button type={EButton.DeleteButton} onClick={() => handleDeleteModule}>EXCLUIR</Button>
                         </Styled.TopSideContainer>
                         <DivLine size={"90%"} color={theme.pallete.blueViolet.dark}></DivLine>
+                        {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEditor/>}
+                        {selectedModule?.module?.moduleType === "CLASS|Video" && 
+                            <>
+                                <Typograph style={{fontSize: "20px", textAlign: "center"}} type={ETypographType.ButtonTitle}>Link do Vídeo</Typograph>
+                                <Input hint="Insira a url do vídeo" isPassword={false} defaultValue={selectedModule?.module?.title} 
+                                    onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
+                            </>}
 
-                    {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEditor/>}
-                    {selectedModule?.module?.moduleType === "CLASS|Video" && 
-                        <>
-                            <Typograph style={{fontSize: "20px", textAlign: "center"}} type={ETypographType.ButtonTitle}>Link do Vídeo</Typograph>
-                            <Input hint="Insira a url do vídeo" isPassword={false} defaultValue={selectedModule?.module?.title} 
-                                onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
-                        </>}
-
-                    {selectedModule?.module?.moduleType === "TEST|True or False" &&
-                        <MultipleQuestionTest type={1}></MultipleQuestionTest> 
-                    }
-                    {selectedModule?.module?.moduleType === "TEST|Alternative" &&
-                        <MultipleQuestionTest type={2}></MultipleQuestionTest>
-                    }
+                        {selectedModule?.module?.moduleType === "TEST|True or False" &&
+                            <MultipleQuestionTest type={1}></MultipleQuestionTest> 
+                        }
+                        {selectedModule?.module?.moduleType === "TEST|Alternative" &&
+                            <MultipleQuestionTest type={2}></MultipleQuestionTest>
+                        }
 
                 </Card>
 
