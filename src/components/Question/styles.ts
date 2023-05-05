@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Question = styled.div`
+export const QuestionContainer = styled.div`
     width: 90%;
     margin-top: 1%;
     border-width: 1px;
@@ -20,7 +20,7 @@ export const TitleContainer = styled.div<{ isSelected: boolean}>`
     justify-content: space-between;
     align-items: center;
     
-    background-color: ${props => props.isSelected ? props.theme.pallete.assistant.blueIce : undefined};
+    background-color: ${props => props.isSelected ? props.theme.pallete.assistant.blueIce : props.theme.pallete.assistant.white};
     border-radius: ${props => props.theme.shape.borderRadius};
     border-width: 2px;
     border-style: solid;
@@ -35,6 +35,7 @@ export const DropDownContainer = styled.div<{ isSelected: boolean}>`
     flex-direction: column;
     padding: 2%;
     width: 100%;
+    background-color: ${props => props.theme.pallete.assistant.white};
     transition: display 0.2s ease-out;
 `
 
