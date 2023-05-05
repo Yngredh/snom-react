@@ -39,14 +39,13 @@ export const TrainingPanel = () => {
 
     return(
         <>
-            <Background type={EBackground.SimpleBackgroundFrame}>
+            <Background style={{display: "flex", flexDirection:"column", alignItems:"center"}} type={EBackground.SimpleBackgroundFrame}>
                 <TopSideContainer>
                     <Typograph
-                        style={{marginLeft: '4%'}}
                         type={ETypographType.PageTitle}>
                             Painel de Treinamento
                     </Typograph>
-                    <DivLine  size="97%" color="#000000"/>
+                    <DivLine  size="100%" color="#000000"/>
                     <InputContainer>
                         <Dropdown<ITrainingStatus> 
                             width={"300px"}

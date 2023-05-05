@@ -10,8 +10,8 @@ export const TopSideContainer = styled.div`
     flex-direction: column;
     justify-self: center;
 
-    margin-top: 3%;
-    margin-right: 4%;
+    width: 92%;
+    margin-top: 2%;
 `
 
 export const InputContainer = styled.div`
