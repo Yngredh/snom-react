@@ -1,6 +1,6 @@
 import { Editor } from '@tinymce/tinymce-react';
 
-export const BundleEdtior = () => {
+export const BundleEditor = () => {
 
   return (
     <div style={{
