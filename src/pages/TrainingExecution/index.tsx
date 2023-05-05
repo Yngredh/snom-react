@@ -11,6 +11,7 @@ import { IModule } from "../../interfaces/IModule";
 import { theme } from "../../themes/theme"
 import * as Styled from "./styles"
 import { VideoClass } from "../../components/VideoClass";
+import { ModuleTextClass } from "../../components/ModuleTextClass";
 
 export const TrainingExecution = () => {
 
@@ -48,8 +49,9 @@ export const TrainingExecution = () => {
                     </Styled.ShowModuleTitle>
                 </Card>
                 <Styled.ModuleContent>
-                    {selectedModule?.moduleType.split('|')[0] === 'TEST' ? <MultipleQuestionTest type={EQuestionTestType.TrueOrFalse} /> : <></>}
-                    {selectedModule?.moduleType === "CLASS|Video" ? <VideoClass /> : <></>}
+                    {selectedModule?.moduleType.split('|')[0] === 'TEST' && <MultipleQuestionTest type={EQuestionTestType.TrueOrFalse} /> }
+                    {selectedModule?.moduleType === "CLASS|Video" && <VideoClass /> }
+                    {selectedModule?.moduleType === "CLASS|Text" && <ModuleTextClass />}
                 </Styled.ModuleContent>
             </Card>
             <Card

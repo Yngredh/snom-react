@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player"
-import { DescriptionContainer, VideoContainer } from "./styles"
+import { VideoContainer } from "./styles"
 
 
 export const VideoClass = () => {
@@ -16,9 +16,6 @@ export const VideoClass = () => {
                     style={{ position: 'absolute',top: 0,left: 0}}
                 />
             </VideoContainer>
-            <DescriptionContainer>
-                    
-            </DescriptionContainer>
         </>
     )
 }
