@@ -1,7 +1,21 @@
+import { IModule } from "../interfaces/IModule";
 import { IModuleClass } from "../interfaces/IModuleClass";
 import { IModuleTest } from "../interfaces/IModuleTest";
 
 export abstract class ModuleService {
+
+    public static async getModulesByTrainingId(userToken: string, trainingId: string) : Promise<IModule[]> {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module?` 
+                + new URLSearchParams({ trainingId: trainingId }),
+        {
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            }
+        });
+
+        return await response.json() as IModule[]; 
+    }
 
     public static async getClassModules(userToken: string, moduleId: string) : Promise<IModuleClass[]> {
         const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/class?` 

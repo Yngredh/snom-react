@@ -9,7 +9,7 @@ export const VideoClass = () => {
         <> 
             <VideoContainer>
                 <ReactPlayer 
-                    url='https://www.youtube.com/watch?v=bBHPq3UQFsw&ab_channel=GilsonsOficial'
+                    url='https://www.youtube.com/watch?v=IzPc01-54TQ'
                     volume={0.2}
                     width='100%'
                     height='100%'

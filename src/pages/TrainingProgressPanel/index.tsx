@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"
 import { ITrainingProgress } from "../../interfaces/ITrainingProgress";
-import { TrainingProgressContext, UserContext } from "../../App";
+import { UserContext } from "../../App";
 import { Background, EBackground } from "../../components/Background"
 import { Button, EButton } from "../../components/Button"
 import { Card } from "../../components/Card"
@@ -16,7 +16,6 @@ import { UpHeaderContainer, TrainingInfo,
 export const TrainingProgressPanel = ( ) => {
 
     const userContext = useContext(UserContext);
-    const trainingProgressContext = useContext(TrainingProgressContext);
     const [trainingProgress, setTrainingProgress] = useState<ITrainingProgress>();
     const [isLoading, setIsLoading] = useState(true);
     const { trainingId } = useParams();
@@ -30,7 +29,6 @@ export const TrainingProgressPanel = ( ) => {
         const getTrainingProgress = async () => {
             const validTrainingId = trainingId ? trainingId : '';
             const trainingProgressResponse = await TrainingService.getTrainingProgressByUserToken(userContext.token, validTrainingId);
-            trainingProgressContext.setTrainingProgressContext(trainingProgressResponse[0]);
             setTrainingProgress(trainingProgressResponse[0]);
             setIsLoading(false);
         }
@@ -58,7 +56,7 @@ export const TrainingProgressPanel = ( ) => {
                             let isEnabled = module.position <= trainingProgress.currentPosition;
                             return(
                             <Card 
-                                onClick={() => navigate(`/trainingExecution/${module.moduleId}`)}
+                                onClick={() => navigate(`/trainingExecution/${module.trainingId}/${module.moduleId}`)}
                                 style={{marginTop: `${index === 0 ? '0px' : '2%'}`, display: "flex", alignItems: "center", 
                                 justifyContent: "space-evenly", cursor: isEnabled ? "pointer" : undefined, minHeight: '70px'}}
                                 width="90%" height="70px" hoverStyle={{backgroundColor: theme.pallete.blueViolet.dark, borderColor: theme.pallete.blueViolet.dark}}

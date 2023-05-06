@@ -1,30 +1,43 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { TrainingProgressContext } from "../../App";
+import { UserContext } from "../../App";
 import { Background, EBackground } from "../../components/Background";
 import { Button, EButton } from "../../components/Button";
 import { Card } from "../../components/Card";
 import { DivLine } from "../../components/DivLine";
-import { EQuestionTestType, MultipleQuestionTest } from "../../components/MultipleQuestionTest";
+import { MultipleQuestionTest } from "../../components/MultipleQuestionTest";
 import { ETypographType, Typograph } from "../../components/Typograph";
 import { IModule } from "../../interfaces/IModule";
 import { theme } from "../../themes/theme"
 import * as Styled from "./styles"
 import { VideoClass } from "../../components/VideoClass";
 import { ModuleTextClass } from "../../components/ModuleTextClass";
+import { ModuleService } from "../../services/ModuleService";
 
 export const TrainingExecution = () => {
 
-    const trainingProgressContext = useContext(TrainingProgressContext);
-    const { moduleId } = useParams();
+    const { trainingId ,moduleId } = useParams();
+    const userContext = useContext(UserContext);
     const navigate = useNavigate();
+    const [moduleList, setModuleList] = useState<IModule[]>([]);
     const [selectedModule, setSelectedModule] = useState<IModule>();
 
     useEffect(() => {
-        trainingProgressContext.trainingProgress?.training?.modules.forEach(module => {
+        const getModules = async () => {
+            if(trainingId) {
+                const moduleListResponse = await ModuleService.getModulesByTrainingId(userContext.token, trainingId);
+                setModuleList(moduleListResponse);
+            }
+        }
+        getModules();
+        
+    },[trainingId, userContext.token]);
+
+    useEffect(() => {
+        moduleList.forEach(module => {
             if(module.moduleId === moduleId) setSelectedModule(module);
-        })
-    })
+        });
+    }, [moduleList, moduleId]);
     
     return(
         <Background
@@ -43,13 +56,16 @@ export const TrainingExecution = () => {
                     borderWidth={"0"}
                     backgroundColor={theme.pallete.blueViolet.dark}>
                     <Styled.ShowModuleTitle>
-                        <img style={{width: "4%"}} src="/img/icons/arrowBackward.svg"></img>
+                        <img style={{width: "4%"}} alt="" src="/img/icons/arrowBackward.svg"></img>
                         <Typograph type={ETypographType.ConstrastVioletText} 
                             style={{color: "white", paddingLeft: "2%"}}>{selectedModule?.title}</Typograph>
                     </Styled.ShowModuleTitle>
                 </Card>
                 <Styled.ModuleContent>
-                    {selectedModule?.moduleType.split('|')[0] === 'TEST' && <MultipleQuestionTest type={EQuestionTestType.TrueOrFalse} /> }
+                    {selectedModule?.moduleType === "TEST|True or False" && 
+                        <MultipleQuestionTest isOnEditPage={false} moduleId={selectedModule.moduleId} type={1} /> }
+                    {selectedModule?.moduleType === "TEST|Alternative" && 
+                        <MultipleQuestionTest isOnEditPage={false} moduleId={selectedModule.moduleId} type={2} /> }
                     {selectedModule?.moduleType === "CLASS|Video" && <VideoClass /> }
                     {selectedModule?.moduleType === "CLASS|Text" && <ModuleTextClass />}
                 </Styled.ModuleContent>
@@ -69,7 +85,7 @@ export const TrainingExecution = () => {
                             <Typograph style={{width: '100%',textAlign: 'center'}} type={ETypographType.ConstrastVioletText}>LISTA DE MÓDULOS</Typograph>
                     </Card>
                 <Styled.ModuleList>
-                    {trainingProgressContext.trainingProgress?.training?.modules.map((module) => {
+                    {moduleList?.map((module) => {
                         let isSelected = module.moduleId === moduleId;
                         let type = "text";
                         if(module.moduleType === "TEST|Alternative" || "TEST|True or False") type = "test";
@@ -81,7 +97,7 @@ export const TrainingExecution = () => {
                                 style={{cursor: 'pointer'}}
                                 isSelected={isSelected}
                                 onClick={() => {
-                                if(!isSelected) navigate(`/trainingExecution/${module.moduleId}`);
+                                if(!isSelected) navigate(`/trainingExecution/${module.trainingId}/${module.moduleId}`);
                                 }}
                             >
                                 <img alt="Ícone de modulo" style={{ width: "10%"}} src={`/img/modules/${type}.svg`}></img>

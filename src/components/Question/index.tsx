@@ -5,14 +5,15 @@ import { TrueOrFalseCheckbox } from "../TrueOrFalseCheckbox";
 import { ETypographType, Typograph } from "../Typograph"
 import { CustomRadioInput, DropDownContainer, OptionContainer, OptionDescriptionContainer, QuestionContainer, TitleContainer } from "./styles"
 import { EQuestionTestType } from "../MultipleQuestionTest";
+import { IQuestion } from "../../interfaces/IQuestion";
 
 export interface IQuestionProps {
-    question: {title: string, options: string[]}
-    type: EQuestionTestType
+    question: IQuestion,
+    type: EQuestionTestType,
+    isOnEditPage: boolean
 }
 
 export const Question = (props: IQuestionProps) => {
-    const [isOnEditPage, setIsOnEditPage] = useState(true);
     const [isOnEditMode, setIsOnEditMode] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     
@@ -23,22 +24,25 @@ export const Question = (props: IQuestionProps) => {
                 <Input 
                     style={{marginLeft: '4%'}}
                     hint={""} 
-                    defaultValue={props.question.title}
+                    defaultValue={props.question.statement}
                     isPassword={false} 
                     width={"80%"} 
                     borderColor={theme.pallete.blueViolet.dark} 
                     onChange={(e) => {}} />  :
                 <Typograph style={{marginLeft: '4%'}} type={ETypographType.LightVioletText}> 
-                    {props.question.title}
+                    {props.question.statement}
                 </Typograph>
             }
-            {isOnEditPage ? <img style={{marginRight: '4%'}} 
+            {props.isOnEditPage ? <img style={{marginRight: '4%'}} 
                 alt="Botão para editar"
                 onClick={() => {setIsOnEditMode(!isSelected)}} 
                  src={`/img/icons/${isOnEditMode ? "done_icon_violet.svg" : "edit_pencil.svg"}`} /> : <></>}
         </TitleContainer>
         <DropDownContainer isSelected={isSelected}>
-            {props.question.options.map((option) => {
+            {[  props.question.alternativeOne,
+                props.question.alternativeTwo,
+                props.question.alternativeThree,
+                props.question.alternativeFour ].map((alternative) => {
                 return (<OptionContainer>
                     {props.type === EQuestionTestType.MultipleChoice && <CustomRadioInput name="response" type='radio' />}
                     {props.type === EQuestionTestType.TrueOrFalse && <TrueOrFalseCheckbox />}
@@ -46,13 +50,13 @@ export const Question = (props: IQuestionProps) => {
                         <Input 
                             style={{marginLeft: '1%'}}
                             hint={""} 
-                            defaultValue={option}
+                            defaultValue={alternative}
                             isPassword={false} 
                             width={"70%"} 
                             borderColor={theme.pallete.blueViolet.dark} 
                             onChange={(e) => {}} /> :
                         <OptionDescriptionContainer>
-                            <Typograph type={ETypographType.LightText}>{option}</Typograph>
+                            <Typograph type={ETypographType.LightText}>{alternative}</Typograph>
                         </OptionDescriptionContainer>
                     } 
                 </OptionContainer>)
