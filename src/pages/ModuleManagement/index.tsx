@@ -256,16 +256,17 @@ export const ModuleManagement = () => {
                         {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEditor/>}
                         {selectedModule?.module?.moduleType === "CLASS|Video" && 
                             <>
-                                <Typograph style={{fontSize: "20px", textAlign: "center"}} type={ETypographType.ButtonTitle}>Link do Vídeo</Typograph>
+                                <Typograph style={{fontSize: "20px", textAlign: "center", marginTop: '3%'}} type={ETypographType.ButtonTitle}>Link do Vídeo</Typograph>
                                 <Input hint="Insira a url do vídeo" isPassword={false} defaultValue={selectedModule?.module?.title} 
-                                    onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
+                                    onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}
+                                    style={{marginTop: '1%'}}/>
                             </>}
 
                         {selectedModule?.module?.moduleType === "TEST|True or False" &&
-                            <MultipleQuestionTest type={1}></MultipleQuestionTest> 
+                            <MultipleQuestionTest isOnEditPage={true} moduleId={selectedModule.module.moduleId} type={1}></MultipleQuestionTest> 
                         }
                         {selectedModule?.module?.moduleType === "TEST|Alternative" &&
-                            <MultipleQuestionTest type={2}></MultipleQuestionTest>
+                            <MultipleQuestionTest isOnEditPage={true} moduleId={selectedModule.module.moduleId} type={2}></MultipleQuestionTest>
                         }
 
                 </Card>
