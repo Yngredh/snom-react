@@ -3,7 +3,9 @@ import { Question } from "../Question";
 import { IQuestion } from "../../interfaces/IQuestion";
 import { QuestionService } from "../../services/QuestionService";
 import { UserContext } from "../../App";
-import { TestContainer } from "./styles";
+import { AddNewQuestion, TestContainer } from "./styles";
+import { ETypographType, Typograph } from "../Typograph";
+import { randomUUID } from "crypto";
 
 export enum EQuestionTestType {
     TrueOrFalse = 1,
@@ -29,6 +31,20 @@ export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
 
         getQuestions();
     }, [props.moduleId, userContext.token])
+
+    const handleAddNewQuestion = () => {
+        setQuestionList([...questionList, 
+            {
+                questionId: `TEMPORARY-ID-${questionList.length}`,
+                moduleTestId: props.moduleId,
+                statement: "",
+                alternativeOne: "",
+                alternativeTwo: "",
+                alternativeThree: "",
+                alternativeFour: "",
+                answers: ""
+            }])
+    }
     
     return(
         <TestContainer>
@@ -37,6 +53,12 @@ export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
                     <Question isOnEditPage={props.isOnEditPage} type={props.type} question={question}/>
                 )
             })}
+            {props.isOnEditPage &&
+                <AddNewQuestion onClick={handleAddNewQuestion}>
+                    <Typograph style={{fontSize: "42px"}} type={ETypographType.LightVioletText}>+</Typograph>
+                    <Typograph style={{fontSize: "24px"}} type={ETypographType.ButtonTitle}>Adicionar uma nova questão</Typograph>
+                </AddNewQuestion>
+            }
         </TestContainer>
     )
 }
