@@ -17,10 +17,15 @@ export const Question = (props: IQuestionProps) => {
     const [isOnEditMode, setIsOnEditMode] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
     
+    const handleTitleContainerClick = () => {
+        if(props.isOnEditPage && !isOnEditMode) setIsOnEditMode(true);
+        else setIsSelected(isSelected);
+    }
+
     return(    
     <QuestionContainer>
-        <TitleContainer isSelected={isSelected} onClick={() => { if(!isOnEditMode)  setIsSelected(!isSelected)}}>
-            {isOnEditMode && isSelected ?
+        <TitleContainer isSelected={isSelected || isOnEditMode} onClick={handleTitleContainerClick}>
+            {isOnEditMode ?
                 <Input 
                     style={{marginLeft: '4%'}}
                     hint={""} 
@@ -35,10 +40,10 @@ export const Question = (props: IQuestionProps) => {
             }
             {props.isOnEditPage ? <img style={{marginRight: '4%'}} 
                 alt="Botão para editar"
-                onClick={() => {setIsOnEditMode(!isSelected)}} 
+                onClick={() => {setIsOnEditMode(!isOnEditMode)}} 
                  src={`/img/icons/${isOnEditMode ? "done_icon_violet.svg" : "edit_pencil.svg"}`} /> : <></>}
         </TitleContainer>
-        <DropDownContainer isSelected={isSelected}>
+        <DropDownContainer isSelected={isSelected || isOnEditMode}>
             {[  props.question.alternativeOne,
                 props.question.alternativeTwo,
                 props.question.alternativeThree,

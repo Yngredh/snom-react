@@ -96,14 +96,13 @@ export const ModuleManagement = () => {
         await ModuleService.deleteClassModule(userContext.token, classModulesToDelete);
 
         await ModuleService.createTestModule(userContext.token, testModulesToCreate);
-        await ModuleService.updateClassModule(userContext.token, testModulesToUpdate);
+        await ModuleService.updateTestModule(userContext.token, testModulesToUpdate);
         await ModuleService.deleteTestModule(userContext.token, testModulesToDelete);
 
     }
  
 
     const handleAddModule = (moduleType : String) => {
-
         if(moduleType === "VIDEO") {
             let newModule: Partial<IModuleClass> = {
                 module: {
@@ -114,10 +113,11 @@ export const ModuleManagement = () => {
                     position: moduleList.length + 1
                 }
             }
-            moduleList.push({
+            setModuleList([
+                ...moduleList, {
                 module: newModule,
-                operation: 1
-            })
+                operation: 1}
+            ]);
             setSelectedModule(newModule)
         } else if (moduleType === "TEXT") {
             let newModule: Partial<IModuleClass> = {
@@ -129,10 +129,11 @@ export const ModuleManagement = () => {
                     position: moduleList.length + 1
                 }
             }
-            moduleList.push({
+            setModuleList([
+                ...moduleList, {
                 module: newModule,
-                operation: 1
-            })
+                operation: 1}
+            ]);
             setSelectedModule(newModule)
         } else if (moduleType === "ALTERNATIVE") {
             let newModule: Partial<IModuleTest> = {
@@ -144,10 +145,11 @@ export const ModuleManagement = () => {
                     position: moduleList.length + 1
                 }
             }
-            moduleList.push({
+            setModuleList([
+                ...moduleList, {
                 module: newModule,
-                operation: 1
-            })
+                operation: 1}
+            ]);
             setSelectedModule(newModule)
         } else {
             let newModule: Partial<IModuleTest> = {
@@ -159,18 +161,45 @@ export const ModuleManagement = () => {
                     position: moduleList.length + 1
                 }
             }
-            moduleList.push({
+            setModuleList([
+                ...moduleList, {
                 module: newModule,
-                operation: 1
-            })
+                operation: 1}
+            ]);
             setSelectedModule(newModule)
         }
     }
 
     const handleDeleteModule = () => {
-        // Mudar o módulo selecionado
-        // Adicionar o módulo excluído na lista de moduleOperation com DELETE
-        // :c
+        const moduletoDelete = selectedModule
+        let newModuleList = [];
+
+        if (moduletoDelete?.module?.moduleId.includes("TEMPORARY-ID")) {
+            newModuleList = moduleList.filter((m) => m.module.module?.moduleId !== moduletoDelete.module?.moduleId);
+            setModuleList(newModuleList);
+            
+        } else {
+            newModuleList = moduleList.map((m) => {
+                if (m.module.module?.moduleId === moduletoDelete?.module?.moduleId) {
+                    m.operation = EOperation.Delete
+                }
+                return m
+            });
+            setModuleList(newModuleList);
+        }
+        setSelectedModuleAfterDeleted(newModuleList);
+    }
+
+    const setSelectedModuleAfterDeleted = (modules :IModuleOperations[]) => {
+        for(let index = modules.length - 1; index >= 0; index--) {
+            let module = modules[index];
+            
+            if(module.operation !== EOperation.Delete) {
+                console.log(module.module);
+                setSelectedModule(module.module);
+                break;
+            }
+        }
     }
 
     const generateModuleList = (module : IModule[]) => {
@@ -217,6 +246,10 @@ export const ModuleManagement = () => {
         }
     }, [training]);
 
+    useEffect(()=> {
+        console.log(moduleList)
+    }, [moduleList]);
+
     return(
         <Background style={{display:"flex", flexDirection: "column", alignItems: "center"}}
                     type={EBackground.SimpleBackgroundFrame}>
@@ -250,7 +283,7 @@ export const ModuleManagement = () => {
                                 <Input hint="Título do Módulo" isPassword={false} defaultValue={selectedModule?.module?.title} 
                                         onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
                             </Styled.ModuleTitle>
-                            <Button type={EButton.DeleteButton} onClick={() => handleDeleteModule}>EXCLUIR</Button>
+                            <Button type={EButton.DeleteButton} onClick={handleDeleteModule}>EXCLUIR</Button>
                         </Styled.TopSideContainer>
                         <DivLine size={"90%"} color={theme.pallete.blueViolet.dark}></DivLine>
                         {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEditor/>}
@@ -315,7 +348,8 @@ export const ModuleManagement = () => {
                                 }
                         </Card>
                     <Styled.ModuleList>
-                        {moduleList.map((module) => {
+                        {moduleList.filter((m) => m.operation !== EOperation.Delete)
+                            .map((module) => {
                             let type = "text";
                             if(module.module.module?.moduleType === "TEST|Alternative") type = "test";
                             if(module.module.module?.moduleType === "TEST|True or False") type = "true";

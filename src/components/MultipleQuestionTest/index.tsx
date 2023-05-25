@@ -45,7 +45,7 @@ export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
                 answers: ""
             }])
     }
-    
+
     return(
         <TestContainer>
             {questionList.map((question) => {
