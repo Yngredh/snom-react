@@ -53,16 +53,22 @@ export const TrainingProgressPanel = ( ) => {
                 <ModulesListContainer>
                     <ScrollableListContainer>
                         {!isLoading && trainingProgress?.training?.modules?.map((module, index) => {
+                            console.log(trainingProgress.currentPosition);
                             let isEnabled = module.position <= trainingProgress.currentPosition;
                             return(
                             <Card 
-                                onClick={() => navigate(`/trainingExecution/${module.trainingId}/${module.moduleId}`)}
+                                onClick={() => {
+                                    if(isEnabled) navigate(`/trainingExecution/${module.trainingId}/${module.moduleId}`); 
+                                }}
                                 style={{marginTop: `${index === 0 ? '0px' : '2%'}`, display: "flex", alignItems: "center", 
                                 justifyContent: "space-evenly", cursor: isEnabled ? "pointer" : undefined, minHeight: '70px'}}
-                                width="90%" height="70px" hoverStyle={{backgroundColor: theme.pallete.blueViolet.dark, borderColor: theme.pallete.blueViolet.dark}}
-                                borderColor={theme.pallete.blueViolet.dark} borderWidth={theme.shape.borderSize}
-                                backgroundColor={theme.pallete.assistant.blueIce}>
-                                    <Typograph style={{width: "80%"}} type={ETypographType.LightText} id={"module-title"}>{module.title}</Typograph>
+                                borderWidth={theme.shape.borderSize}
+                                width="90%" height="70px" 
+                                borderColor={isEnabled ? theme.pallete.blueViolet.dark : theme.pallete.assistant.darkGray} 
+                                backgroundColor={isEnabled? theme.pallete.assistant.blueIce : theme.pallete.assistant.lightGray}
+                                hoverStyle={!isEnabled ? {} : {backgroundColor: theme.pallete.blueViolet.dark, borderColor: theme.pallete.blueViolet.dark}}
+                                >
+                                    <Typograph style={{width: "80%"}} type={ETypographType.LightText} id={isEnabled ? "module-title" : ""}>{module.title}</Typograph>
                             </Card>)
                         })}
                     </ScrollableListContainer>
