@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "../../themes/theme";
 
 
 export const ShowModuleTitle = styled.div`
@@ -37,7 +38,7 @@ export const ModuleList = styled.div`
     }
 `
 
-export const Module = styled.div<{ isSelected: boolean }>`
+export const Module = styled.div<{ isSelected: boolean, isEnabled: boolean}>`
     display: flex;
     width: 98%;
     height: 7%;
@@ -49,7 +50,15 @@ export const Module = styled.div<{ isSelected: boolean }>`
     border-width: ${props => props.isSelected ? props.theme.shape.borderSize : undefined};
     border-radius: ${props => props.isSelected ? props.theme.shape.borderRadius : undefined};
     background-color: ${props => props.isSelected ? props.theme.pallete.cyanGreen.light : undefined};
-    
+
+
+    #deactivated-title-module {
+        color: ${theme.pallete.assistant.lightGray};
+    }
+
+    #deactivated-icon-module {
+        filter: invert(98%) sepia(0%) saturate(0%) hue-rotate(162deg) brightness(86%) contrast(85%);
+    }
 `
 
 export const ModuleContent = styled.div`
