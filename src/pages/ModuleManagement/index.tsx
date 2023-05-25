@@ -19,6 +19,7 @@ import { IModuleClass } from "../../interfaces/IModuleClass";
 import { ModuleService } from "../../services/ModuleService";
 import { BundleEditor } from "../../components/BundleEditor";
 import { MultipleQuestionTest } from "../../components/MultipleQuestionTest";
+import { SelectedModuleCard } from "../../components/SelectedModuleCard";
 
 export const ModuleManagement = () => {
     
@@ -27,7 +28,7 @@ export const ModuleManagement = () => {
     const { trainingId } = useParams();
     const [moduleList, setModuleList] = useState<IModuleOperations[]>([]);
     const [training, setTraining] = useState<ITraining>();
-    const [selectedModule, setSelectedModule] = useState<Partial<IModuleClass> | Partial<IModuleTest>>();
+    const [selectedModule, setSelectedModule] = useState<IModuleOperations>();
     const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
     const [showModuleSelectBar, setShowModuleSelectBar] = useState(false);
 
@@ -39,24 +40,13 @@ export const ModuleManagement = () => {
         navigate(`/workshop`);
     }
 
-    const alterTitle = (e: HTMLInputElement) => { 
-        
-        const newModuleList = moduleList.map(module => {
-            if(module.module.module?.moduleId === selectedModule?.module?.moduleId) {
-                module.module.module!!.title = e.value;
-                setSelectedModule(module.module);
-            }
-            return module;
-        })
 
-        setModuleList(newModuleList);
-    }
 
     const handleModuleType = () => {
-        if(selectedModule?.module?.moduleType === "TEST|Alternative") return "test"
-        if(selectedModule?.module?.moduleType === "TEST|True or False") return "true"
-        if(selectedModule?.module?.moduleType === "CLASS|Text") return "text"
-        if(selectedModule?.module?.moduleType === "CLASS|Video") return "video"
+        if(selectedModule?.module?.module?.moduleType === "TEST|Alternative") return "test"
+        if(selectedModule?.module?.module?.moduleType === "TEST|True or False") return "true"
+        if(selectedModule?.module?.module?.moduleType === "CLASS|Text") return "text"
+        return "video"
     }
 
     const handleSaveChanges = async () => {
@@ -118,7 +108,9 @@ export const ModuleManagement = () => {
                 module: newModule,
                 operation: 1}
             ]);
-            setSelectedModule(newModule)
+            setSelectedModule({
+                module: newModule,
+                operation: 1})
         } else if (moduleType === "TEXT") {
             let newModule: Partial<IModuleClass> = {
                 module: {
@@ -134,7 +126,9 @@ export const ModuleManagement = () => {
                 module: newModule,
                 operation: 1}
             ]);
-            setSelectedModule(newModule)
+            setSelectedModule({
+                module: newModule,
+                operation: 1})
         } else if (moduleType === "ALTERNATIVE") {
             let newModule: Partial<IModuleTest> = {
                 module: {
@@ -150,7 +144,9 @@ export const ModuleManagement = () => {
                 module: newModule,
                 operation: 1}
             ]);
-            setSelectedModule(newModule)
+            setSelectedModule({
+                module: newModule,
+                operation: 1})
         } else {
             let newModule: Partial<IModuleTest> = {
                 module: {
@@ -166,21 +162,34 @@ export const ModuleManagement = () => {
                 module: newModule,
                 operation: 1}
             ]);
-            setSelectedModule(newModule)
+            setSelectedModule({
+                module: newModule,
+                operation: 1})
         }
     }
 
-    const handleDeleteModule = () => {
-        const moduletoDelete = selectedModule
+    const handleUpdateModule = (updatedModuleOperation: IModuleOperations) => {
+        setModuleList(
+            moduleList.map(moduleOperation => {
+                if(moduleOperation.module.module?.moduleId === updatedModuleOperation.module.module?.moduleId) {
+                    return updatedModuleOperation;
+                }
+                return moduleOperation;
+            })
+        );
+        setSelectedModule(updatedModuleOperation);
+    }
+
+    const handleDeleteModule = (deletedModuleOperation: IModuleOperations) => {
         let newModuleList = [];
 
-        if (moduletoDelete?.module?.moduleId.includes("TEMPORARY-ID")) {
-            newModuleList = moduleList.filter((m) => m.module.module?.moduleId !== moduletoDelete.module?.moduleId);
+        if (deletedModuleOperation?.module?.module?.moduleId.includes("TEMPORARY-ID")) {
+            newModuleList = moduleList.filter((m) => m.module.module?.moduleId !== deletedModuleOperation.module?.module?.moduleId);
             setModuleList(newModuleList);
             
         } else {
             newModuleList = moduleList.map((m) => {
-                if (m.module.module?.moduleId === moduletoDelete?.module?.moduleId) {
+                if (m.module.module?.moduleId === deletedModuleOperation?.module?.module?.moduleId) {
                     m.operation = EOperation.Delete
                 }
                 return m
@@ -196,7 +205,7 @@ export const ModuleManagement = () => {
             
             if(module.operation !== EOperation.Delete) {
                 console.log(module.module);
-                setSelectedModule(module.module);
+                setSelectedModule(module);
                 break;
             }
         }
@@ -242,7 +251,7 @@ export const ModuleManagement = () => {
 
     useEffect(() => {
         if(moduleList.length !== 0) {
-            setSelectedModule(moduleList[0].module)
+            setSelectedModule(moduleList[0])
         }
     }, [training]);
 
@@ -271,38 +280,10 @@ export const ModuleManagement = () => {
             </Styled.TopSideContainer>
 
             <Styled.Content>
-                <Card
-                    style={{display: "flex", flexDirection: "column", alignItems: "center", padding: "1%"}}
-                    width="79%" height="100%" 
-                    borderColor={theme.pallete.blueViolet.dark}
-                    borderWidth={"1"}
-                    backgroundColor={theme.pallete.cyanGreen.light}>
-                        <Styled.TopSideContainer>
-                            <Styled.ModuleTitle>
-                                <img style={{width: "8%", marginRight: "2%"}} src={`/img/modules/${handleModuleType()}.svg`}></img>
-                                <Input hint="Título do Módulo" isPassword={false} defaultValue={selectedModule?.module?.title} 
-                                        onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}/>
-                            </Styled.ModuleTitle>
-                            <Button type={EButton.DeleteButton} onClick={handleDeleteModule}>EXCLUIR</Button>
-                        </Styled.TopSideContainer>
-                        <DivLine size={"90%"} color={theme.pallete.blueViolet.dark}></DivLine>
-                        {selectedModule?.module?.moduleType === "CLASS|Text" && <BundleEditor/>}
-                        {selectedModule?.module?.moduleType === "CLASS|Video" && 
-                            <>
-                                <Typograph style={{fontSize: "20px", textAlign: "center", marginTop: '3%'}} type={ETypographType.ButtonTitle}>Link do Vídeo</Typograph>
-                                <Input hint="Insira a url do vídeo" isPassword={false} defaultValue={selectedModule?.module?.title} 
-                                    onChange={alterTitle} width="60%" borderColor={theme.pallete.blueViolet.dark}
-                                    style={{marginTop: '1%'}}/>
-                            </>}
-
-                        {selectedModule?.module?.moduleType === "TEST|True or False" &&
-                            <MultipleQuestionTest isOnEditPage={true} moduleId={selectedModule.module.moduleId} type={1}></MultipleQuestionTest> 
-                        }
-                        {selectedModule?.module?.moduleType === "TEST|Alternative" &&
-                            <MultipleQuestionTest isOnEditPage={true} moduleId={selectedModule.module.moduleId} type={2}></MultipleQuestionTest>
-                        }
-
-                </Card>
+                <SelectedModuleCard selectedModuleOperation={selectedModule!!} 
+                    handleUpdatedModule={handleUpdateModule}
+                    handleDeleteModule={handleDeleteModule}
+                    getModuleIcone={handleModuleType} />
 
                 <Card
                     style={{display: "flex", flexDirection: "column", alignItems: "center", boxShadow:"0px"}}
@@ -356,7 +337,7 @@ export const ModuleManagement = () => {
                             if(module.module.module?.moduleType === "CLASS|Text") type = "text";
                             if(module.module.module?.moduleType === "CLASS|Video") type = "video"
                             return(<>
-                                <Styled.Module onClick={() => setSelectedModule(module.module)}>
+                                <Styled.Module onClick={() => setSelectedModule(module)}>
                                     <img style={{width: "10%"}} src={`/img/modules/${type}.svg`}></img>
                                     <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>{module.module.module?.title}</Typograph>    
                                 </Styled.Module>
