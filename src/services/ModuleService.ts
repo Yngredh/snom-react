@@ -17,9 +17,9 @@ export abstract class ModuleService {
         return await response.json() as IModule[]; 
     }
 
-    public static async getClassModules(userToken: string, moduleId: string) : Promise<IModuleClass[]> {
+    public static async getClassModules(userToken: string, trainingId:string) : Promise<IModuleClass[]> {
         const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/class?` 
-                + new URLSearchParams({ moduleId }),
+                + new URLSearchParams({ trainingId }),
         {
             headers : {
                 'Content-Type': 'application/json',
@@ -75,9 +75,9 @@ export abstract class ModuleService {
     }
 
 
-    public static async getTestModules(userToken: string, moduleId: string) : Promise<IModuleTest[]> {
+    public static async getTestModules(userToken: string, trainingId:string) : Promise<IModuleTest[]> {
         const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/test?` 
-                + new URLSearchParams({ moduleId }),
+                + new URLSearchParams({ trainingId }),
         {
             headers : {
                 'Content-Type': 'application/json',
