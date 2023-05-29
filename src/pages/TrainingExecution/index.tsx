@@ -68,10 +68,10 @@ export const TrainingExecution = () => {
                     </Styled.ShowModuleTitle>
                 </Card>
                 <Styled.ModuleContent>
-                    {selectedModule?.moduleType === "TEST|True or False" && 
-                        <MultipleQuestionTest isOnEditPage={false} moduleId={selectedModule.moduleId} type={1} /> }
-                    {selectedModule?.moduleType === "TEST|Alternative" && 
-                        <MultipleQuestionTest isOnEditPage={false} moduleId={selectedModule.moduleId} type={2} /> }
+                    {selectedModule?.moduleType.includes("TEST") &&
+                    <MultipleQuestionTest questionOperationList={[]} 
+                        isOnEditPage={true} moduleId={selectedModule?.moduleId} 
+                        type={selectedModule?.moduleType === "TEST|Alternative" ? 2 : 1} /> }
                     {selectedModule?.moduleType === "CLASS|Video" && <VideoClass /> }
                     {selectedModule?.moduleType === "CLASS|Text" && <ModuleTextClass />}
                 </Styled.ModuleContent>

@@ -1,6 +1,6 @@
-import { IModule } from "./IModule";
 import { IModuleClass } from "./IModuleClass";
 import { IModuleTest } from "./IModuleTest";
+import { IQuestion } from "./IQuestion";
 
 
 export enum EOperation {
@@ -10,8 +10,13 @@ export enum EOperation {
     Update = 3,
     Delete = 4,
 }
+export interface IQuestionOperations {
+    question: Partial<IQuestion>,
+    operation: EOperation
+}
 
 export interface IModuleOperations {
     module: Partial<IModuleClass> | Partial<IModuleTest>,
-    operation: EOperation
+    operation: EOperation,
+    questionList?: IQuestionOperations[];
 }
