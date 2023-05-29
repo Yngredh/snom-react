@@ -6,12 +6,16 @@ import { Background, EBackground } from "../../components/Background";
 import { Button, EButton } from "../../components/Button";
 import { ETypographType, Typograph } from "../../components/Typograph";
 import { EPopUpType, PopUp } from "../../components/PopUp";
-import { IModuleOperations, EOperation } from "../../interfaces/IModuleOperations";
+import { IModuleOperations, EOperation, IQuestionOperations} from "../../interfaces/IModuleOperations";
 import { IModuleTest } from "../../interfaces/IModuleTest";
 import { IModuleClass } from "../../interfaces/IModuleClass";
 import { ModuleService } from "../../services/ModuleService";
 import { SelectedModuleCard } from "../../components/SelectedModuleCard";
 import { ModuleManagementList } from "../../components/ModuleManagementList";
+import { QuestionService } from "../../services/QuestionService";
+import { IQuestion } from "../../interfaces/IQuestion";
+import { useSaveModuleOperations } from "../../hooks/useSaveModulesOperations";
+import { useSaveQuestionOperations } from "../../hooks/useSaveQuestionOperations";
 
 export const ModuleManagement = () => {
     
@@ -21,6 +25,8 @@ export const ModuleManagement = () => {
     const [moduleList, setModuleList] = useState<IModuleOperations[]>([]);
     const [selectedModule, setSelectedModule] = useState<IModuleOperations>();
     const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
+    const [saveModuleOperations] = useSaveModuleOperations();
+    const [saveQuestionsOperations] = useSaveQuestionOperations();
 
     const goToTrainingManagement = () => {
         navigate(`/trainingManagement/${trainingId}`);
@@ -31,44 +37,15 @@ export const ModuleManagement = () => {
     }
 
     const handleSaveChanges = async () => {
-        const classModulesToCreate: Partial<IModuleClass>[] = [];
-        const classModulesToUpdate: Partial<IModuleClass>[] = [];
-        const classModulesToDelete: Partial<{moduleId: string, moduleType: string}>[] = [];
-        const testModulesToCreate: Partial<IModuleTest>[] = [];
-        const testModulesToUpdate: Partial<IModuleTest>[] = [];
-        const testModulesToDelete: Partial<{moduleId: string, moduleType: string}>[] = [];
- 
-        moduleList.forEach((moduleOperation) => {
+        let questionOperations :IQuestionOperations[] = [];
+        moduleList.forEach(moduleOperation => {
+            if(moduleOperation.questionList) questionOperations.push(...moduleOperation.questionList!!)
+        });
 
-            if (moduleOperation.module.module?.moduleType.includes("CLASS")){
-                if (moduleOperation.operation === EOperation.Create) 
-                        classModulesToCreate.push(moduleOperation.module as IModuleClass)
-                if (moduleOperation.operation === EOperation.Update) 
-                        classModulesToUpdate.push(moduleOperation.module as IModuleClass)
-                if (moduleOperation.operation === EOperation.Delete) 
-                        classModulesToDelete.push({
-                            moduleId: moduleOperation.module.module?.moduleId, 
-                            moduleType: moduleOperation.module.module?.moduleType})
-            } else {
-                if (moduleOperation.operation === EOperation.Create) 
-                        testModulesToCreate.push(moduleOperation.module as IModuleTest)
-                if (moduleOperation.operation === EOperation.Update) 
-                        testModulesToUpdate.push(moduleOperation.module as IModuleTest)
-                if (moduleOperation.operation === EOperation.Delete) 
-                        testModulesToDelete.push({
-                            moduleId: moduleOperation.module.module?.moduleId, 
-                            moduleType: moduleOperation.module.module?.moduleType})
-            }
-        })
+        let finishedSaveModule = await saveModuleOperations(moduleList);
+        let finishedSaveQuestion = await saveQuestionsOperations(questionOperations);
 
-        await ModuleService.createClassModule(userContext.token, classModulesToCreate);
-        await ModuleService.updateClassModule(userContext.token, classModulesToUpdate);
-        await ModuleService.deleteClassModule(userContext.token, classModulesToDelete);
-
-        await ModuleService.createTestModule(userContext.token, testModulesToCreate);
-        await ModuleService.updateTestModule(userContext.token, testModulesToUpdate);
-        await ModuleService.deleteTestModule(userContext.token, testModulesToDelete);
-
+        if(finishedSaveModule && finishedSaveQuestion) navigate(0);
     }
     
     const handleAddNewModule = (newModule: Partial<IModuleClass> | Partial<IModuleTest>) => {
@@ -101,7 +78,9 @@ export const ModuleManagement = () => {
         } else {
             newModuleList = moduleList.map((m) => {
                 if (m.module.module?.moduleId === deletedModuleOperation?.module?.module?.moduleId) {
-                    m.operation = EOperation.Delete
+                    let newModuleOperation = m;
+                    newModuleOperation.operation = EOperation.Delete;
+                    return newModuleOperation;
                 }
                 return m
             });
@@ -115,32 +94,20 @@ export const ModuleManagement = () => {
             let module = modules[index];
             
             if(module.operation !== EOperation.Delete) {
-                console.log(module.module);
                 setSelectedModule(module);
                 break;
             }
         }
     }
 
-    const generateModuleList = (classList : Partial<IModuleClass>[], testList : Partial<IModuleTest>[]) => {
-
-        const temporaryModuleList: IModuleOperations[] = []
-        
-        classList.forEach((m) => {
-            temporaryModuleList.push({
-                module: m,
-                operation: 0
+    const generateTestModuleOperation = (testModule: IModuleTest, questions: IQuestion[]) : IModuleOperations => {
+        return {
+            module: testModule,
+            operation: EOperation.None,
+            questionList : questions.map(question => {
+                return { question: question, operation: EOperation.None}
             })
-        });
-
-        testList.forEach((m) => {
-            temporaryModuleList.push({
-                module: m,
-                operation: 0
-            })
-        });
-
-        setModuleList(temporaryModuleList);
+        }
     }
 
     useEffect(() => {
@@ -149,15 +116,29 @@ export const ModuleManagement = () => {
                 const classModuleListResponse = await ModuleService.getClassModules(userContext.token, trainingId);
                 const testModuleListResponse = await ModuleService.getTestModules(userContext.token, trainingId);
 
-                generateModuleList(classModuleListResponse, testModuleListResponse);
+                let temporaryModuleList :IModuleOperations[] = [];
+
+                classModuleListResponse.forEach(classModule => {
+                    temporaryModuleList.push({ module: classModule, operation: EOperation.None, questionList: undefined})
+                });
+
+                for(let index = 0; index < testModuleListResponse.length; index++) {
+                    let testModule = testModuleListResponse[index];
+                    const questionListResponse = await QuestionService.getQuestionsByModuleId(testModule.module.moduleId, userContext.token);
+                    temporaryModuleList.push(generateTestModuleOperation(testModule, questionListResponse))
+                }
+                
+                let sorted = temporaryModuleList.sort((a,b) => a.module!!.module!!.position!! - b.module!!.module!!.position!!);
+                setSelectedModule(sorted[0]);
+                setModuleList(sorted);
             }
         }
         getTraining();
     }, [userContext.token, trainingId]);
 
-    useEffect(()=> {
-        console.log(moduleList)
-    }, [moduleList]);
+    useEffect(()=>{
+        console.log(moduleList);
+    },[moduleList])
 
     return(
         <Background style={{display:"flex", flexDirection: "column", alignItems: "center"}}
@@ -180,9 +161,10 @@ export const ModuleManagement = () => {
             </Styled.TopSideContainer>
 
             <Styled.Content>
-                <SelectedModuleCard selectedModuleOperation={selectedModule!!} 
+                <SelectedModuleCard 
+                    selectedModuleOperation={selectedModule!!}
                     handleUpdatedModule={handleUpdateModule}
-                    handleDeleteModule={handleDeleteModule} />
+                    handleDeleteModule={handleDeleteModule}/>
 
                 <ModuleManagementList 
                     trainingId={trainingId!!}

@@ -27,7 +27,7 @@ export const ModuleManagementList = (props :IModuleManagementList) => {
                     trainingId: props.trainingId,
                     moduleType: moduleType,
                     title: "Novo Módulo de Aula",
-                    position: props.moduleOperationList.length + 1
+                    position: props.moduleOperationList.length + 2
                 },
                 content: ""
             }
@@ -40,7 +40,7 @@ export const ModuleManagementList = (props :IModuleManagementList) => {
                     trainingId: props.trainingId,
                     moduleType: moduleType,
                     title: "Novo Módulo de Teste",
-                    position: props.moduleOperationList.length + 1
+                    position: props.moduleOperationList.length + 2
                 }
             }
             props.addNewModuleToList(newTestModule);
@@ -95,19 +95,20 @@ export const ModuleManagementList = (props :IModuleManagementList) => {
             <Styled.ModuleList>
                 {props.moduleOperationList.filter((m) => m.operation !== EOperation.Delete)
                     .map((module) => {
-                    let type = "text";
-                    if(module.module.module?.moduleType === "TEST|Alternative") type = "test";
-                    if(module.module.module?.moduleType === "TEST|True or False") type = "true";
-                    if(module.module.module?.moduleType === "CLASS|Text") type = "text";
-                    if(module.module.module?.moduleType === "CLASS|Video") type = "video"
-                    return(<>
-                        <Styled.Module onClick={() => props.selectModule(module)}>
-                            <img alt="" style={{width: "10%"}} src={`/img/modules/${type}.svg`}></img>
-                            <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>{module.module.module?.title}</Typograph>    
-                        </Styled.Module>
-                        <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>
-                    </>)
-                })}
+                        let type = "text";
+                        if(module.module.module?.moduleType === "TEST|Alternative") type = "test";
+                        if(module.module.module?.moduleType === "TEST|True or False") type = "true";
+                        if(module.module.module?.moduleType === "CLASS|Text") type = "text";
+                        if(module.module.module?.moduleType === "CLASS|Video") type = "video"
+                        return(<>
+                            <Styled.Module onClick={() => props.selectModule(module)}>
+                                <img alt="" style={{width: "10%"}} src={`/img/modules/${type}.svg`}></img>
+                                <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>{module.module.module?.title}</Typograph>    
+                            </Styled.Module>
+                            <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>
+                        </>)
+                    }
+                )}
             </Styled.ModuleList>
         </Card>
     )

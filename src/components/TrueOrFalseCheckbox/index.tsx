@@ -1,13 +1,17 @@
-import { useState } from "react";
+
 import { CheckboxTrueOrFalse } from "./styles"
 
-export const TrueOrFalseCheckbox = () => {
-    const [isTrue, setIsTrue] = useState(false);
+export interface ICheckboxProps {
+    isTrue: boolean,
+    setNewResponse: () => void;
+}
+
+export const TrueOrFalseCheckbox = (props: ICheckboxProps) => {
 
     return(<>
-        <CheckboxTrueOrFalse onClick={()=> setIsTrue(!isTrue)} isTrue={isTrue}>
+        <CheckboxTrueOrFalse onClick={()=> props.setNewResponse()} isTrue={props.isTrue}>
             <img alt="Valor da opção" 
-                src={isTrue ? "/img/icons/true_check.svg" : "/img/icons/false_x.svg"} />
+                src={props.isTrue ? "/img/icons/true_check.svg" : "/img/icons/false_x.svg"} />
         </CheckboxTrueOrFalse>
     </>)
 }

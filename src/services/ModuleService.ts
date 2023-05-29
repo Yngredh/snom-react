@@ -1,3 +1,4 @@
+import { ICreateModule } from "../interfaces/ICreateModule";
 import { IModule } from "../interfaces/IModule";
 import { IModuleClass } from "../interfaces/IModuleClass";
 import { IModuleTest } from "../interfaces/IModuleTest";
@@ -30,51 +31,6 @@ export abstract class ModuleService {
         return await response.json() as IModuleClass[]; 
     }
 
-    public static async createClassModule(userToken: string, classModules: Partial<IModuleClass>[]) {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/class?`, 
-        {
-            method : "POST",
-            headers : {
-                'Content-Type': 'application/json',
-                'Authorization': userToken
-            },
-            body : JSON.stringify(classModules)
-        });
-        const res = await response.json() as { moduleId: string };
-        return res.moduleId;
-    }
-
-    public static async updateClassModule(userToken: string, classModules: Partial<IModuleClass>[]) {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/class?`, 
-        {
-            method : "PUT",
-            headers : {
-                'Content-Type': 'application/json',
-                'Authorization': userToken
-            },
-            body : JSON.stringify(classModules)
-        });
-
-        return response;
-    }
-
-    public static async deleteClassModule(userToken: string, 
-            classModules: Partial<{moduleId: string, moduleType: string}>[]) {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/class?`, 
-        {
-            method : "DELETE",
-            headers : {
-                'Content-Type': 'application/json',
-                'Authorization': userToken
-            },
-            body : JSON.stringify(classModules)
-        });
-
-        console.log(response);
-        return response.status;
-    }
-
-
     public static async getTestModules(userToken: string, trainingId:string) : Promise<IModuleTest[]> {
         const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/test?` 
                 + new URLSearchParams({ trainingId }),
@@ -88,47 +44,46 @@ export abstract class ModuleService {
         return await response.json() as IModuleTest[]; 
     }
 
-    public static async createTestModule(userToken: string, testModules: Partial<IModuleTest>[]) {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/test?`, 
+    public static async createModules(userToken: string, modulesList: ICreateModule[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module`, 
         {
             method : "POST",
             headers : {
                 'Content-Type': 'application/json',
                 'Authorization': userToken
             },
-            body : JSON.stringify(testModules)
+            body : JSON.stringify(modulesList)
         });
-        const res = await response.json() as { moduleId: string };
-        return res.moduleId;
+        return await response;
     }
 
-    public static async updateTestModule(userToken: string, testModules: Partial<IModuleTest>[]) {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/test?`, 
+    public static async updateModules(userToken: string, moduleList: ICreateModule[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module`, 
         {
             method : "PUT",
             headers : {
                 'Content-Type': 'application/json',
                 'Authorization': userToken
             },
-            body : JSON.stringify(testModules)
+            body : JSON.stringify(moduleList)
         });
 
         return response;
     }
 
-    public static async deleteTestModule(userToken: string, 
-            classModules: Partial<{moduleId: string, moduleType: string}>[]) {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module/test?`, 
+    public static async deleteModules(userToken: string, 
+            modulesIdList: {moduleId : string, moduleType : string}[]) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/module`, 
         {
             method : "DELETE",
             headers : {
                 'Content-Type': 'application/json',
                 'Authorization': userToken
             },
-            body : JSON.stringify(classModules)
+            body : JSON.stringify(modulesIdList)
         });
 
         console.log(response);
-        return response.status;
+        return response;
     }
 }
