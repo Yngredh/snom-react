@@ -14,9 +14,10 @@ export interface IMultipleQuestionTestProps {
     questionOperationList: IQuestionOperations[]
     moduleId: string,
     isOnEditPage: boolean,
-    addNewQuestionToTest?: (question: Partial<IQuestion>) => void
-    updateQuestion?: (question: Partial<IQuestion>) => void
-    deleteQuestion?: (questionId: string) => void
+    defineAnswers?: (newQuestion: Partial<IQuestion>) => void,
+    addNewQuestionToTest?: (question: Partial<IQuestion>) => void,
+    updateQuestion?: (question: Partial<IQuestion>) => void,
+    deleteQuestion?: (questionId: string) => void,
 }
 
 export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
@@ -46,6 +47,7 @@ export const MultipleQuestionTest = (props: IMultipleQuestionTestProps) => {
                 return (
                     <Question isOnEditPage={props.isOnEditPage} type={props.type} 
                         question={questionOperation.question} 
+                        defineAnswers= {props.defineAnswers}
                         updateQuestion={props.isOnEditPage ? props.updateQuestion : undefined}
                         deleteQuestion={props.isOnEditPage ? props.deleteQuestion : undefined}/>
                 )
