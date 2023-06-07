@@ -11,6 +11,7 @@ export interface IQuestionProps {
     question: Partial<IQuestion>,
     type: EQuestionTestType,
     isOnEditPage: boolean,
+    defineAnswers?: (newQuestion: Partial<IQuestion>) => void,
     updateQuestion?: (question: Partial<IQuestion>) => void
     deleteQuestion?: (questionId: string) => void
 }
@@ -38,32 +39,33 @@ export const Question = (props: IQuestionProps) => {
     }    
 
     const handleResponseCheckboxUpdate = (newValue: string, index: number) => {
-        if(props.updateQuestion) {
-            let newQuestion  = props.question;
-            let newQuestionAnswers = newQuestion.answers ? newQuestion.answers.split(';') : ['F','F','F','F'];
-            newQuestionAnswers[index] = newValue;
-            newQuestion.answers = newQuestionAnswers.join(';');
-            props.updateQuestion(newQuestion);
-        }
+        let newQuestion  = props.question;
+        let newQuestionAnswers = newQuestion.answers ? newQuestion.answers.split(';') : ['F','F','F','F'];
+        newQuestionAnswers[index] = newValue;
+        newQuestion.answers = newQuestionAnswers.join(';');
+
+        if(props.updateQuestion) props.updateQuestion(newQuestion);
+        if(props.defineAnswers) props.defineAnswers(newQuestion);
+        
     }
 
     const handleResponseRadioUpdate = (index: number) => {
-        if(props.updateQuestion) {
-            let newQuestion  = props.question;
-            let newQuestionAnswers = newQuestion.answers ? newQuestion.answers.split(';') : ['F','F','F','F'];
-            newQuestionAnswers = newQuestionAnswers.map((value, answersIndex) => {
-                if(answersIndex === index) return 'V'
-                return 'F'
-            });
-            newQuestion.answers = newQuestionAnswers.join(';');
-            props.updateQuestion(newQuestion);
-        }
+        let newQuestion  = props.question;
+        let newQuestionAnswers = newQuestion.answers ? newQuestion.answers.split(';') : ['F','F','F','F'];
+        newQuestionAnswers = newQuestionAnswers.map((value, answersIndex) => {
+            if(answersIndex === index) return 'V'
+            return 'F'
+        });
+        newQuestion.answers = newQuestionAnswers.join(';');
+
+        if(props.updateQuestion) props.updateQuestion(newQuestion);
+        if(props.defineAnswers) props.defineAnswers(newQuestion);
     }
 
     const handleStatementContainerClick = () => {
         if(props.isOnEditPage && isOnEditMode) return; 
         if(props.isOnEditPage) setIsOnEditMode(!isOnEditMode);
-        else setIsSelected(!isSelected);
+        if(!props.isOnEditPage) setIsSelected(!isSelected);
     }
     
     const handleStatementInput = (e : HTMLInputElement) => {
@@ -120,7 +122,6 @@ export const Question = (props: IQuestionProps) => {
                             isTrue={getAnswerPerAlternative(index)} 
                             setNewResponse={() => {
                                 let newValue = !getAnswerPerAlternative(index) ? 'V' : 'F';
-                                console.log(newValue);
                                 handleResponseCheckboxUpdate(newValue, index);
                             }} />}
                     {isOnEditMode ? 

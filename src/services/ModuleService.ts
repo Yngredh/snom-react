@@ -1,4 +1,5 @@
 import { ICreateModule } from "../interfaces/ICreateModule";
+import { IModuleConclusion } from "../interfaces/IModuleConclusion";
 import { IModule } from "../interfaces/IModule";
 import { IModuleClass } from "../interfaces/IModuleClass";
 import { IModuleTest } from "../interfaces/IModuleTest";
@@ -81,6 +82,21 @@ export abstract class ModuleService {
                 'Authorization': userToken
             },
             body : JSON.stringify(modulesIdList)
+        });
+
+        console.log(response);
+        return response;
+    }
+
+    public static async concludeModule(userToken: string, moduleExecution: IModuleConclusion) {
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/trainingprogress/execute-module`, 
+        {
+            method : "PUT",
+            headers : {
+                'Content-Type': 'application/json',
+                'Authorization': userToken
+            },
+            body : JSON.stringify(moduleExecution)
         });
 
         console.log(response);

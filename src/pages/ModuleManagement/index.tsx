@@ -136,10 +136,6 @@ export const ModuleManagement = () => {
         getTraining();
     }, [userContext.token, trainingId]);
 
-    useEffect(()=>{
-        console.log(moduleList);
-    },[moduleList])
-
     return(
         <Background style={{display:"flex", flexDirection: "column", alignItems: "center"}}
                     type={EBackground.SimpleBackgroundFrame}>
