@@ -13,23 +13,29 @@ import * as Styled from "./styles"
 import { VideoClass } from "../../components/VideoClass";
 import { ModuleTextClass } from "../../components/ModuleTextClass";
 import { ModuleService } from "../../services/ModuleService";
+import { ITrainingProgress } from "../../interfaces/ITrainingProgress";
+import { TrainingService } from "../../services/TrainingService";
 
 export const TrainingExecution = () => {
 
     const { trainingId ,moduleId } = useParams();
     const userContext = useContext(UserContext);
     const navigate = useNavigate();
+    const [trainingProgress, setTrainingProgress] = useState<ITrainingProgress>();
     const [moduleList, setModuleList] = useState<IModule[]>([]);
     const [selectedModule, setSelectedModule] = useState<IModule>();
 
     useEffect(() => {
-        const getModules = async () => {
+        const getTrainingData = async () => {
             if(trainingId) {
                 const moduleListResponse = await ModuleService.getModulesByTrainingId(userContext.token, trainingId);
+                const trainingProgressResponse = await TrainingService.getTrainingProgressByUserToken(userContext.token, trainingId);
+
                 setModuleList(moduleListResponse);
+                setTrainingProgress(trainingProgressResponse[0]);
             }
         }
-        getModules();
+        getTrainingData();
         
     },[trainingId, userContext.token]);
 
@@ -62,10 +68,10 @@ export const TrainingExecution = () => {
                     </Styled.ShowModuleTitle>
                 </Card>
                 <Styled.ModuleContent>
-                    {selectedModule?.moduleType === "TEST|True or False" && 
-                        <MultipleQuestionTest isOnEditPage={false} moduleId={selectedModule.moduleId} type={1} /> }
-                    {selectedModule?.moduleType === "TEST|Alternative" && 
-                        <MultipleQuestionTest isOnEditPage={false} moduleId={selectedModule.moduleId} type={2} /> }
+                    {selectedModule?.moduleType.includes("TEST") &&
+                    <MultipleQuestionTest questionOperationList={[]} 
+                        isOnEditPage={true} moduleId={selectedModule?.moduleId} 
+                        type={selectedModule?.moduleType === "TEST|Alternative" ? 2 : 1} /> }
                     {selectedModule?.moduleType === "CLASS|Video" && <VideoClass /> }
                     {selectedModule?.moduleType === "CLASS|Text" && <ModuleTextClass />}
                 </Styled.ModuleContent>
@@ -87,6 +93,9 @@ export const TrainingExecution = () => {
                 <Styled.ModuleList>
                     {moduleList?.map((module) => {
                         let isSelected = module.moduleId === moduleId;
+                        let isEnabled = module.position <= trainingProgress!!.currentPosition;
+                        const imageDeactivatedFilterId = !isEnabled ? "deactivated-icon-module" : '';
+                        const titleDeactivadedColorId = !isEnabled? "deactivated-title-module" : '';
                         let type = "text";
                         if(module.moduleType === "TEST|Alternative" || "TEST|True or False") type = "test";
                         if(module.moduleType === "CLASS|Text") type = "text";
@@ -94,14 +103,15 @@ export const TrainingExecution = () => {
                         return(
                             <>
                             <Styled.Module 
-                                style={{cursor: 'pointer'}}
+                                style={{cursor: isEnabled ? 'pointer' : undefined}}
                                 isSelected={isSelected}
+                                isEnabled={isEnabled}
                                 onClick={() => {
-                                if(!isSelected) navigate(`/trainingExecution/${module.trainingId}/${module.moduleId}`);
+                                if(isEnabled && !isSelected) navigate(`/trainingExecution/${module.trainingId}/${module.moduleId}`);
                                 }}
                             >
-                                <img alt="Ícone de modulo" style={{ width: "10%"}} src={`/img/modules/${type}.svg`}></img>
-                                <Typograph style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}>{module.title}</Typograph>    
+                                <img id={imageDeactivatedFilterId} alt="Ícone de modulo" style={{ width: "10%"}} src={`/img/modules/${type}.svg`}></img>
+                                <Typograph id={titleDeactivadedColorId} style={{paddingLeft: "3%"}} type={ETypographType.AuxiliarText}> {module.title} </Typograph>    
                             </Styled.Module>
                             <DivLine size={"100%"} color={theme.pallete.assistant.blueIce}></DivLine>
                             </>

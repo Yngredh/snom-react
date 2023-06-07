@@ -1,6 +1,11 @@
 import { Editor } from '@tinymce/tinymce-react';
 
-export const BundleEditor = () => {
+export interface ITextEditorProps {
+  initialValue : string,
+  onChange: (value: string) => void
+}
+
+export const BundleEditor = (props: ITextEditorProps) => {
 
   return (
     <div style={{
@@ -11,8 +16,8 @@ export const BundleEditor = () => {
       height: '90%'}}>
       <Editor
         apiKey={`${process.env.TINY_MCE_API_KEY}`}
-        initialValue="<p>This is the initial content of the editor.</p>"
-        onEditorChange={(value) => console.log(value)}
+        initialValue={props.initialValue}
+        onEditorChange={(value) => props.onChange(value)}
         init={{
           width: '85%',
           height: '100%',
