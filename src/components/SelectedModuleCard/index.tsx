@@ -32,7 +32,7 @@ export const SelectedModuleCard = (props :SelectedModuleCardProps) => {
 
     const handleTitleUpdate = (e: HTMLInputElement) => {
         let newModule = props.selectedModuleOperation;
-        newModule.operation = EOperation.Update;
+        if(newModule.operation !== EOperation.Create) newModule.operation = EOperation.Update;
         newModule.module.module!!.title = e.value;
         props.handleUpdatedModule(newModule);
     };
