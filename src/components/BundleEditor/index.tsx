@@ -1,4 +1,5 @@
 import { Editor } from '@tinymce/tinymce-react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface ITextEditorProps {
   initialValue : string,
@@ -6,6 +7,22 @@ export interface ITextEditorProps {
 }
 
 export const BundleEditor = (props: ITextEditorProps) => {
+  const editorRef = useRef<Editor>(null);
+  const [dirty, setDirty] = useState(false);
+
+  useEffect(
+    () => setDirty(false)
+    , [props.initialValue]);
+  
+  const save = () => {
+    if (editorRef.current) {
+      const content = editorRef.current.editor?.getContent();
+      setDirty(false);
+      editorRef.current.editor?.setDirty(false);
+      props.onChange(content!!);
+      console.log(content);
+    }
+  };
 
   return (
     <div style={{
@@ -13,11 +30,13 @@ export const BundleEditor = (props: ITextEditorProps) => {
       justifyContent: 'center',
       marginTop: '1.5em',
       width: '100%',
-      height: '90%'}}>
+      height: '90%'}}
+      >
       <Editor
         apiKey={`${process.env.TINY_MCE_API_KEY}`}
+        ref={editorRef}
         initialValue={props.initialValue}
-        onEditorChange={(value) => props.onChange(value)}
+        onDirty={() => setDirty(true)}
         init={{
           width: '85%',
           height: '100%',
@@ -27,11 +46,20 @@ export const BundleEditor = (props: ITextEditorProps) => {
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
             'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
           ],
-          toolbar: 'undo redo | blocks | ' +
+          toolbar: 'undo redo | blocks |' +
             'bold italic forecolor | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
-          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            'removeformat | help | saveButton',
+          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+          setup: (editor) => {
+
+            editor.ui.registry.addButton('saveButton', {
+              icon: 'checkmark',
+              tooltip: 'Save',
+              enabled: true,
+              onAction: (_) => save(),
+            });
+          }
         }}
       />
     </div>
