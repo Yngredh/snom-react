@@ -25,6 +25,16 @@ export const TrainingProgressPanel = ( ) => {
         if(unformattedDate) return unformattedDate.toString().split('T')[0];
     }
 
+    const goToTrainingExecution = () => {
+        let lastModuleId = "";
+        trainingProgress?.training?.modules?.forEach((module) => {
+            if (module.position === trainingProgress.currentPosition) {
+                lastModuleId = module.moduleId;
+            }
+        })
+        navigate(`/trainingExecution/${trainingId}/${lastModuleId}`);
+    }
+
     useEffect(() => {
         const getTrainingProgress = async () => {
             const validTrainingId = trainingId ? trainingId : '';
@@ -53,7 +63,6 @@ export const TrainingProgressPanel = ( ) => {
                 <ModulesListContainer>
                     <ScrollableListContainer>
                         {!isLoading && trainingProgress?.training?.modules?.map((module, index) => {
-                            console.log(trainingProgress.currentPosition);
                             let isEnabled = module.position <= trainingProgress.currentPosition;
                             return(
                             <Card 
@@ -109,7 +118,7 @@ export const TrainingProgressPanel = ( ) => {
                             </BottomSideContainer>
                     </Card>
                     <Button type={EButton.MainButtonVariation} width="130px"
-                            style={{marginTop: "5%"}}
+                            style={{marginTop: "5%", cursor: "pointer"}} onClick={goToTrainingExecution}
                             icon={"/img/icons/arrowForward.svg"}>CONTINUAR</Button>
                 </TrainingPreview>
             </ContentContainer>

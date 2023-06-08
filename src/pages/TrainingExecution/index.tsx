@@ -37,6 +37,10 @@ export const TrainingExecution = () => {
     const [selectedModule, setSelectedModule] = useState<IExecutionModule>();
     const coreSelectedModule = selectedModule?.module.module;
 
+    const goBackToTrainingProgressPanel = () => {
+        navigate(`/training/${trainingId}`);
+    }
+
     const getQuestionOperation = () : IQuestionOperations[] => {
         return selectedModule!!.questionList!!.map(question => {
             return {
@@ -71,6 +75,14 @@ export const TrainingExecution = () => {
         }
 
         await ModuleService.concludeModule(userContext.token, moduleConclusion);
+
+        let nextModuleId = "";
+        trainingProgress?.training?.modules?.forEach((module) => {
+            if (module.position === trainingProgress.currentPosition + 1) {
+                nextModuleId = module.moduleId;
+            }
+        })
+        navigate(`/trainingExecution/${trainingId}/${nextModuleId}`);
         navigate(0);
     }
 
@@ -133,7 +145,7 @@ export const TrainingExecution = () => {
                     borderWidth={"0"}
                     backgroundColor={theme.pallete.blueViolet.dark}>
                     <Styled.ShowModuleTitle>
-                        <img style={{width: "4%"}} alt="" src="/img/icons/arrowBackward.svg"></img>
+                        <img style={{width: "4%", cursor: "pointer"}} alt="" src="/img/icons/arrowBackward.svg" onClick={goBackToTrainingProgressPanel}></img>
                         <Typograph type={ETypographType.ConstrastVioletText} 
                             style={{color: "white", paddingLeft: "2%"}}>{coreSelectedModule?.title}</Typograph>
                     </Styled.ShowModuleTitle>
