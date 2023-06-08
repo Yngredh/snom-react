@@ -20,7 +20,6 @@ export const BundleEditor = (props: ITextEditorProps) => {
       setDirty(false);
       editorRef.current.editor?.setDirty(false);
       props.onChange(content!!);
-      console.log(content);
     }
   };
 
@@ -30,9 +29,11 @@ export const BundleEditor = (props: ITextEditorProps) => {
       justifyContent: 'center',
       marginTop: '1.5em',
       width: '100%',
-      height: '90%'}}
+      height: '90%',
+      position: 'relative'}}
       >
       <Editor
+        id='editor'
         apiKey={`${process.env.TINY_MCE_API_KEY}`}
         ref={editorRef}
         initialValue={props.initialValue}
@@ -52,7 +53,6 @@ export const BundleEditor = (props: ITextEditorProps) => {
             'removeformat | help | saveButton',
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
           setup: (editor) => {
-
             editor.ui.registry.addButton('saveButton', {
               icon: 'checkmark',
               tooltip: 'Save',
