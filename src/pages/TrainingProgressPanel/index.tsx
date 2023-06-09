@@ -28,6 +28,7 @@ export const TrainingProgressPanel = ( ) => {
     const goToTrainingExecution = () => {
         let lastModuleId = "";
         trainingProgress?.training?.modules?.forEach((module) => {
+            console.log(module.position)
             if (module.position === trainingProgress.currentPosition) {
                 lastModuleId = module.moduleId;
             }
@@ -117,9 +118,9 @@ export const TrainingProgressPanel = ( ) => {
                                 </TrainingInfo>
                             </BottomSideContainer>
                     </Card>
-                    <Button type={EButton.MainButtonVariation} width="130px"
+                    {!trainingProgress?.isFinished && <Button type={EButton.MainButtonVariation} width="130px"
                             style={{marginTop: "5%", cursor: "pointer"}} onClick={goToTrainingExecution}
-                            icon={"/img/icons/arrowForward.svg"}>CONTINUAR</Button>
+                            icon={"/img/icons/arrowForward.svg"}>CONTINUAR</Button>}
                 </TrainingPreview>
             </ContentContainer>
         </Background>

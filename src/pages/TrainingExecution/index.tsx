@@ -75,14 +75,17 @@ export const TrainingExecution = () => {
         }
 
         await ModuleService.concludeModule(userContext.token, moduleConclusion);
-
+        let nextPosition :number = trainingProgress?.currentPosition!! + 1;
         let nextModuleId = "";
-        trainingProgress?.training?.modules?.forEach((module) => {
-            if (module.position === trainingProgress.currentPosition + 1) {
-                nextModuleId = module.moduleId;
-            }
-        })
-        navigate(`/trainingExecution/${trainingId}/${nextModuleId}`);
+
+        if(nextPosition <= trainingProgress?.training.modulesCount!! && !trainingProgress?.isFinished) {
+            trainingProgress?.training?.modules?.forEach((module) => {
+                if (module.position === nextPosition) {
+                    nextModuleId = module.moduleId;
+                }
+            })
+            navigate(`/trainingExecution/${trainingId}/${nextModuleId}`);
+        }
         navigate(0);
     }
 
@@ -206,7 +209,8 @@ export const TrainingExecution = () => {
 
                 <Button 
                     onClick={handleModuleConclusion}
-                    style={{width:"40%", marginBottom: "3%"}} type={EButton.MainButtonVariation}>CONCLUIR MÓDULO</Button>
+                    style={{width:"40%", marginBottom: "3%", display: `${trainingProgress?.isFinished ? 'none' : 'flex'}`}} 
+                    type={EButton.MainButtonVariation}>CONCLUIR MÓDULO</Button>
                 
             </Card>
         </Background>
