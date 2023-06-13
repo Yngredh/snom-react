@@ -43,7 +43,6 @@ export const SelectedModuleCard = (props :SelectedModuleCardProps) => {
         let newModule = props.selectedModuleOperation;
         let classNewModule: Partial<IModuleClass> = newModule.module;
         if(newModule.operation !== EOperation.Create) newModule.operation = EOperation.Update;
-
         classNewModule.content = e;
         newModule.module = classNewModule;
         props.handleUpdatedModule(newModule);

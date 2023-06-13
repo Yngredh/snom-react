@@ -1,5 +1,6 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useRef, useState } from 'react';
+import { Button, EButton } from '../Button';
 
 export interface ITextEditorProps {
   initialValue : string,
@@ -7,40 +8,34 @@ export interface ITextEditorProps {
 }
 
 export const BundleEditor = (props: ITextEditorProps) => {
-  const editorRef = useRef<Editor>(null);
-  const [dirty, setDirty] = useState(false);
+  const [value, setValue] = useState(props.initialValue ?? '');
 
-  useEffect(
-    () => setDirty(false)
-    , [props.initialValue]);
-  
-  const save = () => {
-    if (editorRef.current) {
-      const content = editorRef.current.editor?.getContent();
-      setDirty(false);
-      editorRef.current.editor?.setDirty(false);
-      props.onChange(content!!);
-    }
-  };
+  useEffect(() => setValue(props.initialValue ?? ''), [props.initialValue]);
+
+  useEffect(()=> {console.log(value)}, [value]);
 
   return (
     <div style={{
       display: 'flex',
-      justifyContent: 'center',
+      flexDirection: 'column',
+      justifyContent: 'space-around',
+      alignItems: 'center',
       marginTop: '1.5em',
-      width: '100%',
+      width: '90%',
       height: '90%',
       position: 'relative'}}
       >
+      <Button style={{alignSelf: 'flex-end'}} type={EButton.SecondaryButton}
+        onClick={() => props.onChange(value)}>Concluir Edição</Button>
       <Editor
         id='editor'
         apiKey={`${process.env.TINY_MCE_API_KEY}`}
-        ref={editorRef}
         initialValue={props.initialValue}
-        onDirty={() => setDirty(true)}
+        value={value}
+        onEditorChange={(value) => setValue(value)}
         init={{
-          width: '85%',
-          height: '100%',
+          width: '100%',
+          height: '90%',
           menubar: true,
           plugins: [
             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
@@ -52,14 +47,6 @@ export const BundleEditor = (props: ITextEditorProps) => {
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'removeformat | help | saveButton',
           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-          setup: (editor) => {
-            editor.ui.registry.addButton('saveButton', {
-              icon: 'checkmark',
-              tooltip: 'Save',
-              enabled: true,
-              onAction: (_) => save(),
-            });
-          }
         }}
       />
     </div>
