@@ -23,11 +23,11 @@ export const ModuleManagementList = (props :IModuleManagementList) => {
         if(moduleType.includes("CLASS")) {
             let newClassModule: Partial<IModuleClass> = {
                 module: {
-                    moduleId: `TEMPORARY-ID-${props.moduleOperationList.length + 2}`,
+                    moduleId: `TEMPORARY-ID-${props.moduleOperationList.length + 1}`,
                     trainingId: props.trainingId,
                     moduleType: moduleType,
                     title: "Novo Módulo de Aula",
-                    position: props.moduleOperationList.length + 2
+                    position: props.moduleOperationList.length + 1
                 },
                 content: ""
             }
