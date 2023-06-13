@@ -17,6 +17,7 @@ export const useSaveModuleOperations = () => {
             let item = moduleOperationList[index];
             let createModuleObject :ICreateModule = {
                 trainingId: item.module.module?.trainingId!!,
+                moduleId: item.module.module?.moduleId!!,
                 moduleType: item.module.module?.moduleType!!,
                 title: item.module.module?.title!!,
                 position: item.module.module?.position!!
@@ -28,23 +29,20 @@ export const useSaveModuleOperations = () => {
             }
     
             if(item.operation === EOperation.Create) listToCreate = [...listToCreate, createModuleObject];
-            if(item.operation === EOperation.Update) {
-                createModuleObject.moduleId = item.module.module?.moduleId;
-                listToUpdate = [...listToUpdate, createModuleObject]
-            };
-            if(item.operation === EOperation.Delete) {
-                createModuleObject.moduleId = item.module.module?.moduleId;
+            if(item.operation === EOperation.Update) listToUpdate = [...listToUpdate, createModuleObject];
+            if(item.operation === EOperation.Delete) 
                 listToDelete = [...listToDelete, {
                     moduleId: createModuleObject.moduleId!!,
                     moduleType: createModuleObject.moduleType
                 }];   
-            }
+           
         }
 
-        await ModuleService.createModules(userContext.token, listToCreate);
+        let newModulesId = await ModuleService.createModules(userContext.token, listToCreate);
         await ModuleService.updateModules(userContext.token, listToUpdate);
         await ModuleService.deleteModules(userContext.token, listToDelete);
-        return true;
+
+        if(newModulesId) return newModulesId;
     } 
 
     return [saveModuleOperations];

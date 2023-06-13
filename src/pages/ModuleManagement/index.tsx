@@ -42,10 +42,10 @@ export const ModuleManagement = () => {
             if(moduleOperation.questionList) questionOperations.push(...moduleOperation.questionList!!)
         });
 
-        let finishedSaveModule = await saveModuleOperations(moduleList);
-        let finishedSaveQuestion = await saveQuestionsOperations(questionOperations);
+        let newModulesId = await saveModuleOperations(moduleList);
+        await saveQuestionsOperations(questionOperations, newModulesId);
 
-        if(finishedSaveModule && finishedSaveQuestion) navigate(0);
+        navigate(0);
     }
     
     const handleAddNewModule = (newModule: Partial<IModuleClass> | Partial<IModuleTest>) => {

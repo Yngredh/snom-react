@@ -55,7 +55,12 @@ export abstract class ModuleService {
             },
             body : JSON.stringify(modulesList)
         });
-        return await response;
+        let responseJson =  await response.json();
+        
+        return responseJson as {
+            temporaryId: string;
+            newId: string;
+        }[];
     }
 
     public static async updateModules(userToken: string, moduleList: ICreateModule[]) {
