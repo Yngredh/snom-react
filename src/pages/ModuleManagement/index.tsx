@@ -70,11 +70,11 @@ export const ModuleManagement = () => {
     }
 
     const handleDeleteModule = (deletedModuleOperation: IModuleOperations) => {
+        let newPosition = 1;
         let newModuleList = [];
 
         if (deletedModuleOperation?.module?.module?.moduleId.includes("TEMPORARY-ID")) {
             newModuleList = moduleList.filter((m) => m.module.module?.moduleId !== deletedModuleOperation.module?.module?.moduleId);
-            setModuleList(newModuleList);
         } else {
             newModuleList = moduleList.map((m) => {
                 if (m.module.module?.moduleId === deletedModuleOperation?.module?.module?.moduleId) {
@@ -84,8 +84,18 @@ export const ModuleManagement = () => {
                 }
                 return m
             });
-            setModuleList(newModuleList);
         }
+
+        newModuleList = newModuleList.map(m => {
+            let newModuleOperation = m
+            if(newModuleOperation.operation === EOperation.Delete) return newModuleOperation;
+            else if(newModuleOperation.operation !== EOperation.Create) newModuleOperation.operation = EOperation.Update;
+
+            newModuleOperation.module.module!.position = newPosition;
+            newPosition++;
+            return newModuleOperation;
+        })
+        setModuleList(newModuleList);
         setSelectedModuleAfterDeleted(newModuleList);
     }
 
