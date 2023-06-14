@@ -237,8 +237,9 @@ export const TrainingManagement = () => {
                         <SelectInput onClick={element => handleEditTrainingStatus(element.currentTarget.value)}>
                             {TrainingUtils.TrainingStatusList.map(trainingStatus => {
                                 let id = trainingStatus.trainingStatusId;
+                                let selected = newTraining?.status?.trainingStatusId ? newTraining?.status?.trainingStatusId === id : false;
                                 return (<>
-                                    <option selected={newTraining?.status.trainingStatusId === id} value={`${id}`}>{trainingStatus.description}</option>
+                                    <option selected={selected} value={`${id}`}>{trainingStatus.description}</option>
                                 </>)
                             })}
                         </SelectInput>
