@@ -1,6 +1,4 @@
-import { 
-    SideContainer, Presentation, LoginContainer
-} from './styles';
+import { SideContainer, Presentation } from './styles';
 import { ETypographType, Typograph } from '../../components/Typograph';
 import { LoginCard } from '../../components/LoginCard';
 import { UserService } from '../../services/UserService';
@@ -28,14 +26,13 @@ export const Login = (props: ILoginProps) => {
     }
 
     return(
-        <div style={{display: 'flex', width: '100vw', height: '100vh', justifyContent: 'right'}}>
-            <LoginContainer>
-                <Background 
-                    type={EBackground.LoginBackgroundFrame}
-                    style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <LoginCard authenticateUser={getUserToken} />
-                </Background>
-            </LoginContainer>
+        <div style={{display: 'flex', width: '100vw', height: '100vh'}}>
+            <Background 
+                type={EBackground.LoginBackgroundFrame}
+                style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '70%'}}>
+                <LoginCard authenticateUser={getUserToken} />
+            </Background>
+
             <SideContainer>
                 <Presentation>
                     <img alt="Background shapes" src="/img/logotypes/logoWithBackgroundShadowPNG.png"/>

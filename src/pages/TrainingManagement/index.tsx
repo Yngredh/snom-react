@@ -20,7 +20,6 @@ import { UserService } from "../../services/UserService";
 import { IUser } from "../../interfaces/IUser";
 import { TrainingUtils } from "../../utils/TrainingUtils";
 import { EPopUpType, PopUp } from "../../components/PopUp";
-import { strict } from "assert";
 
 enum EExhibitionLists {
     Aprendizes = 0,
@@ -133,12 +132,12 @@ export const TrainingManagement = () => {
             if(userOperation.operation === EOperation.Delete) managersToRemove.push(userOperation.user.userId!!);
         });
 
-        await UserService.addNewTrainingApprentice(userContext.token, newTrainingId!!, apprenticesToCreate);
-        await UserService.removeTrainingApprentice(userContext.token, newTrainingId!!, apprenticesToRemove);
-        await UserService.addNewTrainingManager(userContext.token, newTrainingId!!, managersToCreate);
-        await UserService.removeTrainingManager(userContext.token, newTrainingId!!, managersToRemove);
+        if(apprenticesToCreate.length > 0) await UserService.addNewTrainingApprentice(userContext.token, newTrainingId!!, apprenticesToCreate);
+        if(apprenticesToRemove.length > 0) await UserService.removeTrainingApprentice(userContext.token, newTrainingId!!, apprenticesToRemove);
+        if(managersToCreate.length > 0) await UserService.addNewTrainingManager(userContext.token, newTrainingId!!, managersToCreate);
+        if(managersToRemove.length > 0) await UserService.removeTrainingManager(userContext.token, newTrainingId!!, managersToRemove);
 
-        navigate(`${newTrainingId}`);
+        if(!newTrainingId) navigate(`${newTrainingId}`);
         navigate(0);
     }
 
@@ -182,6 +181,7 @@ export const TrainingManagement = () => {
                     description: "",
                     level: 1,
                     modulesCount: 0,
+                    icon: TrainingUtils.getRandowNewTrainingIcone(),
                     status: TrainingUtils.getTrainingStatusById(1),
                     modules: []
                 };
@@ -201,7 +201,7 @@ export const TrainingManagement = () => {
             }
         }
         getTraining();
-    }, [userContext.token, trainingId]);
+    }, [userContext, trainingId]);
 
     return(
         <Background

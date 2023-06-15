@@ -12,11 +12,6 @@ export const SideContainer = styled.div`
     background-color: ${props => props.theme.pallete.cyanGreen.light}
 `;
 
-export const LoginContainer = styled.div`
-    width: 70%;
-    margin: 0%;
-`;
-
 export const Presentation = styled.div`
     margin: auto;
     height: 80%;

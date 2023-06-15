@@ -34,7 +34,7 @@ export const Menu = () => {
                 {!userContext.user?.isAdministrator && 
                     <StyledLink to="/training">
                     <MenuItem 
-                        isActive={location.pathname.includes("/training")} 
+                        isActive={location.pathname === ("/training")} 
                         title={"Treinamento"} icon={"/img/icons/treinamento.svg"}></MenuItem>
                     </StyledLink>
                 }
@@ -42,7 +42,9 @@ export const Menu = () => {
                 {(userContext.user?.hasPermission || userContext.user?.isAdministrator) &&
                     <StyledLink to="/workshop">
                         <MenuItem 
-                            isActive={location.pathname.includes("/workshop")} 
+                            isActive={location.pathname.includes("/workshop") || 
+                                        location.pathname.includes("/trainingManagement") || 
+                                        location.pathname.includes("/moduleManagement") } 
                             title={"Oficina"} icon={"/img/icons/oficina.svg"}></MenuItem>
                     </StyledLink>    
                 }

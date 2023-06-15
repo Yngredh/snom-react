@@ -56,12 +56,12 @@ export const Home = () => {
                         backgroundColor={theme.pallete.assistant.blueIce}>
                             <ProfileContainer>
                                 <Card
-                                    style={{}}
+                                    style={{overflow: 'hidden'}}
                                     width="48%" height="52%"
                                     borderColor={theme.pallete.blueViolet.dark}
                                     borderWidth={"1"}
                                     backgroundColor={theme.pallete.assistant.blueIce}>
-                                        <img style={{width: "100%"}} alt="Ayaya" src={userContext.user?.icon}/>
+                                        <img style={{width: "100%", objectFit: 'cover'}} alt="User Icon" src={userContext.user?.icon}/>
                                 </Card>
                                 <ProfileTitles>
                                     <Typograph style={{textAlign: "center"}}

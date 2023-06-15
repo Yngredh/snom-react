@@ -47,9 +47,7 @@ export abstract class TrainingService {
     }
 
     public static async getTrainingByManagerUserToken(userToken: string) : Promise<ITraining[]> {
-        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user/manager/training?` + new URLSearchParams({
-            userToken
-        }), 
+        const response = await fetch(`http://${process.env.REACT_APP_API_URL}/user/manager/training`, 
         {
             headers : {
                 'Content-Type': 'application/json',
