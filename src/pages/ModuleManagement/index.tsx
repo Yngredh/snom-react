@@ -89,7 +89,7 @@ export const ModuleManagement = () => {
         newModuleList = newModuleList.map(m => {
             let newModuleOperation = m
             if(newModuleOperation.operation === EOperation.Delete) return newModuleOperation;
-            if(newModuleOperation.operation !== EOperation.Create) newModuleOperation.operation = EOperation.Update;
+            else if(newModuleOperation.operation !== EOperation.Create) newModuleOperation.operation = EOperation.Update;
 
             newModuleOperation.module.module!.position = newPosition;
             newPosition++;
