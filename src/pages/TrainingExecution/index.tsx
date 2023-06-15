@@ -159,7 +159,7 @@ export const TrainingExecution = () => {
                         isOnEditPage={false} moduleId={coreSelectedModule!!.moduleId}
                         defineAnswers={handleUserResponse} 
                         type={coreSelectedModule!!.moduleType === "TEST|Alternative" ? 2 : 1} /> }
-                    {coreSelectedModule?.moduleType === "CLASS|Video" && <VideoClass /> }
+                    {coreSelectedModule?.moduleType === "CLASS|Video" && <VideoClass url={handleShowContent()}/> }
                     {coreSelectedModule?.moduleType === "CLASS|Text" && 
                     <ModuleTextClass content={handleShowContent()} />}
                 </Styled.ModuleContent>

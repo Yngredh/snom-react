@@ -2,14 +2,13 @@ import ReactPlayer from "react-player"
 import { VideoContainer } from "./styles"
 
 
-export const VideoClass = () => {
-
+export const VideoClass = (props : {url: string}) => {
 
     return(
         <> 
             <VideoContainer>
                 <ReactPlayer 
-                    url='https://www.youtube.com/watch?v=IzPc01-54TQ'
+                    url= {props.url}
                     volume={0.2}
                     width='100%'
                     height='100%'
