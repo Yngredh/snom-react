@@ -137,7 +137,7 @@ export const TrainingManagement = () => {
         if(managersToCreate.length > 0) await UserService.addNewTrainingManager(userContext.token, newTrainingId!!, managersToCreate);
         if(managersToRemove.length > 0) await UserService.removeTrainingManager(userContext.token, newTrainingId!!, managersToRemove);
 
-        if(!newTrainingId) navigate(`${newTrainingId}`);
+        if(!trainingId) navigate(`${newTrainingId}`);
         navigate(0);
     }
 
