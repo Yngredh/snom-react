@@ -5,7 +5,7 @@ export const GridContainer = styled.div`
     grid-template-columns: 25% 25% 25% 25%;
 
     width: 90%;
-    height: 65%;
+    max-height: 65%;
     box-sizing: border-box;
 
     margin-top: 2%;

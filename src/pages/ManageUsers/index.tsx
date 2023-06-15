@@ -9,7 +9,7 @@ import { UserTable } from "../../components/UserTable"
 import { IUser } from "../../interfaces/IUser"
 import { EOperation, IUserOperations } from "../../interfaces/IUserOperations"
 import { UserService } from "../../services/UserService"
-import { profileIconList } from "../../themes/profileIconList"
+import { profileIconList } from "../../utils/iconLists"
 import { theme } from "../../themes/theme"
 import { ButtonsContainer, TopButtonAndTitleContainer, TopContainer } from "./styles"
 import { useNavigate } from "react-router-dom"
@@ -92,7 +92,7 @@ export const ManageUsers = () => {
         const listToEdit: Partial<IUser>[] = [];
         const listToDelete: string[] = [];
 
-        const newUserOperationList = userOperationList
+        userOperationList
             .filter(listedUserOperation => listedUserOperation.operation !== EOperation.DeleteBeforeCreate)
             .map(listedUserOperation => {
                 if(listedUserOperation.operation === EOperation.Create) listToCreate.push(listedUserOperation.user);

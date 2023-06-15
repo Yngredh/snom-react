@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PopUp = styled.div`
-
+    z-index: 99;
     border-style: solid;
     border-width: 5px;
     border-radius: ${props => props.theme.shape.borderRadius};
@@ -37,6 +37,7 @@ export const Body = styled.div`
 
 export const Background = styled.div`
     position: absolute;
+    z-index: 99;
     margin: 0 auto;
     width: 93.5%;
     height: 100%;

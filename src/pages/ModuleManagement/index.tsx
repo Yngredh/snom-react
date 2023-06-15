@@ -42,10 +42,10 @@ export const ModuleManagement = () => {
             if(moduleOperation.questionList) questionOperations.push(...moduleOperation.questionList!!)
         });
 
-        let finishedSaveModule = await saveModuleOperations(moduleList);
-        let finishedSaveQuestion = await saveQuestionsOperations(questionOperations);
-
-        if(finishedSaveModule && finishedSaveQuestion) navigate(0);
+        let newModulesId = await saveModuleOperations(moduleList);
+        await saveQuestionsOperations(questionOperations, newModulesId);
+        
+        navigate(0);
     }
     
     const handleAddNewModule = (newModule: Partial<IModuleClass> | Partial<IModuleTest>) => {
@@ -70,11 +70,11 @@ export const ModuleManagement = () => {
     }
 
     const handleDeleteModule = (deletedModuleOperation: IModuleOperations) => {
+        let newPosition = 1;
         let newModuleList = [];
 
         if (deletedModuleOperation?.module?.module?.moduleId.includes("TEMPORARY-ID")) {
             newModuleList = moduleList.filter((m) => m.module.module?.moduleId !== deletedModuleOperation.module?.module?.moduleId);
-            setModuleList(newModuleList);
         } else {
             newModuleList = moduleList.map((m) => {
                 if (m.module.module?.moduleId === deletedModuleOperation?.module?.module?.moduleId) {
@@ -84,8 +84,18 @@ export const ModuleManagement = () => {
                 }
                 return m
             });
-            setModuleList(newModuleList);
         }
+
+        newModuleList = newModuleList.map(m => {
+            let newModuleOperation = m
+            if(newModuleOperation.operation === EOperation.Delete) return newModuleOperation;
+            else if(newModuleOperation.operation !== EOperation.Create) newModuleOperation.operation = EOperation.Update;
+
+            newModuleOperation.module.module!.position = newPosition;
+            newPosition++;
+            return newModuleOperation;
+        })
+        setModuleList(newModuleList);
         setSelectedModuleAfterDeleted(newModuleList);
     }
 

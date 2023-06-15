@@ -36,12 +36,12 @@ export const TrainingGridView = (props: ITrainingGridViewProps) => {
                         <Card
                             width={"300px"}
                             height={"200px"}
-                            style={{marginBottom: '4%'}}
+                            style={{marginBottom: '4%',cursor: 'pointer', overflow: 'hidden'}}
                             borderColor={theme.pallete.assistant.black}
                             borderWidth={"1px"}>
-                                <img width={"100%"} height={"100%"} src={training.icon} alt=""/>
+                                <img style={{objectFit: 'cover'}} width={"100%"} height={"100%"} src={training.icon} alt=""/>
                         </Card>
-                        <Typograph type={ETypographType.AuxiliarText}> {training.title} </Typograph>
+                        <Typograph style={{width: "280px", cursor: 'pointer'}} type={ETypographType.AuxiliarText}> {training.title} </Typograph>
                     </TrainingDiv>
                 </>)
             })}

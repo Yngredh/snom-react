@@ -7,14 +7,17 @@ import { UserContext } from "../App";
 
 export const useSaveModuleOperations = () => {
     const userContext = useContext(UserContext);
-    let listToCreate: ICreateModule[] = [];
-    let listToUpdate: ICreateModule[] =[];
-    let listToDelete: { moduleId : string, moduleType : string }[] = [];
 
     const saveModuleOperations = async (moduleOperationList : IModuleOperations[]) => {
-        moduleOperationList.forEach(item => {
+        let listToCreate: ICreateModule[] = [];
+        let listToUpdate: ICreateModule[] =[];
+        let listToDelete: { moduleId : string, moduleType : string }[] = [];
+
+        for(let index = 0; index < moduleOperationList.length; index++ ) {
+            let item = moduleOperationList[index];
             let createModuleObject :ICreateModule = {
                 trainingId: item.module.module?.trainingId!!,
+                moduleId: item.module.module?.moduleId!!,
                 moduleType: item.module.module?.moduleType!!,
                 title: item.module.module?.title!!,
                 position: item.module.module?.position!!
@@ -26,24 +29,20 @@ export const useSaveModuleOperations = () => {
             }
     
             if(item.operation === EOperation.Create) listToCreate = [...listToCreate, createModuleObject];
-            if(item.operation === EOperation.Update) {
-                createModuleObject.moduleId = item.module.module?.moduleId;
-                listToUpdate = [...listToUpdate, createModuleObject]
-            };
-            if(item.operation === EOperation.Delete) {
-                createModuleObject.moduleId = item.module.module?.moduleId;
+            if(item.operation === EOperation.Update) listToUpdate = [...listToUpdate, createModuleObject];
+            if(item.operation === EOperation.Delete) 
                 listToDelete = [...listToDelete, {
                     moduleId: createModuleObject.moduleId!!,
                     moduleType: createModuleObject.moduleType
                 }];   
-            }
-                     
-        });
-        console.log(listToDelete);
-        await ModuleService.createModules(userContext.token, listToCreate);
+           
+        }
+
+        let newModulesId = await ModuleService.createModules(userContext.token, listToCreate);
         await ModuleService.updateModules(userContext.token, listToUpdate);
         await ModuleService.deleteModules(userContext.token, listToDelete);
-        return true;
+
+        if(newModulesId) return newModulesId;
     } 
 
     return [saveModuleOperations];

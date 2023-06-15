@@ -37,6 +37,10 @@ export const TrainingExecution = () => {
     const [selectedModule, setSelectedModule] = useState<IExecutionModule>();
     const coreSelectedModule = selectedModule?.module.module;
 
+    const goBackToTrainingProgressPanel = () => {
+        navigate(`/training/${trainingId}`);
+    }
+
     const getQuestionOperation = () : IQuestionOperations[] => {
         return selectedModule!!.questionList!!.map(question => {
             return {
@@ -71,6 +75,17 @@ export const TrainingExecution = () => {
         }
 
         await ModuleService.concludeModule(userContext.token, moduleConclusion);
+        let nextPosition :number = trainingProgress?.currentPosition!! + 1;
+        let nextModuleId = "";
+
+        if(nextPosition <= trainingProgress?.training.modulesCount!! && !trainingProgress?.isFinished) {
+            trainingProgress?.training?.modules?.forEach((module) => {
+                if (module.position === nextPosition) {
+                    nextModuleId = module.moduleId;
+                }
+            })
+            navigate(`/trainingExecution/${trainingId}/${nextModuleId}`);
+        }
         navigate(0);
     }
 
@@ -133,7 +148,7 @@ export const TrainingExecution = () => {
                     borderWidth={"0"}
                     backgroundColor={theme.pallete.blueViolet.dark}>
                     <Styled.ShowModuleTitle>
-                        <img style={{width: "4%"}} alt="" src="/img/icons/arrowBackward.svg"></img>
+                        <img style={{width: "4%", cursor: "pointer"}} alt="" src="/img/icons/arrowBackward.svg" onClick={goBackToTrainingProgressPanel}></img>
                         <Typograph type={ETypographType.ConstrastVioletText} 
                             style={{color: "white", paddingLeft: "2%"}}>{coreSelectedModule?.title}</Typograph>
                     </Styled.ShowModuleTitle>
@@ -144,7 +159,7 @@ export const TrainingExecution = () => {
                         isOnEditPage={false} moduleId={coreSelectedModule!!.moduleId}
                         defineAnswers={handleUserResponse} 
                         type={coreSelectedModule!!.moduleType === "TEST|Alternative" ? 2 : 1} /> }
-                    {coreSelectedModule?.moduleType === "CLASS|Video" && <VideoClass /> }
+                    {coreSelectedModule?.moduleType === "CLASS|Video" && <VideoClass url={handleShowContent()}/> }
                     {coreSelectedModule?.moduleType === "CLASS|Text" && 
                     <ModuleTextClass content={handleShowContent()} />}
                 </Styled.ModuleContent>
@@ -194,7 +209,8 @@ export const TrainingExecution = () => {
 
                 <Button 
                     onClick={handleModuleConclusion}
-                    style={{width:"40%", marginBottom: "3%"}} type={EButton.MainButtonVariation}>CONCLUIR MÓDULO</Button>
+                    style={{width:"40%", marginBottom: "3%", display: `${trainingProgress?.isFinished ? 'none' : 'flex'}`}} 
+                    type={EButton.MainButtonVariation}>CONCLUIR MÓDULO</Button>
                 
             </Card>
         </Background>

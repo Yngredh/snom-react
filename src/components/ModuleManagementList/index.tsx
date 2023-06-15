@@ -23,26 +23,28 @@ export const ModuleManagementList = (props :IModuleManagementList) => {
         if(moduleType.includes("CLASS")) {
             let newClassModule: Partial<IModuleClass> = {
                 module: {
-                    moduleId: `TEMPORARY-ID-${props.moduleOperationList.length}`,
+                    moduleId: `TEMPORARY-ID-${props.moduleOperationList.length + 1}`,
                     trainingId: props.trainingId,
                     moduleType: moduleType,
                     title: "Novo Módulo de Aula",
-                    position: props.moduleOperationList.length + 2
+                    position: props.moduleOperationList.length + 1
                 },
                 content: ""
             }
+            console.log(newClassModule)
             props.addNewModuleToList(newClassModule);
             setShowNewModuleSelectBar(false);
         } else{
             let newTestModule: Partial<IModuleTest> = {
                 module: {
-                    moduleId: `TEMPORARY-ID-${props.moduleOperationList.length}`,
+                    moduleId: `TEMPORARY-ID-${props.moduleOperationList.length + 1}`,
                     trainingId: props.trainingId,
                     moduleType: moduleType,
                     title: "Novo Módulo de Teste",
-                    position: props.moduleOperationList.length + 2
+                    position: props.moduleOperationList.length + 1
                 }
             }
+            console.log(newTestModule)
             props.addNewModuleToList(newTestModule);
             setShowNewModuleSelectBar(false);
         }

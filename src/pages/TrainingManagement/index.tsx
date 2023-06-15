@@ -32,7 +32,7 @@ export const TrainingManagement = () => {
     const userContext = useContext(UserContext);
     const { trainingId } = useParams();
     const [disableButton, setDisableButton] = useState<Boolean>(false);
-    const [newTraining, setNewTraining] = useState<ITraining>();
+    const [newTraining, setNewTraining] = useState<Partial<ITraining>>();
     const [selectedUser, setSelectedUser] = useState<string>("");
     const [selectedListName, setSelectedListName] = useState<EExhibitionLists>(0);
     const [apprenticeList, setApprenticeList] = useState<IUserOperations[]>([]);
@@ -112,14 +112,13 @@ export const TrainingManagement = () => {
         const apprenticesToRemove :string[] = [];
         const managersToCreate :string[] = [];
         const managersToRemove :string[] = [];
+        let newTrainingId = trainingId;
 
         if(newTraining){
-            if(trainingId){
-                await TrainingService.updateTraining(userContext.token, newTraining);
+            if(newTrainingId){
+                await TrainingService.updateTraining(userContext.token, newTraining as ITraining);
             }else{
-                const newTrainingId = await TrainingService.createTraining(userContext.token, newTraining);
-                navigate('/trainingManagement/'+newTrainingId);
-                return;
+                newTrainingId = await TrainingService.createTraining(userContext.token, newTraining as ITraining);
             }
         }
 
@@ -133,15 +132,16 @@ export const TrainingManagement = () => {
             if(userOperation.operation === EOperation.Delete) managersToRemove.push(userOperation.user.userId!!);
         });
 
-        await UserService.addNewTrainingApprentice(userContext.token, trainingId!!, apprenticesToCreate);
-        await UserService.removeTrainingApprentice(userContext.token, trainingId!!, apprenticesToRemove);
-        await UserService.addNewTrainingManager(userContext.token, trainingId!!, managersToCreate);
-        await UserService.removeTrainingManager(userContext.token, trainingId!!, managersToRemove);
+        if(apprenticesToCreate.length > 0) await UserService.addNewTrainingApprentice(userContext.token, newTrainingId!!, apprenticesToCreate);
+        if(apprenticesToRemove.length > 0) await UserService.removeTrainingApprentice(userContext.token, newTrainingId!!, apprenticesToRemove);
+        if(managersToCreate.length > 0) await UserService.addNewTrainingManager(userContext.token, newTrainingId!!, managersToCreate);
+        if(managersToRemove.length > 0) await UserService.removeTrainingManager(userContext.token, newTrainingId!!, managersToRemove);
 
+        if(!trainingId) navigate(`${newTrainingId}`);
         navigate(0);
     }
 
-    const populateUserOperationState = (list: IUser[], setMethod: (userOperationList: IUserOperations[]) => void) => {
+    const populateUserOperationState = (list: Partial<IUser>[], setMethod: (userOperationList: IUserOperations[]) => void) => {
         const newUserOperationsList: IUserOperations[] = list.map(user => {
             return {
                 user: user,
@@ -175,10 +175,33 @@ export const TrainingManagement = () => {
                 populateUserOperationState(apprenticesResponse, setApprenticeList);
                 populateUserOperationState(notApprenticesResponse, setNotApprenticeList);
                 populateUserOperationState(notManagerUserResponse, setNotManagerList);
-            } else {setDisableButton(true)}
+            } else {
+                const trainingResponse: Partial<ITraining> = {
+                    title: "",
+                    description: "",
+                    level: 1,
+                    modulesCount: 0,
+                    icon: TrainingUtils.getRandowNewTrainingIcone(),
+                    status: TrainingUtils.getTrainingStatusById(1),
+                    modules: []
+                };
+                setNewTraining(trainingResponse);
+
+                const UserLogged = userContext.user!!;
+                const UserResponse = await UserService.getAllUsers(userContext.token);
+                
+                setManagerList([{
+                    user: UserLogged,
+                    operation: EOperation.Create
+                }]);
+                populateUserOperationState(UserResponse.filter(user => !user.isAdministrator && user.userId !== UserLogged.userId), setNotApprenticeList);
+                populateUserOperationState(UserResponse.filter(user => user.hasPermission && !user.isAdministrator), setNotManagerList);
+
+                setDisableButton(true);
+            }
         }
         getTraining();
-    }, [userContext.token, trainingId]);
+    }, [userContext, trainingId]);
 
     return(
         <Background
@@ -237,8 +260,9 @@ export const TrainingManagement = () => {
                         <SelectInput onClick={element => handleEditTrainingStatus(element.currentTarget.value)}>
                             {TrainingUtils.TrainingStatusList.map(trainingStatus => {
                                 let id = trainingStatus.trainingStatusId;
+                                let selected = newTraining?.status?.trainingStatusId ? newTraining?.status?.trainingStatusId === id : false;
                                 return (<>
-                                    <option selected={newTraining?.status.trainingStatusId === id} value={`${id}`}>{trainingStatus.description}</option>
+                                    <option selected={selected} value={`${id}`}>{trainingStatus.description}</option>
                                 </>)
                             })}
                         </SelectInput>
