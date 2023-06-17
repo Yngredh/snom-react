@@ -190,10 +190,12 @@ export const TrainingManagement = () => {
                 const UserLogged = userContext.user!!;
                 const UserResponse = await UserService.getAllUsers(userContext.token);
                 
-                setManagerList([{
-                    user: UserLogged,
-                    operation: EOperation.Create
-                }]);
+                if(!UserLogged.isAdministrator){ 
+                    setManagerList([{
+                        user: UserLogged,
+                        operation: EOperation.Create
+                    }]);
+                }
                 populateUserOperationState(UserResponse.filter(user => !user.isAdministrator && user.userId !== UserLogged.userId), setNotApprenticeList);
                 populateUserOperationState(UserResponse.filter(user => user.hasPermission && !user.isAdministrator), setNotManagerList);
 
