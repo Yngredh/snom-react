@@ -19,7 +19,7 @@ export const Router = () => {
     const navigate = useNavigate();
 
     const handleAdministratorAcces = () => {
-        if(userContext.user?.isAdministrator && location.pathname === '/') navigate('/training');
+        if(userContext.user?.isAdministrator && location.pathname === '/') navigate('/workshop');
         return (<Home />)
     }
 
